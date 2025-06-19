@@ -11,11 +11,11 @@ class Cart extends Model
       'cart_number'
     ];
 
-    public function customer()
+    public function customerCart()
     {
         return $this->belongsTo(User::class, 'customer_id');
     }
-    public function employee()
+    public function employeeCart()
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
@@ -26,6 +26,11 @@ class Cart extends Model
     public function cartConversations()
     {
         return $this->hasMany(Conversation::class);
+    }
+
+    public function cartShipments()
+    {
+        return $this->hasMany(Shipment::class);
     }
 
 }

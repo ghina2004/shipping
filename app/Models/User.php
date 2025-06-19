@@ -63,7 +63,39 @@ class User extends Authenticatable
         return $this->hasMany(UserOffer::class);
     }
 
+    public function image()
+    {
+        return $this->morphOne(Media::class, 'imageable');
+    }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class ,'report_for_id');
+    }
+
+    public function customersRating()
+    {
+        return $this->hasMany(Rating::class, 'customer_id');
+    }
+    public function employeesRating()
+    {
+        return $this->hasMany(Rating::class, 'employee_id');
+    }
+
+    public function userNotifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function userShipmentAnswers()
+    {
+        return $this->hasMany(ShipmentAnswer::class);
+    }
+
+    public function filesInvoice()
+    {
+        return $this->hasMany(InvoiceFile::class);
+    }
 
 
 
