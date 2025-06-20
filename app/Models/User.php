@@ -6,18 +6,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable , HasRoles , HasApiTokens;
 
 
     protected $fillable = [
         'first_name',
-        'second_name', 'email_verified_at',
-        'email','phone_number', 'status',
+        'second_name',
+        'third_name',
+        'email',
+        'phone',
         'password',
+        'status',
     ];
+
 
     public function conversationsStarted()
     {
@@ -25,7 +31,7 @@ class User extends Authenticatable
     }
 
     // المحادثات التي شارك فيها هذا المستخدم (كطرف ثاني)
-    public function conversationsReceived()
+    public function conversationsReceived(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Conversation::class, 'receiver_id');
     }
