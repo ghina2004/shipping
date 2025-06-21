@@ -43,7 +43,7 @@ class ResetPasswordController extends Controller
 
         $code = $this->verificationService->generateCode($user,5);
 
-        //$this->emailService->sendEmail($user,new SendCodeMail($code));
+        $this->emailService->sendEmail($user,new SendCodeMail($code));
 
         return self::Success([
             'user' => new UserIdResource($user),

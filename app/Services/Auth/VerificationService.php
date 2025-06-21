@@ -41,6 +41,9 @@ class VerificationService
         }
         Cache::forget($cacheKey);
 
+        if($user->email_verified_at == null) $user->email_verified_at = now();
+        $user->save();
+
         return $user;
     }
 

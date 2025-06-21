@@ -13,4 +13,5 @@ return [
     'wrong_code'            => 'Wrong code.',
     'invalid_code_type'     => 'Invalid code type.',
     'user_not_found'        => 'User not found.',
+    'not_verify_code'       => 'Please verify your email.',
 ];

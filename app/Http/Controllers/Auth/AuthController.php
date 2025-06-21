@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Resources\UserIdResource;
+use App\Mail\SendCodeMail;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\VerificationService;
 use App\Services\Email\EmailService;
@@ -40,7 +41,7 @@ class AuthController extends Controller
 
         $code = $this->verificationService->generateCode($user,5);
 
-        //$this->emailService->sendEmail($user,new SendCodeMail($code));
+        $this->emailService->sendEmail($user,new SendCodeMail($code));
 
         return self::Success([
             'user' => new UserIdResource($user),
@@ -57,7 +58,7 @@ class AuthController extends Controller
 
         $code = $this->verificationService->generateCode($user,5);
 
-        //$this->emailService->sendEmail($user,new SendCodeMail($code));
+        $this->emailService->sendEmail($user,new SendCodeMail($code));
 
         return self::Success([
             'user' => new UserIdResource($user),
