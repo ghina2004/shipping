@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserCodeCheckRequest;
 use App\Http\Requests\Auth\UserRefreshCodeRequest;
 use App\Http\Resources\UserIdResource;
+use App\Http\Resources\UserResource;
 use App\Mail\SendCodeMail;
 use App\Models\User;
 use App\Services\Auth\AuthService;
@@ -40,7 +41,7 @@ class VerificationController extends Controller
         $token = $this->authService->generateToken($user);
 
         return self::Success([
-            'user' => new UserIdResource($user),
+            'user' => new UserResource($user),
             'token' => $token,
         ],__('auth.code_verified'));
     }
@@ -53,7 +54,7 @@ class VerificationController extends Controller
         $user = $this->verificationService->verifyCode($request->validated(),$userId);
 
         return self::Success([
-            'user' => new UserIdResource($user),
+            'user' => new UserResource($user),
         ],__('auth.code_verified'));
     }
 
@@ -66,7 +67,7 @@ class VerificationController extends Controller
         $this->emailService->sendEmail($user,new SendCodeMail($code));
 
         return self::Success([
-            'user' => new UserIdResource($user),
+            'user' => new UserResource($user),
             'code' => $code,
         ],__('auth.code_refreshed'));
     }
