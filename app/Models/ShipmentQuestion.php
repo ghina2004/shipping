@@ -15,10 +15,11 @@ class ShipmentQuestion extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function shipmentSupplier()
-    {
-        return $this->hasMany(Supplier::class);
-    }
+//    public function shipmentSupplier()
+//    {
+//        return $this->hasMany(Supplier::class);
+//    }
+
     public function ShipmentAnswers()
     {
         return $this->hasMany(ShipmentAnswer::class);

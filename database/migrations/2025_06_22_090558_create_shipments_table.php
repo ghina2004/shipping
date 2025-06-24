@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')->nullable();
             $table->foreignId('category_id');
-            $table->foreignId('Supplier_id');
+            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->integer('number');
             $table->date('shipping_date');
             $table->string('service_type')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('destination_country');
             $table->string('shipping_method');
             $table->integer('cargo_weight')->nullable();
-            $table->integer('cantainers_size')->nullable();
+            $table->integer('containers_size')->nullable();
             $table->integer('containers_numbers')->nullable();
             $table->text('notes');
             $table->integer('status');

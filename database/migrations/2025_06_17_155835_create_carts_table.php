@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('shipping_manager_id')->constrained('users')->onDelete('cascade');
             $table->integer('cart_number');
+            $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });
     }
