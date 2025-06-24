@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Http\Responses\Response;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRegisterRequest extends FormRequest
 {
@@ -21,20 +21,30 @@ class UserRegisterRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
+
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:50',
-            'second_name' => 'required|string|max:50',
-            'third_name' => 'required|string|max:50',
-            'email' => 'required|email|unique:users,email|max:255|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            'phone' => [
+            'first_name'    => 'required|string|max:50',
+            'second_name'   => 'required|string|max:50',
+            'third_name'    => 'required|string|max:50',
+            'email'         => [
                 'required',
-                'regex:/^(\+|00)[0-9]{6,15}$/'
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->where(function ($query) {
+                    $query->whereNotNull('email_verified_at');
+                }),
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
             ],
-            'password' => 'required|string|min:8',
+            'phone'         => [
+                'required',
+                'regex:/^(\+|00)[0-9]{6,15}$/',
+            ],
+            'password'      => 'required|string|min:8',
         ];
     }
+
 
 }
 

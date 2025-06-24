@@ -19,13 +19,13 @@ return new class extends Migration
             $table->integer('number');
             $table->date('shipping_date');
             $table->string('service_type')->nullable();
-            $table->string('origin_country');
+            $table->string('origin_country')->nullable();
             $table->string('destination_country');
             $table->string('shipping_method');
             $table->integer('cargo_weight')->nullable();
             $table->integer('containers_size')->nullable();
             $table->integer('containers_numbers')->nullable();
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

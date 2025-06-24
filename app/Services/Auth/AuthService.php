@@ -12,6 +12,8 @@ class AuthService
 {
     public function createCustomer(RegisterUserData $data)
     {
+        $this->checkCustomer($data);
+
         $user = User::query()->create([
             ...$data->toArray(),
             'status' => CustomerStatus::NEW,
@@ -42,6 +44,15 @@ class AuthService
     public function generateToken($user)
     {
         return $user->createToken("token")->plainTextToken;
+    }
+
+    private function checkCustomer($data): void
+    {
+        $existingUser = User::query()->where('email', $data->email)
+            ->whereNull('email_verified_at')
+            ->first();
+
+        if ($existingUser) $existingUser->delete();
     }
 
 }

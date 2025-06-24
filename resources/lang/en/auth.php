@@ -3,6 +3,7 @@
 return [
     'register_success'      => 'Customer created successfully.',
     'code_sent'             => 'Verification code sent, please verify.',
+    'login'                 => 'Logged in successfully.',
     'logout'                => 'Logged out successfully.',
     'password_reset'        => 'Password reset successfully.',
     'code_verified'         => 'The code is correct. You have successfully verified.',

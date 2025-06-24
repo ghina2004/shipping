@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Shipment\ShipmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {
@@ -28,6 +30,26 @@ Route::middleware(['locale'])->group(function () {
             Route::get('logout', 'logout')->name('logout');
         });
     });
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::prefix('cart')->group(function () {
+            Route::controller(CartController::class)->group(function () {
+                Route::get('/employee', 'showEmployeeCarts');
+                Route::get('/{cartId}', 'showCart');
+                Route::get('/shipments/{cartId}', 'showShipmentsCart');
+            });
+        });
+
+        Route::prefix('shipment')->group(function () {
+            Route::controller(ShipmentController::class)->group(function () {
+                Route::get('/{shipmentId}', 'show');
+                Route::post('/{shipmentId}', 'update');
+            });
+        });
+
+
+    });
 });
+
 
 

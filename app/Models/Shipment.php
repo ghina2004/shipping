@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
-{   protected $fillable =[  'cart_id', 'number', 'shipping_date', 'service_type',
+{
+    protected $fillable =[  'cart_id', 'number', 'shipping_date', 'service_type',
     'origin_country', 'destination_country', 'shipping_method', 'cargo_weight',
     'cantainers_size', 'containers_numbers', 'notes' , 'status','Supplier_id','category_id'
-];
+    ];
 
     public function shipmentCart()
     {
