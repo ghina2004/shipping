@@ -62,7 +62,7 @@ class AuthController extends Controller
         return self::Success([
             'user' => new UserResource($user),
             'token' => $token
-        ],__('auth.code_sent'));
+        ],__('auth.login'));
     }
 
 
