@@ -4,20 +4,20 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CartResource extends JsonResource
+class OrderResource extends JsonResource
 {
     public function toArray($request): array
     {
         $user = auth()->user();
 
-        $data = [
+        $data =  [
             'id' => $this->id,
             'customer_id' => $this->customer_id,
-            'cart_number' => $this->cart_number,
-            'created_at' => $this->created_at,
-            'is_submit' => $this->is_submit,
-            'shipments'   => OrderResource::collection(
-                $this->whenLoaded('cartShipments')
+            'order_number' => $this->order_number,
+            'is_confirm' => $this->is_confirm,
+            'status'=> $this->status,
+            'shipments'   => ShipmentResource::collection(
+                $this->whenLoaded('orderShipments')
             ),
         ];
 

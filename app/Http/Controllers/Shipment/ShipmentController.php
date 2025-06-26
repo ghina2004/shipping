@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Shipment;
 
-use App\Data\ShipmentData;
-use App\Data\UpdateShipmentData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shipment\UpdateShipmentRequest;
 use App\Http\Resources\ShipmentResource;
@@ -11,7 +9,6 @@ use App\Models\Shipment;
 use App\Services\Shipment\ShipmentService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class ShipmentController extends Controller
@@ -33,12 +30,14 @@ class ShipmentController extends Controller
 
         Gate::authorize('update', $shipment);
 
-        $data = $this->shipmentService->update($request,$shipmentId);
+        $updated = $this->shipmentService->update($request->validated(), $shipmentId);
 
         return self::Success([
-            'shipment' => new ShipmentResource($data)
+            'shipment' => new ShipmentResource($updated)
         ], __('shipment.updated'));
     }
+
+
 
 
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('shipment_invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shipment_id');
-            $table->integer('invoice_number');
+            $table->integer('invoice_number')->unique();
             $table->string('invoice_type');
             $table->float('initial_amount');
             $table->float('customs_fee');

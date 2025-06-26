@@ -6,13 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShipmentQuestion extends Model
 {
-    protected $fillable =[
-        'category_id', 'question', 'type'
-    ];
+    protected $fillable = ['question_ar', 'question_en', 'type'];
 
-    public function shipmentQuestionCategory()
+    public function getQuestionAttribute(): string
     {
-        return $this->belongsTo(Category::class);
+        return app()->getLocale() === 'ar' ? $this->question_ar : $this->question_en;
+    }
+
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_shipment_question');
+    }
+
+    public function questionOption()
+    {
+        return $this->hasMany(QuestionOptions::Class);
     }
 
     public function shipmentSupplier()

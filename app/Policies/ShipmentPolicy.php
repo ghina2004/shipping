@@ -14,7 +14,7 @@ class ShipmentPolicy
             return true;
         }
 
-        if ($user->hasRole('customer') && $shipment['status'] === ShipmentStatus::Pending || $shipment['status'] === ShipmentStatus::UnderReview) {
+        if ($user->hasRole('customer') && $shipment['is_confirm'] == 0) {
             return true;
         }
 

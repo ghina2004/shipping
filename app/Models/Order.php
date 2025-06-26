@@ -4,39 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class Order extends Model
 {
     protected $guarded = [];
 
-    public function customerCart()
+    public function customerOrder()
     {
         return $this->belongsTo(User::class, 'customer_id');
     }
-    public function employeeCart()
+    public function employeeOrder()
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
-    public function shippingManagerCart()
+    public function shippingManagerOrder()
     {
         return $this->belongsTo(User::class, 'shipping_manager_id');
     }
 
-    public function accountantCart()
+    public function accountantOrder()
     {
         return $this->belongsTo(User::class, 'accountant_id');
     }
 
-    public function cartShipments()
-    {
-        return $this->hasMany(Shipment::class);
-    }
-
-    public function cartConversations()
+    public function orderConversations()
     {
         return $this->hasMany(Conversation::class);
     }
 
-
+    public function orderShipments()
+    {
+        return $this->hasMany(Shipment::class);
+    }
 
 
 }

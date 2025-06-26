@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('shipment_questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
-            $table->string('question');
+            $table->string('question_ar');
+            $table->string('question_en');
             $table->string('type');
             $table->timestamps();
         });

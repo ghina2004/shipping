@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cart_id')->nullable();
+            $table->foreignId('order_id')->nullable();
             $table->foreignId('category_id');
             $table->foreignId('Supplier_id')->nullable();
-            $table->integer('number');
+            $table->integer('number')->unique();
             $table->date('shipping_date');
             $table->string('service_type')->nullable();
             $table->string('origin_country')->nullable();
@@ -25,8 +26,10 @@ return new class extends Migration
             $table->integer('cargo_weight')->nullable();
             $table->integer('containers_size')->nullable();
             $table->integer('containers_numbers')->nullable();
-            $table->text('notes')->nullable();
-            $table->integer('status');
+            $table->text('employee_notes')->nullable();
+            $table->text('customer_notes')->nullable();
+            $table->integer('is_information_complete')->default(0);
+            $table->integer('is_confirm')->default(0);
             $table->timestamps();
         });
     }

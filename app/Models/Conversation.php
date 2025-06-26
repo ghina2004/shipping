@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Conversation extends Model
 {
     protected $fillable =[
-        'sender_id','receiver_id' , 'cart_id'
+        'sender_id','receiver_id' , 'order_id'
     ];
     public function sender()
     {
@@ -24,8 +24,8 @@ class Conversation extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function cart()
+    public function order()
     {
-        return $this->belongsTo(Cart::class);
+        return $this->belongsTo(Order::class);
     }
 }
