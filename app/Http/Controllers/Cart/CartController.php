@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
+use App\Http\Resources\orderResource;
 use App\Http\Resources\ShipmentResource;
 use App\Http\Resources\UserResource;
+use App\Models\Cart;
 use App\Services\Cart\CartService;
+use App\Services\Order\orderService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,32 +18,50 @@ class CartController extends Controller
 {
     use ResponseTrait;
 
+    use ResponseTrait;
+
     public function __construct(protected CartService $cartService) {}
 
-    public function showEmployeeCarts(): JsonResponse
+    public function showRequestCart(): JsonResponse
     {
-        $carts = $this->cartService->showEmployeeCarts();
+        $carts = $this->cartService->showRequestCart();
 
         return self::Success([
-            'cart' => CartResource::collection($carts),
-        ], __('cart.employee_carts_listed'));
+            'carts' => $carts
+        ], __('cart.shown'));
     }
 
-    public function showCart($cartId): JsonResponse
+    public function employeeSubmitCart(Cart $cart): JsonResponse
     {
-        $carts = $this->cartService->showCart($cartId);
+        $this->cartService->EmployeeSubmitCart($cart);
+
+        return self::Success([], __('cart.submitted_by_employee'));
+    }
+
+    public function showEmployeeCart(): JsonResponse
+    {
+        $carts = $this->cartService->showEmployeeCart();
 
         return self::Success([
-            'cart' => CartResource::collection($carts),
-        ], __('cart.cart_details_retrieved'));
+            'carts' => $carts
+        ], __('cart.employee_carts'));
     }
 
-    public function showShipmentsCart($cartId): JsonResponse
+    public function showCartInfo(int $cartId): JsonResponse
+    {
+        $cart = $this->cartService->showCartInfo($cartId);
+
+        return self::Success([
+            'cart' => $cart
+        ], __('cart.shown'));
+    }
+
+    public function showShipmentsCart(int $cartId): JsonResponse
     {
         $shipments = $this->cartService->showShipmentsCart($cartId);
-        return self::Success([
-            'shipments' => ShipmentResource::collection($shipments),
-        ], __('cart.shipments_listed'));
-    }
 
+        return self::Success([
+            'shipments' => $shipments
+        ], __('cart.shipments_shown'));
+    }
 }

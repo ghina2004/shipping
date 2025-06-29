@@ -23,7 +23,6 @@ class ShipmentRequest extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,id',
-            'number' => 'required|integer',
             'shipping_date' => 'required|date',
             'service_type' => 'nullable|string',
             'origin_country' => 'nullable|string|max:100',
@@ -32,7 +31,7 @@ class ShipmentRequest extends FormRequest
             'cargo_weight' => 'nullable|integer',
             'containers_size' => 'nullable|integer',
             'containers_numbers' => 'nullable|integer',
-            'notes' => 'nullable|string',
+            'customer_notes' => 'nullable|string|max:1000',
         ];
     }
 }

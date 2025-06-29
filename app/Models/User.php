@@ -30,23 +30,40 @@ class User extends Authenticatable
         return $this->hasMany(Conversation::class, 'sender_id');
     }
 
-    // المحادثات التي شارك فيها هذا المستخدم (كطرف ثاني)
     public function conversationsReceived(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Conversation::class, 'receiver_id');
     }
 
-    // جميع المحادثات (كمشارك بأي طرف)
     public function conversations()
     {
         return Conversation::where('sender_id', $this->id)
             ->orWhere('receiver_id', $this->id);
     }
 
-    // الرسائل التي أرسلها هذا المستخدم
     public function userMessages()
     {
         return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function orderCustomers()
+    {
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    public function orderEmployees()
+    {
+        return $this->hasMany(Order::class, 'employee_id');
+    }
+
+    public function orderShippingManagers()
+    {
+        return $this->hasMany(Order::class, 'shipping_manager_id');
+    }
+
+    public function orderAccountant()
+    {
+        return $this->hasMany(Order::class, 'accountant_id');
     }
 
     public function cartCustomers()
@@ -64,6 +81,10 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class, 'shipping_manager_id');
     }
 
+    public function cartAccountant()
+    {
+        return $this->hasMany(Cart::class, 'accountant_id');
+    }
     public function manyUserOffer()
     {
         return $this->hasMany(UserOffer::class);
@@ -102,7 +123,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(InvoiceFile::class);
     }
-
 
 
     protected $hidden = [

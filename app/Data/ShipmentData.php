@@ -7,7 +7,7 @@ use Spatie\LaravelData\Data;
 class ShipmentData extends Data
 {
     public function __construct(
-        public ?int $cart_id,
+        public ?int $order_id,
         public int $category_id,
         public int $Supplier_id,
         public int $number,

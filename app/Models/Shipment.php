@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
-    protected $fillable =[  'cart_id', 'number', 'shipping_date', 'service_type',
-    'origin_country', 'destination_country', 'shipping_method', 'cargo_weight',
-    'cantainers_size', 'containers_numbers', 'notes' , 'status','Supplier_id','category_id'
-    ];
+    protected $guarded = [];
 
     public function shipmentCart()
     {
         return $this->belongsTo(Cart::class);
+    }
+    public function shipmentOrder()
+    {
+        return $this->belongsTo(Order::class);
     }
 
     public function shipmentCategory()
@@ -44,7 +45,7 @@ class Shipment extends Model
         return $this->hasMany(ShipmentAnswer::class);
     }
 
-    public function ShipmentDocuments()
+    public function shipmentDocuments()
     {
         return $this->hasMany(ShipmentDocument::class);
     }
@@ -53,7 +54,7 @@ class Shipment extends Model
         return $this->hasOne(ShipmentInvoice::class);
     }
 
-    public function InvoiceFiles()
+    public function invoiceFiles()
     {
         return $this->hasMany(InvoiceFile::class);
     }

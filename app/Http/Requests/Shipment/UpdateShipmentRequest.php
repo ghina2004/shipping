@@ -22,17 +22,17 @@ class UpdateShipmentRequest extends FormRequest
     public function rules(): array
     {
         return[
-            'category_id' => 'exists:categories,id',
-            'shipping_date' => 'date',
-            'service_type' => 'string',
+            'category_id' => 'required|exists:categories,id',
+            'shipping_date' => 'required|date',
+            'service_type' => 'required|string',
             'origin_country' => 'string|max:100',
-            'destination_country' => 'string|max:100',
-            'shipping_method' => 'string|max:100',
+            'destination_country' => 'required|string|max:100',
+            'shipping_method' => 'required|string|max:100',
             'cargo_weight' => 'integer',
             'containers_size' => 'integer',
             'containers_numbers' => 'integer',
-            'notes' => 'string',
-            'status' => 'integer',
+            'employee_notes' => 'string|max:10000',
+            'customer_notes' => 'string|max:10000',
         ];
     }
 }

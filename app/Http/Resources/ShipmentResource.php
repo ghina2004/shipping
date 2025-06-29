@@ -10,7 +10,7 @@ class ShipmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'cart_id' => $this->cart_id,
+            'order_id' => $this->order_id,
             'category_id' => $this->category_id,
             'Supplier_id' => $this->Supplier_id,
             'number' => $this->number,
@@ -22,8 +22,9 @@ class ShipmentResource extends JsonResource
             'cargo_weight' => $this->cargo_weight,
             'containers_size' => $this->containers_size,
             'containers_numbers' => $this->containers_numbers,
-            'notes' => $this->notes,
-            'status' => $this->status,
+            'employee_notes' => $this->employee_notes,
+            'customer_notes' => $this->customer_notes,
+            'is_confirm' => $this->is_confirm,
         ];
     }
 }
