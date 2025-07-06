@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Enums\shipment\ServiceType;
+use App\Enums\shipment\ShippingMethod;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
     protected $guarded = [];
+
+    protected $casts = [
+        'service_type' => ServiceType::class,
+        'shipping_method' => ShippingMethod::class,
+    ];
 
     public function shipmentCart()
     {

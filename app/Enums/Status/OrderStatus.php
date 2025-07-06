@@ -2,7 +2,7 @@
 
 namespace App\Enums\Status;
 
-enum ShipmentStatus: int
+enum OrderStatus: int
 {
     case Pending = 0;                // تم إنشاء الطلب من قبل العميل
     case UnderReview = 1;           // قيد المراجعة الأولية من الموظف

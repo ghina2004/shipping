@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Shipment;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Shipment\ShipmentRequest;
 use App\Http\Requests\Shipment\UpdateShipmentRequest;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ShipmentResource;
 use App\Models\Shipment;
 use App\Services\Shipment\ShipmentService;
@@ -15,6 +17,18 @@ class ShipmentController extends Controller
 {
     use ResponseTrait;
     public function __construct(private ShipmentService $shipmentService) {}
+
+
+
+
+    public function store(ShipmentRequest $request): JsonResponse
+    {
+        $user = auth()->user();
+        $result = $this->shipmentService->createShipment($request->validated(), $user);
+        return self::success([
+            'shipment'   => new ShipmentResource($result['shipment']),
+    ], __('Shipment created successfully.'));
+    }
 
     public function show($shipmentId): JsonResponse
     {
@@ -37,6 +51,12 @@ class ShipmentController extends Controller
         ], __('shipment.updated'));
     }
 
+    public function destroy(Shipment $shipment)
+    {
+        $this->shipmentService->delete($shipment);
+
+        return self::Success([], __('Shipment deleted successfully.'));
+    }
 
 
 
