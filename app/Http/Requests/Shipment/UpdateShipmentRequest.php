@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Shipment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateShipmentRequest extends FormRequest
 {
@@ -24,10 +25,10 @@ class UpdateShipmentRequest extends FormRequest
         return[
             'category_id' => 'required|exists:categories,id',
             'shipping_date' => 'required|date',
-            'service_type' => 'required|string',
+            'service_type' => ['required', Rule::in(['import', 'export'])],
             'origin_country' => 'string|max:100',
             'destination_country' => 'required|string|max:100',
-            'shipping_method' => 'required|string|max:100',
+            'shipping_method' => ['required' , Rule::in(['Land','sea' ,'air'])],
             'cargo_weight' => 'integer',
             'containers_size' => 'integer',
             'containers_numbers' => 'integer',

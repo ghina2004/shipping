@@ -25,6 +25,9 @@ class CategoryResource extends JsonResource
                     'ar' => $this->name_ar,
                 ]
                 : (app()->getLocale() === 'ar' ? $this->name_ar : $this->name_en),
+            'questions'   => QuestionResource::collection(
+                $this->whenLoaded('ShipmentQuestions')
+            ),
         ];
     }
 }

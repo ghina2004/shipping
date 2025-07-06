@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\Status\ShipmentStatus;
+use App\Enums\Status\OrderStatus;
 use App\Models\Shipment;
 use App\Models\User;
 
