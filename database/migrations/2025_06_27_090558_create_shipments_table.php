@@ -12,9 +12,9 @@ return new class extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
-            $table->foreignId('order_id')->nullable()->constrained('carts')->onDelete('cascade');
+            $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('Supplier_id')->nullable()->constrained('carts')->onDelete('cascade');
+            $table->foreignId('Supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
             $table->string('number')->unique();
             $table->date('shipping_date');
             $table->string('service_type');
