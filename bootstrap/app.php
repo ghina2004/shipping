@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'locale' => SetLocale::class,
-
+            \Fruitcake\Cors\CorsService::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

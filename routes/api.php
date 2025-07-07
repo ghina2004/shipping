@@ -48,7 +48,7 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('questions')->controller(QuestionController::class)->group(function () {
-            Route::post('/', 'store');
+            Route::post('/store', 'store');
             Route::get('/{categoryId}', 'show');
             Route::put('/{question}', 'update');
             Route::delete('/{question}', 'destroy');
@@ -58,7 +58,7 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/', 'index');
             Route::get('/{id}','show');
             Route::get('/{id}/with-questions','showWithQuestions');
-            Route::post('/','store');
+            Route::post('/store','store');
             Route::post('/update/{id}','update');
             Route::delete('/{id}','destroy');
         });
