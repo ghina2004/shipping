@@ -24,10 +24,11 @@ class ShipmentQuestion extends Model
         return $this->hasMany(QuestionOptions::Class);
     }
 
-    public function shipmentSupplier()
-    {
-        return $this->hasMany(Supplier::class);
-    }
+//    public function shipmentSupplier()
+//    {
+//        return $this->hasMany(Supplier::class);
+//    }
+
     public function ShipmentAnswers()
     {
         return $this->hasMany(ShipmentAnswer::class);

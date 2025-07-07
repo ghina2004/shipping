@@ -14,6 +14,10 @@ return [
     'email' => 'The email format is invalid.',
     'unique' => 'The :attribute has already been taken.',
     'in' => 'The selected :attribute is invalid.',
+    'date' => 'The :attribute must be a valid date.',
+    'exists' => 'The selected :attribute does not exist.',
+    'integer' => 'The :attribute must be an integer.',
+    'nullable' => 'The :attribute field is optional.',
 
     'attributes' => [
         'first_name' => 'first name',
@@ -24,6 +28,25 @@ return [
         'password' => 'password',
         'code' => 'verification code',
         'type' => 'type',
+
+
+        'category_id' => 'category',
+        'shipping_date' => 'shipping date',
+        'service_type' => 'service type',
+        'origin_country' => 'origin country',
+        'destination_country' => 'destination country',
+        'shipping_method' => 'shipping method',
+        'cargo_weight' => 'cargo weight',
+        'containers_size' => 'containers size',
+        'containers_numbers' => 'containers count',
+        'customer_notes' => 'customer notes',
+        'employee_notes' => 'employee notes',
+
+
+        'shipment_id' => 'shipment ID',
+        'answers' => 'answers',
+        'answers.*.shipment_question_id' => 'question ID',
+        'answers.*.answer' => 'answer',
     ],
 
 ];

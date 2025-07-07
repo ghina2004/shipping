@@ -26,7 +26,7 @@ class Cart extends Model
         return $this->belongsTo(User::class, 'accountant_id');
     }
 
-    public function cartShipments()
+    public function cartOrders()
     {
         return $this->hasMany(Shipment::class);
     }
