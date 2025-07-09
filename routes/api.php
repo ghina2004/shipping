@@ -7,7 +7,10 @@ use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Question\QuestionController;
+use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
+use App\Http\Controllers\ShipmentFullController;
+use App\Http\Controllers\supplier\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {

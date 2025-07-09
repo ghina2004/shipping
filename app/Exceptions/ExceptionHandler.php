@@ -20,6 +20,6 @@ class ExceptionHandler
                 }
             }
         }
-        return self::Error([],$e->getMessage() ?: __('auth.unexpected_error'), 500);
+        return self::Error([], $e->getMessage() ?: 'Something went wrong.', 500);
     }
 }

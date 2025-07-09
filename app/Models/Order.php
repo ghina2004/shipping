@@ -31,7 +31,7 @@ class Order extends Model
         return $this->hasMany(Conversation::class);
     }
 
-    public function orderShipments()
+    public function shipments()
     {
         return $this->hasMany(Shipment::class);
     }
