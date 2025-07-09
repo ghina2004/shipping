@@ -84,19 +84,19 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('shipment-answers')->group(function () {
-            Route::post('/', [ShipmentAnswerController::class, 'store']);//->middleware('permission:create.answer');
+            Route::post('/', [ShipmentAnswerController::class, 'store']);//->middleware('can:create.answer');
             Route::get('{shipmentAnswer}', [ShipmentAnswerController::class, 'show']);
             Route::put('{shipmentAnswer}', [ShipmentAnswerController::class, 'update']);
             Route::delete('{shipmentAnswer}', [ShipmentAnswerController::class, 'destroy']);
         });
         Route::prefix('supplier')->group(function () {
-            Route::post('/', [SupplierController::class, 'store']);//->middleware('permission:create.supplier');
+            Route::post('/', [SupplierController::class, 'store']);//->middleware('can:create.supplier');
         });
 
         Route::prefix('shipment-full')->controller(ShipmentFullController::class)->group(function () {
-            Route::get('/{shipmentId}',  'show');//->middleware('permission:show.shipment_full');
-            Route::post('/{shipmentId}',  'update');//->middleware('permission:update.shipment_full');
-            Route::post('/{shipmentId}',  'delete');//->middleware('permission:delete.shipment_full');
+            Route::get('/{shipmentId}',  'show');//->middleware('can:show.shipment.full');
+            Route::post('/{shipmentId}',  'update');//->middleware('can:update.shipment.full');
+            Route::post('/{shipmentId}',  'delete');//->middleware('can:delete.shipment.full');
         });
 
 

@@ -15,7 +15,7 @@ class RolesPermissionSeeder extends Seeder
             'admin' => ['add.employee'],
             'shipment manager' => [],
             'employee' => [],
-            'customer' => ['create.shipment' ,'create.supplier', 'create.answer','show.shipment_full','update.shipment_full','delete.shipment_full'],
+            'customer' => ['create.shipment' ,'create.supplier', 'create.answer','show.shipment.full','update.shipment.full','delete.shipment.full'],
             'accountant' => [],
         ];
 
