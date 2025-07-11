@@ -8,7 +8,9 @@ use App\Http\Resources\ShipmentResource;
 use App\Http\Resources\UserResource;
 use App\Models\Order;
 use App\Models\Status;
+use App\Services\Order\OrderRequestService;
 use App\Services\Order\orderService;
+use App\Services\Shipment\ShipmentService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,8 +19,45 @@ class OrderController extends Controller
 {
     use ResponseTrait;
 
-    public function __construct(protected orderService $orderService) {}
+    public function __construct(protected orderService $orderService, protected orderRequestService $orderRequestService) {}
 
+    public function showEmployeeOrderRequest(): JsonResponse
+    {
+        $orders = $this->orderRequestService->showEmployeeOrderRequest();
+
+        return self::Success([
+            'order' => orderResource::collection($orders),
+        ], __('order.employee_orders_listed'));
+
+    }
+
+    public function acceptEmployeeOrder(Order $order): JsonResponse
+    {
+        $orders = $this->orderRequestService->acceptEmployeeOrder($order);
+
+        return self::Success([
+            'order' => orderResource::collection($orders),
+        ], __('order.employee_orders_listed'));
+    }
+
+    public function showAccountantOrderRequest(): JsonResponse
+    {
+        $orders = $this->orderRequestService->showAccountantOrderRequest();
+
+        return self::Success([
+            'order' => orderResource::collection($orders),
+        ], __('order.employee_orders_listed'));
+
+    }
+
+    public function acceptAccountantOrder(Order $order): JsonResponse
+    {
+        $orders = $this->orderRequestService->acceptAccountantOrder($order);
+
+        return self::Success([
+            'order' => orderResource::collection($orders),
+        ], __('order.employee_orders_listed'));
+    }
     public function showEmployeeOrders(): JsonResponse
     {
         $orders = $this->orderService->showEmployeeOrders();

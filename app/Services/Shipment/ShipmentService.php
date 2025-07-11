@@ -5,8 +5,6 @@ namespace App\Services\Shipment;
 use App\Enums\shipment\ServiceType;
 use App\Enums\shipment\ShippingMethod;
 use App\Models\Cart;
-use App\Models\Category;
-use App\Models\Order;
 use App\Models\Shipment;
 use App\Services\Order\OrderService;
 use App\Services\Category\CategoryService;
@@ -18,16 +16,14 @@ class ShipmentService
     public function __construct(
         protected ShipmentUpdateStrategy $updateStrategy, protected OrderService $orderService,
         protected CategoryService $categoryService)
-
     {}
 
 
     public function createShipment(array $data, $user)
     {
         return DB::transaction(function () use ($data, $user) {
-            $cart = Cart::create(['customer_id' => $user->id, 'cart_number' => Str::upper(Str::random(5))]);
             $shipment = Shipment::create(array_merge($data, [
-                'cart_id' => $cart->id,
+                'cart_id' => $user->cart?->id,
                 'number' => Str::upper(Str::random(5)),
                 'service_type' => ServiceType::from($data['service_type']),
                 'shipping_method' => ShippingMethod::from($data['shipping_method'])
@@ -36,6 +32,7 @@ class ShipmentService
                 'shipment' => $shipment,
             ];
         });
+
     }
 
 

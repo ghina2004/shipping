@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Order\RequestOrderController;
+use App\Http\Controllers\Order\SendOrderController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
@@ -45,6 +47,18 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/shipments/{orderId}', 'showShipmentsorder');
         });
 
+        Route::prefix('order/request')->controller(RequestOrderController::class)->group(function () {
+            Route::get('/employee', 'showEmployeeOrderRequest');
+            Route::get('/accountant', 'showAccountantOrderRequest');
+            Route::get('/employee/accept', 'acceptEmployeeOrder');
+            Route::get('/accountant/accept', 'acceptAccountantOrder');
+        });
+
+        Route::prefix('order/send')->controller(SendOrderController::class)->group(function () {
+            Route::get('/shipping_manager', 'sendOrderToShippingManager');
+            Route::get('/accountant', 'sendOrderToAccountant');
+        });
+
         Route::prefix('categories')->controller(CategoryController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('/{id}','show');
@@ -76,9 +90,6 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{id}','destroy');
         });
         Route::prefix('carts')->controller(CartController::class)->group(function () {
-            Route::get('/requests', 'showRequestCart');
-            Route::get('/{cart}/assign', 'employeeSubmitCart');
-            Route::get('/employee', 'showEmployeeCart');
             Route::get('/{cartId}/info', 'showCartInfo');
             Route::get('/{cartId}/shipments', 'showShipmentsCart');
         });

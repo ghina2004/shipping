@@ -4,25 +4,14 @@ namespace App\Services\Cart;
 
 use App\Models\Cart;
 use App\Models\Shipment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 class CartService
 {
-    public function __construct(protected SendCartService $sendCartService) {}
-
-    public function showRequestCart(): Collection
+    public function createCart($userId)
     {
-        return Cart::query()->where('is_submit',1)->whereNull('employee_id')->get();
-    }
-
-    public function EmployeeSubmitCart(Cart $cart): void
-    {
-        $cart->update(['employee_id'=>auth()->id()]);
-    }
-
-    public function showEmployeeCart(): Collection
-    {
-        return Cart::query()->where('employee_id',auth()->user()->id)->get();
+        return Cart::query()->create(['customer_id',$userId]);
     }
 
     public function showCartInfo($cartId): Collection
@@ -35,8 +24,4 @@ class CartService
        return Shipment::query()->where('cart_id', $cartId)->get();
    }
 
-   public function CustomerSubmitCart()
-   {
-
-   }
 }

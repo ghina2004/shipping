@@ -12,6 +12,7 @@ use App\Http\Resources\UserResource;
 use App\Mail\SendCodeMail;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\VerificationService;
+use App\Services\Cart\CartService;
 use App\Services\Email\EmailService;
 use App\Services\Media\UserImageService;
 use App\Traits\ResponseTrait;
@@ -27,11 +28,14 @@ class AuthController extends Controller
     private EmailService $emailService;
     private UserImageService $userImageService;
 
-    public function __construct(AuthService $authService,VerificationService  $verificationService,EmailService $emailService,UserImageService $userImageService){
+    private CartService $cartService;
+
+    public function __construct(AuthService $authService,VerificationService  $verificationService,EmailService $emailService,UserImageService $userImageService, CartService $cartService){
         $this->authService = $authService;
         $this->verificationService = $verificationService;
         $this->emailService = $emailService;
         $this->userImageService = $userImageService;
+        $this->cartService = $cartService;
     }
 
     public function register(UserRegisterRequest $request): JsonResponse

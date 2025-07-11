@@ -22,30 +22,6 @@ class CartController extends Controller
 
     public function __construct(protected CartService $cartService) {}
 
-    public function showRequestCart(): JsonResponse
-    {
-        $carts = $this->cartService->showRequestCart();
-
-        return self::Success([
-            'carts' => $carts
-        ], __('cart.shown'));
-    }
-
-    public function employeeSubmitCart(Cart $cart): JsonResponse
-    {
-        $this->cartService->EmployeeSubmitCart($cart);
-
-        return self::Success([], __('cart.submitted_by_employee'));
-    }
-
-    public function showEmployeeCart(): JsonResponse
-    {
-        $carts = $this->cartService->showEmployeeCart();
-
-        return self::Success([
-            'carts' => $carts
-        ], __('cart.employee_carts'));
-    }
 
     public function showCartInfo(int $cartId): JsonResponse
     {
