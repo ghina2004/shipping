@@ -23,13 +23,13 @@ class OrderRequestService
 
     public function acceptEmployeeOrder(Order $order): Order
     {
-        $order->update(['employee_id',auth()->id()]);
+        $order->update(['employee_id'=>auth()->id()]);
         return $order;
     }
 
     public function acceptAccountantOrder(Order $order): Order
     {
-        $order->update(['accountant_id',auth()->id()]);
+        $order->update(['accountant_id'=>auth()->id()]);
         return $order;
     }
 }

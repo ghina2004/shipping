@@ -11,13 +11,13 @@ class SendOrderService
 {
     public function sendOrderToShippingManager(Order $order): Order
     {
-        $order->update(['shipping_manager_id',2]);
+        $order->update(['shipping_manager_id'=>2]);
         return $order;
     }
 
     public function sendOrderToAccountant(Order $order): Order
     {
-        $order->update(['has_accountant',1]);
+        $order->update(['has_accountant'=>1]);
         return $order;
     }
 }

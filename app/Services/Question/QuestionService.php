@@ -18,6 +18,12 @@ class QuestionService
             ->get();
     }
 
+    public function getQuestion($questionId): ShipmentQuestion
+    {
+        return ShipmentQuestion::query()->where('id', $questionId)
+            ->with(['categories', 'questionOption'])
+            ->firstOrFail();
+    }
 
     public function createQuestion(array $data): ShipmentQuestion
     {

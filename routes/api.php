@@ -42,21 +42,21 @@ Route::middleware(['locale'])->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::prefix('order')->controller(OrderController::class)->group(function () {
-            Route::get('/employee', 'showEmployeeorders');
-            Route::get('/{orderId}', 'showorder');
-            Route::get('/shipments/{orderId}', 'showShipmentsorder');
+            Route::get('/employee', 'showEmployeeOrders');
+            Route::get('/{orderId}', 'showOrder');
+            Route::get('/shipments/{orderId}', 'showShipmentsOrder');
         });
 
         Route::prefix('order/request')->controller(RequestOrderController::class)->group(function () {
             Route::get('/employee', 'showEmployeeOrderRequest');
             Route::get('/accountant', 'showAccountantOrderRequest');
-            Route::get('/employee/accept', 'acceptEmployeeOrder');
-            Route::get('/accountant/accept', 'acceptAccountantOrder');
+            Route::get('/employee/accept/{order}', 'acceptEmployeeOrder');
+            Route::get('/accountant/accept/{order}', 'acceptAccountantOrder');
         });
 
         Route::prefix('order/send')->controller(SendOrderController::class)->group(function () {
-            Route::get('/shipping_manager', 'sendOrderToShippingManager');
-            Route::get('/accountant', 'sendOrderToAccountant');
+            Route::get('/shipping_manager/{order}', 'sendOrderToShippingManager');
+            Route::get('/accountant/{order}', 'sendOrderToAccountant');
         });
 
         Route::prefix('categories')->controller(CategoryController::class)->group(function () {
@@ -77,6 +77,7 @@ Route::middleware(['locale'])->group(function () {
         Route::prefix('questions')->controller(QuestionController::class)->group(function () {
             Route::post('/store', 'store');
             Route::get('/{categoryId}', 'show');
+            Route::get('/{questionId}/question', 'showQuestion');
             Route::put('/{question}', 'update');
             Route::delete('/{question}', 'destroy');
         });
@@ -109,11 +110,6 @@ Route::middleware(['locale'])->group(function () {
             Route::post('/{shipmentId}',  'update');//->middleware('can:update.shipment.full');
             Route::post('/{shipmentId}',  'delete');//->middleware('can:delete.shipment.full');
         });
-
-
-
-
-
 
     });
 });

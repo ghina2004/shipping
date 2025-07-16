@@ -26,6 +26,15 @@ class QuestionController extends Controller
         ], __('question.shown'));
     }
 
+    public function showQuestion(int $questionId): JsonResponse
+    {
+        $question = $this->questionService->getQuestion($questionId);
+
+        return self::Success([
+            'question' => new QuestionResource($question)
+        ], __('question.shown'));
+    }
+
     public function store(CreateQuestionRequest $request): JsonResponse
     {
         $question = $this->questionService->createWithOptions($request->validated());

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\Status\Verification;
 use App\Exceptions\Types\CustomException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserForgetPasswordRequest;
 use App\Http\Requests\Auth\UserResetPasswordRequest;
-use App\Http\Resources\UserIdResource;
 use App\Http\Resources\UserResource;
 use App\Mail\SendCodeMail;
-use App\Models\User;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\PasswordResetService;
 use App\Services\Auth\VerificationService;
