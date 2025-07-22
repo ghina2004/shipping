@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Media\MultipleImageRequest;
 use App\Http\Requests\Media\SingleImageRequest;
 use App\Models\Media;
-use App\Services\Media\UserImageService;
+use App\Services\Media\UserMediaService;
 use App\Services\Media\MediaService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
@@ -19,9 +19,9 @@ class ImageController extends Controller
 {
     use ResponseTrait;
     private MediaService $mediaService;
-    private UserImageService  $imageService;
+    private UserMediaService  $imageService;
 
-    public function __construct(UserImageService $imageService){
+    public function __construct(UserMediaService $imageService){
         $this->imageService = $imageService;
     }
 

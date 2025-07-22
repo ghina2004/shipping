@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Media extends Model
 {
-    protected $fillable = [
-      'url', 'type', 'imageable'
-    ];
+   protected $guarded = [];
 
-    public function imageable()
+    public function mediable():MorphTo
     {
         return $this->morphTo();
     }

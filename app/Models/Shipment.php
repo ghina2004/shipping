@@ -61,9 +61,9 @@ class Shipment extends Model
         return $this->hasOne(ShipmentInvoice::class);
     }
 
-    public function invoiceFiles()
+    public function invoice()
     {
-        return $this->hasMany(InvoiceFile::class);
+        return $this->hasMany(ShipmentInvoice::class);
     }
 
 

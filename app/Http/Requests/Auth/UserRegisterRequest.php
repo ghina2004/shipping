@@ -42,6 +42,7 @@ class UserRegisterRequest extends FormRequest
                 'regex:/^(\+|00)[0-9]{6,15}$/',
             ],
             'password'      => 'required|string|min:8',
+            'commercial_register' => 'required|mimes:jpeg,jpg,png|max:1024',
         ];
     }
 

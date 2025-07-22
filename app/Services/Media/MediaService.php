@@ -2,62 +2,50 @@
 
 namespace App\Services\Media;
 
-use App\Exceptions\Types\CustomException;
 use App\Models\Media;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MediaService
 {
-    public function createMedia($id,$med_type,$type,$category,$url){
-
+    public function createMedia($med_id,$med_type,$type,$url): Media
+    {
         return Media::query()->create([
-            'mediable_id' => $id,
+            'mediable_id' => $med_id,
             'mediable_type' => $med_type,
             'type' => $type,
-            'category' => $category,
             'url' => $url,
         ]);
     }
-    public function uploadFile(UploadedFile $file,$id,$model,$type,$category,$folder): array
+    public function uploadFile(UploadedFile $file,$med_id,$med_type,$type,$folder): Media
     {
+        $this->deleteOldMedia($med_id, $med_type, $type);
+
         $filePath = $this->storeFile($file, $folder);
 
-        $media = $this->createMedia($id, $model, $type, $category, $filePath);
+        return $this->createMedia($med_id, $med_type, $type, $filePath);
 
-        return ['data' => $media, 'message' => 'File Created Successfully.', 'code' => 200];
     }
-    public function uploadMultipleFile(array $files, $id, $model, $type, $category, $folder): array
-    {
-        $mediaFiles = [];
-
-        foreach ($files as $file) {
-            $mediaFiles[] = $this->uploadFile($file, $id, $model, $type, $category, $folder);
-        }
-
-        return ['data' => $mediaFiles, 'message' => 'Files uploaded successfully.', 'code' => 200];
-    }
-    public function deleteFile(Media $media): array
+    public function deleteFile(Media $media): void
     {
         Storage::disk('public')->delete($media->url);
         $media->delete();
-
-        return ['data' => [], 'message' => 'File Deleted Successfully.', 'code' => 200];
     }
-    public function updateFile(Media $media, UploadedFile $file, $folder): array
+
+    public function deleteOldMedia($med_id, $med_type, $type): void
     {
-        $this->deleteFile($media);
+        $oldMedia = Media::where('mediable_id', $med_id)
+            ->where('mediable_type', $med_type)
+            ->where('type', $type)
+            ->first();
 
-        $filePath = $this->storeFile($file, $folder);
-
-        $media->update([
-            'url' => $filePath,
-        ]);
-
-        return ['data' => $media, 'message' => 'File updated successfully.', 'code' => 200];
+        if ($oldMedia) {
+            $this->deleteFile($oldMedia);
+        }
     }
+
+
     private function storeFile(UploadedFile $file, string $folder): string
     {
         $filename = Str::random(32) . "." . time() . '.' . $file->getClientOriginalExtension();

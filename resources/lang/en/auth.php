@@ -6,7 +6,7 @@ return [
     'login'                 => 'Logged in successfully.',
     'logout'                => 'Logged out successfully.',
     'password_reset'        => 'Password reset successfully.',
-    'code_verified'         => 'The code is correct. You have successfully verified.',
+    'code_verified'         => 'The code is correct. You have successfully verified , your request will be processed by the administration',
     'code_refreshed'        => 'Code refreshed successfully.',
     'incorrect_credentials' => 'Incorrect email or password.',
     'wrong_email'           => 'Incorrect password.',
@@ -15,4 +15,5 @@ return [
     'invalid_code_type'     => 'Invalid code type.',
     'user_not_found'        => 'User not found.',
     'not_verify_code'       => 'Please verify your email.',
+    'not_verify'            => 'You have not been approved by the administration yet.'
 ];

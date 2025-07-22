@@ -30,6 +30,24 @@ class OrderController extends Controller
         ], __('order.employee_orders_listed'));
     }
 
+    public function showShippingManagerOrders(): JsonResponse
+    {
+        $orders = $this->orderService->showShippingManagerOrders();
+
+        return self::Success([
+            'order' => OrderResource::collection($orders),
+        ], __('order.employee_orders_listed'));
+    }
+
+    public function showAccountantOrders(): JsonResponse
+    {
+        $orders = $this->orderService->showAccountantOrders();
+
+        return self::Success([
+            'order' => OrderResource::collection($orders),
+        ], __('order.employee_orders_listed'));
+    }
+
     public function showOrder($orderId): JsonResponse
     {
         $orders = $this->orderService->showOrder($orderId);
@@ -47,12 +65,6 @@ class OrderController extends Controller
         ], __('order.shipments_listed'));
     }
 
-    public function updateOrderStatus(Order $order,Status $status): JsonResponse
-    {
-        $order = $this->orderService->updateOrderStatus($order ,$status);
-        return self::Success([
-            'order' => new OrderResource($order),
-        ], __('order.shipments_updated'));
-    }
+
 
 }

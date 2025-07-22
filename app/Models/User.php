@@ -23,6 +23,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'status',
+        'is_verified'
     ];
 
 
@@ -77,9 +78,9 @@ class User extends Authenticatable
         return $this->hasMany(UserOffer::class);
     }
 
-    public function image()
+    public function media()
     {
-        return $this->morphOne(Media::class, 'imageable');
+        return $this->morphOne(Media::class, 'mediable');
     }
 
     public function reports()

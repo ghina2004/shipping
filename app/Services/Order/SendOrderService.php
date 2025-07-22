@@ -17,7 +17,7 @@ class SendOrderService
 
     public function sendOrderToAccountant(Order $order): Order
     {
-        $order->update(['has_accountant'=>1]);
+        $order->update(['accountant_id'=>5]);
         return $order;
     }
 }

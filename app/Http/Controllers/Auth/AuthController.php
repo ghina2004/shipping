@@ -14,7 +14,7 @@ use App\Services\Auth\AuthService;
 use App\Services\Auth\VerificationService;
 use App\Services\Cart\CartService;
 use App\Services\Email\EmailService;
-use App\Services\Media\UserImageService;
+use App\Services\Media\UserMediaService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 
@@ -26,11 +26,11 @@ class AuthController extends Controller
     private AuthService $authService;
     private VerificationService $verificationService;
     private EmailService $emailService;
-    private UserImageService $userImageService;
+    private UserMediaService $userImageService;
 
     private CartService $cartService;
 
-    public function __construct(AuthService $authService,VerificationService  $verificationService,EmailService $emailService,UserImageService $userImageService, CartService $cartService){
+    public function __construct(AuthService $authService, VerificationService $verificationService, EmailService $emailService, UserMediaService $userImageService, CartService $cartService){
         $this->authService = $authService;
         $this->verificationService = $verificationService;
         $this->emailService = $emailService;
@@ -40,18 +40,20 @@ class AuthController extends Controller
 
     public function register(UserRegisterRequest $request): JsonResponse
     {
-        $userData = RegisterUserData::from($request);
+        $userData = RegisterUserData::from($request->validated());
 
-        $user = $this->authService->createCustomer($userData);
+        $commercialFile = $request->file('commercial_register');
 
-        $code = $this->verificationService->generateCode($user,5);
+        $user = $this->authService->createCustomer($userData, $commercialFile);
 
-        $this->emailService->sendEmail($user,new SendCodeMail($code));
+        $code = $this->verificationService->generateCode($user, 5);
+
+        $this->emailService->sendEmail($user, new SendCodeMail($code));
 
         return self::Success([
             'user' => new UserResource($user),
             'code' => $code
-        ],  __('auth.register_success'));
+        ], __('auth.register_success'));
     }
 
     /**

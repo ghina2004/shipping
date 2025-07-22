@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('media', function (Blueprint $table) {
-            $table->id();
-            $table->string('url');
-            $table->string('type');
-            $table->morphs('imageable');
-            $table->timestamps();
-        });
+            Schema::create('media', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('mediable_id');
+                $table->string('mediable_type');
+                $table->string('type');
+                $table->string('url');
+                $table->timestamps();
+            });
     }
 
     /**

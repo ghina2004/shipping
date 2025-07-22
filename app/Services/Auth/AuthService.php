@@ -6,11 +6,15 @@ use App\Data\RegisterUserData;
 use App\Enums\Status\CustomerStatus;
 use App\Exceptions\Types\CustomException;
 use App\Models\User;
+use App\Services\Media\UserMediaService;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    public function createCustomer(RegisterUserData $data)
+    public function __construct(
+        protected UserMediaService $mediaService
+    ) {}
+    public function createCustomer(RegisterUserData $data,$commercial_register)
     {
         $this->checkCustomer($data);
 
@@ -18,6 +22,9 @@ class AuthService
             ...$data->toArray(),
             'status' => CustomerStatus::NEW,
         ]);
+
+        $this->mediaService->uploadCommercialRegister($commercial_register, $user['id']);
+
 
         $user->assignRole('customer');
 
@@ -38,6 +45,10 @@ class AuthService
         if($user->email_verified_at == null) {
             throw new CustomException(__('auth.not_verify_code'), 400);
         }
+        if($user->is_verified == 0) {
+            throw new CustomException(__('auth.not_verified'), 400);
+        }
+
         return $user;
     }
 

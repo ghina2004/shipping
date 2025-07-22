@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('shipping_manager_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('accountant_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('order_number')->unique();
-            $table->string('status')->default('0'); //confirm or not
+            $table->string('status')->default('0');
             $table->string('has_accountant')->default('0');
             $table->timestamps();
         });

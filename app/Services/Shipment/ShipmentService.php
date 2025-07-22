@@ -53,9 +53,4 @@ class ShipmentService
     }
 
 
-    public function confirm()
-    {
-
-    }
-
 }

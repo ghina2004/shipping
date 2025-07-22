@@ -14,10 +14,20 @@ class OrderService
 
     }
 
-   public function showEmployeeOrders(): Collection
-   {
+    public function showEmployeeOrders(): Collection
+    {
        return Order::query()->where('employee_id',auth()->user()->id)->get();
-   }
+    }
+
+    public function showShippingManagerOrders(): Collection
+    {
+        return Order::query()->where('shipping_manager_id',auth()->user()->id)->get();
+    }
+
+    public function showAccountantOrders(): Collection
+    {
+        return Order::query()->where('accountant_id',auth()->user()->id)->get();
+    }
 
     public function showOrder($orderId): Collection
     {
@@ -28,11 +38,5 @@ class OrderService
    {
        return Shipment::query()->where('order_id', $orderId)->get();
    }
-
-    public function updateOrderStatus(Order $order,Status $status): Order
-    {
-        $order->update(['status' => $status['name']]);
-        return $order;
-    }
 
 }
