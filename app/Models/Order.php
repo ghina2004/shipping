@@ -35,6 +35,10 @@ class Order extends Model
     {
         return $this->hasMany(Shipment::class);
     }
+    public function originalCompany()
+    {
+        return $this->belongsTo(OriginalShippingCompany::class, 'original_company_id');
+    }
 
 
 }

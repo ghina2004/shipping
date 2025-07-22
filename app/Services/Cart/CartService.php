@@ -2,26 +2,59 @@
 
 namespace App\Services\Cart;
 
+use App\Exceptions\Types\CustomException;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Shipment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CartService
 {
-    public function createCart($userId)
+
+
+    public function showShipmentsCart($user)
     {
-        return Cart::query()->create(['customer_id',$userId]);
+        $cart = $user->cart;
+
+        if (!$cart) {
+            throw new ModelNotFoundException('Cart not found.');
+        }
+        return $cart->shipments()->get();
     }
 
-    public function showCartInfo($cartId): Collection
+    public function sendCart($user)
     {
-        return Cart::query()->where('id',$cartId)->get();
+        return DB::transaction(function () use ($user) {
+            $cart = $user->cart;
+            if (!$cart) {
+                throw new ModelNotFoundException('Cart not found.');
+            }
+
+            $order = Order::create([
+                'customer_id' => $user->id,
+                'order_number' => Str::upper(Str::random(8)),
+            ]);
+
+
+            $shipments = $cart->shipments()->get();
+
+            if ($shipments->isEmpty()) {
+                throw new CustomException('Your cart is empty.', 422);
+            }
+
+            foreach ($shipments as $shipment) {
+                $shipment->update([
+                    'order_id' => $order->id,
+                    'cart_id' => null,
+                ]);
+            }
+
+            return $order->load('shipments');
+        });
     }
-
-   public function showShipmentsCart($cartId): Collection
-   {
-       return Shipment::query()->where('cart_id', $cartId)->get();
-   }
-
 }
+

@@ -8,6 +8,7 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Order\RequestOrderController;
 use App\Http\Controllers\Order\SendOrderController;
+use App\Http\Controllers\OriginalShippingCompanyController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
@@ -45,6 +46,8 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/employee', 'showEmployeeOrders');
             Route::get('/{orderId}', 'showOrder');
             Route::get('/shipments/{orderId}', 'showShipmentsOrder');
+            Route::get('/confirmed', 'confirmedOrders');
+            Route::get('/unconfirmed', 'unconfirmedOrders');
         });
 
         Route::prefix('order/request')->controller(RequestOrderController::class)->group(function () {
@@ -72,6 +75,7 @@ Route::middleware(['locale'])->group(function () {
             Route::post('/', 'store');//->middleware('permission:create.shipment');
             Route::get('/{shipmentId}', 'show');
             Route::post('/update/{shipmentId}', 'update');
+            Route::get('{shipment}/confirm',  'confirm');
         });
 
         Route::prefix('questions')->controller(QuestionController::class)->group(function () {
@@ -91,8 +95,8 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{id}','destroy');
         });
         Route::prefix('carts')->controller(CartController::class)->group(function () {
-            Route::get('/{cartId}/info', 'showCartInfo');
-            Route::get('/{cartId}/shipments', 'showShipmentsCart');
+            Route::get('/cartshipments', 'showShipmentsCart');
+            Route::get('cart/send', 'send');
         });
 
         Route::prefix('shipment-answers')->group(function () {
@@ -109,6 +113,13 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/{shipmentId}',  'show');//->middleware('can:show.shipment.full');
             Route::post('/{shipmentId}',  'update');//->middleware('can:update.shipment.full');
             Route::post('/{shipmentId}',  'delete');//->middleware('can:delete.shipment.full');
+        });
+        Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
+            Route::post('/',  'store');//->middleware('can:create.answer');
+            Route::get('{originalShippingCompany}', 'show');
+            Route::put('{originalShippingCompany}',  'update');
+            Route::delete('{originalShippingCompany}',  'destroy');
+            Route::post('/{order}',  'addAndAssignCompany');
         });
 
     });

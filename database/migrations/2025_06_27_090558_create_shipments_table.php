@@ -26,8 +26,9 @@ return new class extends Migration
             $table->integer('containers_numbers')->nullable();
             $table->text('employee_notes')->nullable();
             $table->text('customer_notes')->nullable();
-            $table->integer('is_information_complete')->default('0');
-            $table->integer('is_confirm')->default('0');
+            $table->boolean('is_information_complete')->default('0');
+            $table->boolean('is_confirm')->default('0');
+            $table->boolean('having_supplier')->default('0');
             $table->timestamps();
         });
     }

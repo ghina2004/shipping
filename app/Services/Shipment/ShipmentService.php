@@ -6,6 +6,8 @@ use App\Enums\shipment\ServiceType;
 use App\Enums\shipment\ShippingMethod;
 use App\Models\Cart;
 use App\Models\Shipment;
+use App\Models\Supplier;
+use App\Models\User;
 use App\Services\Order\OrderService;
 use App\Services\Category\CategoryService;
 use Illuminate\Support\Facades\DB;
@@ -19,20 +21,35 @@ class ShipmentService
     {}
 
 
-    public function createShipment(array $data, $user)
+    public function createWithOptionalSupplier(array $data, User $user): array
     {
         return DB::transaction(function () use ($data, $user) {
+
+            $cart = $user->cart;
+            if (!$cart) {
+                $cart = Cart::create(['customer_id' => $user->id]);
+            }
+
+            if (!empty($data['having_supplier']) && $data['having_supplier']) {
+                $supplierData = $data['supplier'] ?? [];
+                $supplierData['user_id'] = $user->id;
+
+                $supplier = Supplier::create($supplierData);
+            }
+
             $shipment = Shipment::create(array_merge($data, [
-                'cart_id' => $user->cart?->id,
+                'cart_id' => $user-> $cart->id,
+                'supplier_id' => $supplier?->id,
                 'number' => Str::upper(Str::random(5)),
                 'service_type' => ServiceType::from($data['service_type']),
-                'shipping_method' => ShippingMethod::from($data['shipping_method'])
+                'shipping_method' => ShippingMethod::from($data['shipping_method']),
             ]));
+
             return [
                 'shipment' => $shipment,
+                'supplier' => $supplier ?? null,
             ];
         });
-
     }
 
 
@@ -53,9 +70,23 @@ class ShipmentService
     }
 
 
-    public function confirm()
+    public function confirmShipment(Shipment $shipment)
     {
+        if (! $shipment->is_information_complete) {
+            return [
+                'success' => false,
+                'message' => 'Shipment cannot be confirmed until its information is complete.',
+            ];
+        }
 
+        $shipment->update([
+            'is_confirm' => true,
+        ]);
+
+        return [
+            'success' => true,
+            'message' => 'shipment confirmed successfully',
+        ];
     }
 
 }

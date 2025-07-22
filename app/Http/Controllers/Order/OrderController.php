@@ -55,4 +55,21 @@ class OrderController extends Controller
         ], __('order.shipments_updated'));
     }
 
+    public function confirmedOrders()
+    {
+        $orders = $this->orderService->getConfirmedOrdersForUser();
+
+        return self::Success([
+            'order' => new OrderResource($orders),
+        ], __('success'));
+    }
+
+    public function unconfirmedOrders(): JsonResponse
+    {
+        $orders = $this->orderService->getUnconfirmedOrdersForUser();
+        return self::Success([
+            'order' => new OrderResource($orders),
+        ], __('success'));
+    }
+
 }

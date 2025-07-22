@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Shipment;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shipment\ShipmentRequest;
+use App\Http\Requests\Shipment\ShipmentWithSupplierRequest;
 use App\Http\Requests\Shipment\UpdateShipmentRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ShipmentResource;
+use App\Http\Resources\SupplierResource;
 use App\Models\Shipment;
 use App\Services\Shipment\ShipmentService;
 use App\Traits\ResponseTrait;
@@ -21,13 +23,14 @@ class ShipmentController extends Controller
 
 
 
-    public function store(ShipmentRequest $request): JsonResponse
+    public function store(ShipmentWithSupplierRequest $request): JsonResponse
     {
         $user = auth()->user();
-        $result = $this->shipmentService->createShipment($request->validated(), $user);
+        $result = $this->shipmentService->createWithOptionalSupplier($request->validated(), $user);
         return self::success([
             'shipment'   => new ShipmentResource($result['shipment']),
-    ], __('Shipment created successfully.'));
+            'supplier' => $result['supplier'] ? new SupplierResource($result['supplier']) : null,
+        ], __('shipment.created_successfully'));
     }
 
     public function show($shipmentId): JsonResponse
@@ -57,7 +60,14 @@ class ShipmentController extends Controller
 
         return self::Success([], __('Shipment deleted successfully.'));
     }
+    public function confirm(Shipment $shipment)
+    {
+        $result = $this->shipmentService->confirmShipment($shipment);
 
+        return $result['success']
+            ? self::Success([], $result['message'])
+            : self::Error([], $result['message']);
+    }
 
 
 }

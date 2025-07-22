@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Shipment;
 use App\Models\Status;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
@@ -33,6 +34,16 @@ class OrderService
     {
         $order->update(['status' => $status['name']]);
         return $order;
+    }
+
+    public function getConfirmedOrdersForUser()
+    {
+        return Auth::user()->orderCustomers()->where('status', true)->get();
+    }
+
+    public function getUnconfirmedOrdersForUser()
+    {
+        return Auth::user()->orderCustomers()->where('status', false)->get();
     }
 
 }
