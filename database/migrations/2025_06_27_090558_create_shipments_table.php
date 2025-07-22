@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('customer_notes')->nullable();
             $table->boolean('is_information_complete')->default('0');
             $table->boolean('is_confirm')->default('0');
+            $table->boolean('having_supplier')->default('0');
             $table->timestamps();
         });
     }

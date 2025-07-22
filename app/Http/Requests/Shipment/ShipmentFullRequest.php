@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Shipment;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -39,6 +39,9 @@ class ShipmentFullRequest extends FormRequest
             'answers' => ['sometimes', 'array'],
             'answers.*.id' => ['required_with:answers.*', 'exists:shipment_answers,id'],
             'answers.*.answer' => ['sometimes', 'string'],
+
+            //document
+            'lab_invoice' => 'sometimes|file|mimes:pdf,jpg,png,docx',
         ];
 
     }

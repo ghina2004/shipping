@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ShipmentRoute extends Model
 {
     protected $fillable =[
-        'shipment_id', 'tracking_number' ,'tracking_link'
+        'order_id', 'tracking_number' ,'tracking_link'
     ];
 
-    public function shipment(){
+    public function order(){
         return $this->belongsTo(Shipment::class);
     }
 }

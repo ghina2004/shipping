@@ -16,28 +16,24 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    use ResponseTrait;
 
     use ResponseTrait;
 
     public function __construct(protected CartService $cartService) {}
 
-
-    public function showCartInfo(int $cartId): JsonResponse
+    public function showShipmentsCart()
     {
-        $cart = $this->cartService->showCartInfo($cartId);
+        $user=auth()->user();
+        $cart = $this->cartService->showShipmentsCart($user);
 
-        return self::Success([
-            'cart' => $cart
-        ], __('cart.shown'));
+        return self::Success(new CartResource($cart), __('cart.shipments_shown'));
     }
-
-    public function showShipmentsCart(int $cartId): JsonResponse
+    public function send()
     {
-        $shipments = $this->cartService->showShipmentsCart($cartId);
+        $user  = auth()->user();
+        $order = $this->cartService->sendCart($user);
 
-        return self::Success([
-            'shipments' => $shipments
-        ], __('cart.shipments_shown'));
+        return self::Success(new OrderResource($order), __('cart.sent_successfully'));
+
     }
 }

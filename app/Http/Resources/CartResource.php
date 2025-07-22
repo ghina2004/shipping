@@ -13,11 +13,8 @@ class CartResource extends JsonResource
         $data = [
             'id' => $this->id,
             'customer_id' => $this->customer_id,
-            'cart_number' => $this->cart_number,
-            'created_at' => $this->created_at,
-            'is_submit' => $this->is_submit,
-            'shipments'   => OrderResource::collection(
-                $this->whenLoaded('cartShipments')
+            'shipments'   => ShipmentResource::collection(
+                $this->whenLoaded('shipments')
             ),
         ];
 

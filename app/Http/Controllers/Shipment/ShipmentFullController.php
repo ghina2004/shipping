@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Shipment;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ShipmentFullRequest;
+use App\Http\Requests\Shipment\ShipmentFullRequest;
 use App\Http\Resources\ShipmentFullResource;
 use App\Models\Shipment;
-use App\Services\Answer\ShipmentAnswerService;
-use App\Services\Shipment\ShipmentService;
-use App\Services\Supplier\SupplierService;
 use App\Traits\ResponseTrait;
+use Illuminate\Http\Request;
+use App\Services\Shipment\ShipmentService;
+use App\Services\Answer\ShipmentAnswerService;
+use App\Services\Supplier\SupplierService;
 use Illuminate\Support\Facades\DB;
 
 class ShipmentFullController extends Controller
-{
-    use ResponseTrait;
+{ use ResponseTrait;
     public function __construct(
         protected ShipmentService $shipmentService,
         protected SupplierService $supplierService,
-        protected ShipmentAnswerService $shipmentAnswerService
+        protected ShipmentAnswerService $shipmentAnswerService,
+         protected ShipmentDocumentService $shipmentDocumentService,
     ) {}
 
     public function show($shipmentId)
@@ -26,7 +26,7 @@ class ShipmentFullController extends Controller
 
         $shipment = $this->shipmentService->show($shipmentId);
 
-        $shipment->loadMissing(['shipmentSupplier', 'answersShipment']);
+        $shipment->loadMissing(['shipmentSupplier', 'answersShipment' ,'shipmentDocuments']);
 
         return self::Success(new ShipmentFullResource($shipment), __('success'));
     }
@@ -68,6 +68,15 @@ class ShipmentFullController extends Controller
                     }
                 }
             }
+            if (!empty($data['lab_invoice'])) {
+                $existingDocument = $shipment->shipmentDocuments()->where('type', 'lab_invoice')->first();
+
+                if ($existingDocument) {
+                    // ✅ تعديل المستند الحالي
+                    $this->shipmentDocumentService->updateShipmentDocument($existingDocument, $data['lab_invoice']
+                    );
+                }
+            }
 
             return self::Success(new ShipmentFullResource($shipment), __('success'));
         });
@@ -76,7 +85,7 @@ class ShipmentFullController extends Controller
 
     public function delete($shipmentId)
     {
-        $shipment = Shipment::with(['shipmentSupplier', 'answersShipment'])->findOrFail($shipmentId);
+        $shipment = Shipment::with(['shipmentSupplier', 'answersShipment' ,'shipmentDocuments'])->findOrFail($shipmentId);
 
 
         foreach ($shipment->answersShipment as $answer) {
@@ -85,6 +94,10 @@ class ShipmentFullController extends Controller
 
         if ($shipment->shipmentSupplier) {
             $this->supplierService->delete($shipment->shipmentSupplier);
+        }
+
+        if ($shipment->shipmentDocuments ) {
+            $this->shipmentDocumentService->deleteShipmentDocument($shipment->shipmentDocuments);
         }
 
         $this->shipmentService->delete($shipment);

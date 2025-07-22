@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('original_shipping_companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('contact_email');
+            $table->string('contact_phone');
+            $table->string('address');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('original_shipping_companies');
     }
 };
