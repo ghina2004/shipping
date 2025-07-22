@@ -8,7 +8,6 @@ use App\Http\Requests\Shipment\ShipmentWithSupplierRequest;
 use App\Http\Requests\Shipment\UpdateShipmentRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ShipmentResource;
-use App\Http\Resources\SupplierResource;
 use App\Models\Shipment;
 use App\Services\Shipment\ShipmentService;
 use App\Traits\ResponseTrait;
