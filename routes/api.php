@@ -87,7 +87,6 @@ Route::middleware(['locale'])->group(function () {
             Route::post('/', 'store');//->middleware('permission:create.shipment');
             Route::get('/{shipmentId}', 'show');
             Route::post('/update/{shipmentId}', 'update');
-            Route::get('{shipment}/confirm',  'confirm');
         });
 
         Route::prefix('shipment')->controller(ShipmentStatusController::class)->group(function () {

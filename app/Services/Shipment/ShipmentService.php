@@ -67,24 +67,4 @@ class ShipmentService
         $shipment->delete();
     }
 
-
-    public function confirmShipment(Shipment $shipment)
-    {
-        if (! $shipment->is_information_complete) {
-            return [
-                'success' => false,
-                'message' => 'Shipment cannot be confirmed until its information is complete.',
-            ];
-        }
-
-        $shipment->update([
-            'is_confirm' => true,
-        ]);
-
-        return [
-            'success' => true,
-            'message' => 'shipment confirmed successfully',
-        ];
-    }
-
 }

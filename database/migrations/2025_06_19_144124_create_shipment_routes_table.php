@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('shipment_id');
             $table->integer('tracking_number');
             $table->string('tracking_link');
+            $table->integer('status');
             $table->timestamps();
         });
     }

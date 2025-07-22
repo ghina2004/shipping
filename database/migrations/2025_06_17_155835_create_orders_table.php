@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('accountant_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('order_number')->unique();
             $table->boolean('status')->default('0'); //confirm or not
+            $table->boolean('placement')->default('0');
             $table->boolean('has_accountant')->default('0');
             $table->foreignId('original_company_id')->nullable()->constrained('original_shipping_companies');
             $table->timestamps();

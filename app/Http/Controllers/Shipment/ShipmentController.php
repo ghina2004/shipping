@@ -8,6 +8,7 @@ use App\Http\Requests\Shipment\ShipmentWithSupplierRequest;
 use App\Http\Requests\Shipment\UpdateShipmentRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ShipmentResource;
+use App\Http\Resources\SupplierResource;
 use App\Models\Shipment;
 use App\Services\Shipment\ShipmentService;
 use App\Traits\ResponseTrait;
@@ -18,9 +19,6 @@ class ShipmentController extends Controller
 {
     use ResponseTrait;
     public function __construct(private ShipmentService $shipmentService) {}
-
-
-
 
     public function store(ShipmentWithSupplierRequest $request): JsonResponse
     {
@@ -59,14 +57,5 @@ class ShipmentController extends Controller
 
         return self::Success([], __('Shipment deleted successfully.'));
     }
-    public function confirm(Shipment $shipment)
-    {
-        $result = $this->shipmentService->confirmShipment($shipment);
-
-        return $result['success']
-            ? self::Success([], $result['message'])
-            : self::Error([], $result['message']);
-    }
-
 
 }
