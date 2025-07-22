@@ -45,5 +45,10 @@ class Order extends Model
         return $this->hasOne(OrderInvoice::class);
     }
 
+    public function conversation()
+    {
+        return $this->hasOne(Conversation::class);
+    }
+
 
 }

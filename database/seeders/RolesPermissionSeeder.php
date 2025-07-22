@@ -40,6 +40,7 @@ class RolesPermissionSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('admin123'),
                 'email_verified_at' => now(),
+                'is_verified' => 1,
                 'role' => 'admin',
             ],
             [
@@ -49,6 +50,7 @@ class RolesPermissionSeeder extends Seeder
                 'email' => 'shipment@gmail.com',
                 'password' => bcrypt('shipment123'),
                 'email_verified_at' => now(),
+                'is_verified' => 1,
                 'role' => 'shipment manager',
             ],
             [
@@ -58,6 +60,7 @@ class RolesPermissionSeeder extends Seeder
                 'email' => 'employee@gmail.com',
                 'password' => bcrypt('employee123'),
                 'email_verified_at' => now(),
+                'is_verified' => 1,
                 'role' => 'employee',
             ],
             [
@@ -67,6 +70,7 @@ class RolesPermissionSeeder extends Seeder
                 'email' => 'customer@gmail.com',
                 'password' => bcrypt('customer123'),
                 'email_verified_at' => now(),
+                'is_verified' => 1,
                 'role' => 'customer',
             ],
             [
@@ -76,6 +80,7 @@ class RolesPermissionSeeder extends Seeder
                 'email' => 'accountant@gmail.com',
                 'password' => bcrypt('accountant123'),
                 'email_verified_at' => now(),
+                'is_verified' => 1,
                 'role' => 'accountant',
             ],
         ];

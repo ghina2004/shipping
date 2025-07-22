@@ -6,6 +6,7 @@ use App\Http\Requests\OriginalShippingCompanyRequest;
 use App\Http\Resources\OriginalShippingCompanyResource;
 use App\Models\Order;
 use App\Models\OriginalShippingCompany;
+use App\Services\OriginalShippingCompanyService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 

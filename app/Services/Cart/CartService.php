@@ -14,8 +14,10 @@ use Illuminate\Support\Str;
 
 class CartService
 {
-
-
+    public function createCart(User $user): void
+    {
+        Cart::query()->create(['customer_id'=>$user['id']]);
+    }
     public function showShipmentsCart($user)
     {
         $cart = $user->cart;

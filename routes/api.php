@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Chat\MessageController;
 use App\Http\Controllers\Invoice\OrderInvoiceController;
 use App\Http\Controllers\Invoice\ShipmentInvoiceController;
 use App\Http\Controllers\Order\OrderController;
@@ -14,8 +15,8 @@ use App\Http\Controllers\OriginalShippingCompanyController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
-use App\Http\Controllers\Shipment\ShipmentFullController;
 use App\Http\Controllers\Shipment\ShipmentStatusController;
+use App\Http\Controllers\ShipmentFullController;
 use App\Http\Controllers\supplier\SupplierController;
 use App\Http\Controllers\User\CustomerRequestController;
 use Illuminate\Support\Facades\Route;
@@ -151,6 +152,12 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/show/{invoice}','show');
             Route::delete('/delete/{invoice}','delete');
             Route::get('/{invoice}/download','download');
+        });
+
+
+        Route::prefix('orders/chat')->middleware('auth:sanctum')->group(function () {
+            Route::post('{order}/send', [MessageController::class, 'sendMessage']);
+            Route::get('{order}/messages', [MessageController::class, 'getMessages']);
         });
 
     });

@@ -6,13 +6,15 @@ use App\Data\RegisterUserData;
 use App\Enums\Status\CustomerStatus;
 use App\Exceptions\Types\CustomException;
 use App\Models\User;
+use App\Services\Cart\CartService;
 use App\Services\Media\UserMediaService;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
     public function __construct(
-        protected UserMediaService $mediaService
+        protected UserMediaService $mediaService,
+        protected CartService $cartService
     ) {}
     public function createCustomer(RegisterUserData $data,$commercial_register)
     {
@@ -48,6 +50,8 @@ class AuthService
         if($user->is_verified == 0) {
             throw new CustomException(__('auth.not_verified'), 400);
         }
+
+        $this->cartService->createCart($user);
 
         return $user;
     }

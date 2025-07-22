@@ -26,9 +26,7 @@ class ShipmentService
         return DB::transaction(function () use ($data, $user) {
 
             $cart = $user->cart;
-            if (!$cart) {
-                $cart = Cart::create(['customer_id' => $user->id]);
-            }
+
 
             if (!empty($data['having_supplier']) && $data['having_supplier']) {
                 $supplierData = $data['supplier'] ?? [];
@@ -38,7 +36,7 @@ class ShipmentService
             }
 
             $shipment = Shipment::create(array_merge($data, [
-                'cart_id' => $user-> $cart->id,
+                'cart_id' => $cart->id,
                 'supplier_id' => $supplier?->id,
                 'number' => Str::upper(Str::random(5)),
                 'service_type' => ServiceType::from($data['service_type']),

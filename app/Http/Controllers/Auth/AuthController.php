@@ -7,7 +7,6 @@ use App\Exceptions\Types\CustomException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
-use App\Http\Resources\UserIdResource;
 use App\Http\Resources\UserResource;
 use App\Mail\SendCodeMail;
 use App\Services\Auth\AuthService;
