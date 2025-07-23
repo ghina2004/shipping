@@ -34,6 +34,6 @@ class MessageController extends Controller
 
         return self::Success([
             'messages' => MessageResource::collection($messages),
-        ],'message sent successfully');
+        ],'messages shown successfully');
     }
 }

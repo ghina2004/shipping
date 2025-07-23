@@ -74,10 +74,10 @@ function handleTransportExceptionInterface(TransportExceptionInterface $e): Json
 
 function handleRfcComplianceException(RfcComplianceException $e): JsonResponse
 {
-    return ExceptionResponder::Error([],"RFC compliance: ".$e->getMessage(), 422);
+    return ExceptionResponder::Error([],$e->getMessage(), 422);
 }
 
 function handleCustomException(CustomException $e): JsonResponse
 {
-    return ExceptionResponder::Error([],"RFC compliance: ".$e->getMessage(), $e->getStatusCode());
+    return ExceptionResponder::Error([],$e->getMessage(), $e->getStatusCode());
 }

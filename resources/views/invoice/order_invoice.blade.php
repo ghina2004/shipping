@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>{{ __('invoice.order_invoice_title') }} #{{ $order->id }}</title>
+    <title>{{ __('invoice.order_invoice_title') }} #{{ $invoice->order->order_number }}</title>
     <style>
         @font-face {
             font-family: 'DejaVuSans';
@@ -38,15 +38,15 @@
 <body>
 
 <div class="header">
-    <h2>{{ __('invoice.order_invoice_title') }} #{{ $order->id }}</h2>
-    <p>{{ __('invoice.date') }}: {{ $order->created_at->format('Y-m-d') }}</p>
+    <h2>{{ __('invoice.order_invoice_title') }} #{{ $invoice->order->order_number }}</h2>
+    <p>{{ __('invoice.date') }}: {{ optional($invoice->order->created_at)->format('Y-m-d') }}</p>
 </div>
 
 <div class="section-title">{{ __('invoice.shipments_summary') }}</div>
 <table>
     <thead>
     <tr>
-        <th>{{ __('invoice.shipment_id') }}</th>
+        <th>{{ __('invoice.shipment_number') }}</th>
         <th>{{ __('invoice.initial_amount') }}</th>
         <th>{{ __('invoice.customs_fee') }}</th>
         <th>{{ __('invoice.service_fee') }}</th>
@@ -56,18 +56,18 @@
     </thead>
     <tbody>
     @php $total = 0; @endphp
-    @foreach($order->shipments as $shipment)
+    @foreach($invoice->order->shipments as $shipment)
         @php
-            $invoice = $shipment->invoice;
-            $total += $invoice->final_amount ?? 0;
+            $shipmentInvoice = $shipment->invoice;
+            $total += $shipmentInvoice->final_amount ?? 0;
         @endphp
         <tr>
-            <td>{{ $shipment->id }}</td>
-            <td>{{ number_format($invoice->initial_amount ?? 0, 2) }}</td>
-            <td>{{ number_format($invoice->customs_fee ?? 0, 2) }}</td>
-            <td>{{ number_format($invoice->service_fee ?? 0, 2) }}</td>
-            <td>{{ number_format($invoice->company_profit ?? 0, 2) }}</td>
-            <td>{{ number_format($invoice->final_amount ?? 0, 2) }}</td>
+            <td>{{ $shipment->number }}</td>
+            <td>{{ number_format($shipmentInvoice->initial_amount ?? 0, 2) }}</td>
+            <td>{{ number_format($shipmentInvoice->customs_fee ?? 0, 2) }}</td>
+            <td>{{ number_format($shipmentInvoice->service_fee ?? 0, 2) }}</td>
+            <td>{{ number_format($shipmentInvoice->company_profit ?? 0, 2) }}</td>
+            <td>{{ number_format($shipmentInvoice->final_amount ?? 0, 2) }}</td>
         </tr>
     @endforeach
     <tr>

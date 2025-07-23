@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Broadcast;
 // routes/channels.php
 
 Broadcast::channel('conversation.{id}', function ($user, $id) {
-    return Conversation::query()->where('id', $id)
+    return Conversation::where('id', $id)
         ->where(function ($q) use ($user) {
-            $q->where('sender_id', $user->id)->orWhere('receiver_id', $user->id);
+            $q->where('sender_id', $user->id)
+                ->orWhere('receiver_id', $user->id);
         })->exists();
 });
-

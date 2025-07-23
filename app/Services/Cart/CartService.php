@@ -16,7 +16,7 @@ class CartService
 {
     public function createCart(User $user): void
     {
-        Cart::query()->create(['customer_id'=>$user['id']]);
+        if(!$user->cart()) Cart::query()->create(['customer_id'=>$user['id']]);
     }
     public function showShipmentsCart($user)
     {
@@ -25,13 +25,15 @@ class CartService
         if (!$cart) {
             throw new ModelNotFoundException('Cart not found.');
         }
-        return $cart->shipments()->get();
+
+        return $cart->with('shipments')->get();
     }
 
     public function sendCart($user)
     {
         return DB::transaction(function () use ($user) {
             $cart = $user->cart;
+
             if (!$cart) {
                 throw new ModelNotFoundException('Cart not found.');
             }
@@ -41,8 +43,7 @@ class CartService
                 'order_number' => Str::upper(Str::random(8)),
             ]);
 
-
-            $shipments = $cart->shipments()->get();
+            $shipments = $cart->shipments;
 
             if ($shipments->isEmpty()) {
                 throw new CustomException('Your cart is empty.', 422);

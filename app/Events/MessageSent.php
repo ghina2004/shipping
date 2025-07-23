@@ -9,20 +9,25 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(public Message $message) {}
-
     public function broadcastOn(): Channel
     {
+        Log::info('real_t');
+
         return new PrivateChannel('conversation.' . $this->message->conversation_id);
+
     }
 
     public function broadcastWith(): array
     {
+        Log::info('real_real');
+
         return [
             'id' => $this->message->id,
             'message' => $this->message->message,

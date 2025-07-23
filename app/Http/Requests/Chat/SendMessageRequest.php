@@ -18,12 +18,4 @@ class SendMessageRequest extends FormRequest
             'message' => 'required|string|max:1000',
         ];
     }
-
-    public function attributes(): array
-    {
-        return [
-            'conversation_id' => __('chat.conversation_id'),
-            'message' => __('chat.message'),
-        ];
-    }
 }

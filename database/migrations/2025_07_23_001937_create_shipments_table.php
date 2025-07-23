@@ -6,14 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->foreignId('Supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
             $table->string('number')->unique();
             $table->date('shipping_date');
@@ -33,7 +35,9 @@ return new class extends Migration
         });
     }
 
-
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('shipments');

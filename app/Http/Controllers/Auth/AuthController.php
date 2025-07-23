@@ -16,11 +16,11 @@ use App\Services\Email\EmailService;
 use App\Services\Media\UserMediaService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 
 class AuthController extends Controller
 {
-
     use ResponseTrait;
     private AuthService $authService;
     private VerificationService $verificationService;
@@ -60,6 +60,8 @@ class AuthController extends Controller
      */
     public function login(UserLoginRequest $request): JsonResponse
     {
+        Log::info('real');
+
         $user = $this->authService->login($request->validated());
 
         $token = $this->authService->generateToken($user);

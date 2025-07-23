@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Invoice;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\InvoiceRequest;
+use App\Http\Resources\InvoiceOrderResource;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Order;
 use App\Models\OrderInvoice;
@@ -25,16 +26,14 @@ class OrderInvoiceController extends Controller
         $invoice = $this->invoiceService->createOrderInvoice($order);
 
         return self::Success([
-            'invoice' => new InvoiceResource($invoice)
+            'invoice' => new InvoiceOrderResource($invoice)
         ], 'Invoice created successfully');
     }
 
-    public function show(int $invoiceId): JsonResponse
+    public function show(OrderInvoice $invoice): JsonResponse
     {
-        $invoice = $this->invoiceService->showInvoice($invoiceId);
-
         return self::Success([
-            'invoice' => new InvoiceResource($invoice)
+            'invoice' => new InvoiceOrderResource($invoice)
         ],'invoice shown successfully');
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\RequestOrderController;
 use App\Http\Controllers\Order\SendOrderController;
 use App\Http\Controllers\OriginalShippingCompanyController;
+use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\Shipment\ShipmentStatusController;
 use App\Http\Controllers\ShipmentFullController;
 use App\Http\Controllers\supplier\SupplierController;
 use App\Http\Controllers\User\CustomerRequestController;
+use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {
@@ -112,7 +115,8 @@ Route::middleware(['locale'])->group(function () {
         });
         Route::prefix('carts')->controller(CartController::class)->group(function () {
             Route::get('/cartshipments', 'showShipmentsCart');
-            Route::get('cart/send', 'send');
+            Route::get('/send', 'send');
+
         });
 
         Route::prefix('shipment-answers')->group(function () {
@@ -147,7 +151,7 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('invoice/order')->controller(OrderInvoiceController::class)->group(function () {
-            Route::post('/create/{shipmentId}','create');
+            Route::post('/create/{order}','create');
             Route::get('/show/{invoice}','show');
             Route::delete('/delete/{invoice}','delete');
             Route::get('/{invoice}/download','download');
@@ -157,6 +161,11 @@ Route::middleware(['locale'])->group(function () {
         Route::prefix('orders/chat')->middleware('auth:sanctum')->group(function () {
             Route::post('{order}/send', [MessageController::class, 'sendMessage']);
             Route::get('{order}/messages', [MessageController::class, 'getMessages']);
+        });
+
+        Route::prefix('payments')->group(function () {
+            Route::post('initial/{invoice}', [PaymentController::class, 'initial']);
+            Route::post('remaining/{invoice}', [PaymentController::class, 'remaining']);
         });
 
     });

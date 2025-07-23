@@ -2,21 +2,21 @@
 
 namespace App\Services\Invoice;
 
-use App\Enums\Invoice\InvoiceType;
 use App\Models\Order;
 use App\Models\OrderInvoice;
 use App\Models\ShipmentInvoice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
 
-
 class OrderInvoiceService
 {
     public function createOrderInvoice(Order $order): OrderInvoice
     {
-        $shipmentInvoices = ShipmentInvoice::whereIn('shipment_id', $order->shipments->pluck('id'))->get();
+        $this->deleteExistingInvoice($order);
 
-        $data = [
+        $shipmentInvoices = $this->getShipmentInvoices($order);
+
+        return OrderInvoice::create([
             'order_id' => $order->id,
             'invoice_number' => $this->generateOrderInvoiceNumber(),
             'total_initial_amount' => $shipmentInvoices->sum('initial_amount'),
@@ -24,15 +24,8 @@ class OrderInvoiceService
             'total_service_fee' => $shipmentInvoices->sum('service_fee'),
             'total_company_profit' => $shipmentInvoices->sum('company_profit'),
             'total_final_amount' => $shipmentInvoices->sum('final_amount'),
-            'notes' => 'فاتورة مجمعة للطلب #' . $order->id,
-        ];
-
-        return OrderInvoice::query()->create($data);
-    }
-
-    public function showInvoice(int $invoiceId): ShipmentInvoice
-    {
-        return OrderInvoice::query()->findOrFail($invoiceId);
+            'notes' => $this->buildInvoiceNotes($order),
+        ]);
     }
 
     public function deleteInvoice(OrderInvoice $invoice): void
@@ -51,9 +44,26 @@ class OrderInvoiceService
         return $pdf->download('order_invoice_' . $invoice->invoice_number . '.pdf');
     }
 
+    private function deleteExistingInvoice(Order $order): void
+    {
+        OrderInvoice::where('order_id', $order->id)->delete();
+    }
+
+    private function getShipmentInvoices(Order $order)
+    {
+        return ShipmentInvoice::whereIn(
+            'shipment_id',
+            $order->shipments->pluck('id')
+        )->get();
+    }
+
     private function generateOrderInvoiceNumber(): int
     {
-        $last = OrderInvoice::max('invoice_number') ?? 50000;
-        return $last + 1;
+        return (OrderInvoice::max('invoice_number') ?? 50000) + 1;
+    }
+
+    private function buildInvoiceNotes(Order $order): string
+    {
+        return 'فاتورة مجمعة للطلب #' . $order->order_number;
     }
 }
