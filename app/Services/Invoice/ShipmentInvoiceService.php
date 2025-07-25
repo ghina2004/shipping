@@ -3,20 +3,22 @@
 namespace App\Services\Invoice;
 
 use App\Enums\Invoice\InvoiceType;
+use App\Exceptions\Types\CustomException;
 use App\Models\ShipmentInvoice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
-
 
 class ShipmentInvoiceService
 {
     public function createInvoice(array $data, int $shipmentId): ShipmentInvoice
     {
+        $this->ensureNoExistingInvoice($shipmentId);
+
         $data['shipment_id'] = $shipmentId;
         $data['invoice_number'] = $this->generateInvoiceNumber();
         $data['invoice_type'] = InvoiceType::from($data['invoice_type']);
 
-        return ShipmentInvoice::query()->create($data);
+        return ShipmentInvoice::create($data);
     }
 
     public function showInvoice(int $invoiceId): ShipmentInvoice
@@ -52,7 +54,13 @@ class ShipmentInvoiceService
 
     private function generateInvoiceNumber(): int
     {
-        $lastOrderNumber = ShipmentInvoice::max('invoice_number') ?? 10000;
-        return $lastOrderNumber + 1;
+        return (ShipmentInvoice::max('invoice_number') ?? 10000) + 1;
+    }
+
+    private function ensureNoExistingInvoice(int $shipmentId): void
+    {
+        if (ShipmentInvoice::where('shipment_id', $shipmentId)->exists()) {
+            throw new CustomException(__('invoice.shipment_invoice_already_exists'), 422);
+        }
     }
 }

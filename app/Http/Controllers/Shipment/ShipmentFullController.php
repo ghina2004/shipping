@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Shipment\ShipmentFullRequest;
 use App\Http\Resources\ShipmentFullResource;
 use App\Models\Shipment;
+use App\Services\Shipment\ShipmentDocument\ShipmentDocumentService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use App\Services\Shipment\ShipmentService;
@@ -18,7 +19,7 @@ class ShipmentFullController extends Controller
         protected ShipmentService $shipmentService,
         protected SupplierService $supplierService,
         protected ShipmentAnswerService $shipmentAnswerService,
-         protected ShipmentDocumentService $shipmentDocumentService,
+        protected ShipmentDocumentService $shipmentDocumentService,
     ) {}
 
     public function show($shipmentId)

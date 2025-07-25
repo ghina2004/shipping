@@ -18,7 +18,7 @@ class CartResource extends JsonResource
             ),
         ];
 
-        if (! $user->hasRole('customer')) {
+        if (!$user->hasRole('customer')) {
             $data['employee_id'] = $this->employee_id;
             $data['accountant_id'] = $this->accountant_id ?? null;
             $data['shipping_manager_id'] = $this->shipping_manager_id;

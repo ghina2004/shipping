@@ -48,5 +48,7 @@ return [
         'answers' => 'الإجابات',
         'answers.*.shipment_question_id' => 'معرّف السؤال',
         'answers.*.answer' => 'الإجابة',
+
+        'message' => 'الرسالة'
 ]
     ];

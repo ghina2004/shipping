@@ -13,4 +13,8 @@ class OrderInvoice extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function orderPayment()
+    {
+        return $this->hasOne(OrderPayment::class, 'order_invoice_id');
+    }
 }

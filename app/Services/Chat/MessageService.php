@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
@@ -37,19 +38,21 @@ class MessageService
     private function getOrCreateConversation(Order $order, int $userId): Conversation
     {
         if ($order->conversation) {
-            if (! $this->userBelongsToOrder(Auth::user(), $order)) {
-                throw new CustomException(__('chat.unauthorized'), 403);            }
+            if (!$this->userBelongsToOrder(Auth::user(), $order)) {
+                throw new CustomException(__('chat.unauthorized'), 403);
+            }
             return $order->conversation;
         }
 
-        if($order->employee_id) {
+        if ($order->employee_id) {
             return Conversation::create([
                 'sender_id' => $userId,
                 'receiver_id' => $this->resolveReceiverId($order, $userId),
                 'order_id' => $order->id,
             ]);
         }
-        else throw new CustomException(__('chat.unauthorized'), 403);
+
+        throw new CustomException(__('chat.can_not_send_yet'), 403);
     }
 
     private function storeMessage(int $conversationId, int $senderId, string $messageText): Message

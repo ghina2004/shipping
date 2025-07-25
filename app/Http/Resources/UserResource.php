@@ -25,7 +25,7 @@ class UserResource extends JsonResource
         ];
 
         if ($this->hasRole('customer')) {
-            $data['commercial_register'] = optional($this->media->firstWhere('type', MediaType::COMMERCIAL_REGISTER))?->url;
+            $data['commercial_register'] = optional($this->media?->firstWhere('type', MediaType::COMMERCIAL_REGISTER))?->url;
         }
 
         return $data;

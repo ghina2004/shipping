@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-
     use ResponseTrait;
 
     public function __construct(protected CartService $cartService) {}
@@ -24,9 +23,10 @@ class CartController extends Controller
     public function showShipmentsCart()
     {
         $user=auth()->user();
+
         $cart = $this->cartService->showShipmentsCart($user);
 
-        return self::Success(new CartResource($cart), __('cart.shipments_shown'));
+        return self::Success(CartResource::collection($cart), __('cart.shipments_shown'));
     }
     public function send()
     {

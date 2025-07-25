@@ -69,20 +69,20 @@
 <header>
     <div class="title">{{ __('invoice.title') }}</div>
     <div>{{ __('invoice.invoice_number') }}: {{ $invoice->invoice_number }}</div>
-    <div>{{ __('invoice.date') }}: {{ $invoice->created_at->format('Y-m-d') }}</div>
+    <div>{{ __('invoice.date') }}: {{ optional($invoice->created_at)->format('Y-m-d') }}</div>
 </header>
 
 <div class="section-title">{{ __('invoice.shipment_details') }}</div>
 <table>
     <tr>
         <th>{{ __('invoice.shipment_number') }}</th>
-        <td>{{ $invoice->shipment->number }}</td>
+        <td>{{ $invoice->shipment->number ?? '---' }}</td>
         <th>{{ __('invoice.customer') }}</th>
         <td>{{ $invoice->shipment->customer_name ?? '---' }}</td>
     </tr>
     <tr>
         <th>{{ __('invoice.shipment_date') }}</th>
-        <td>{{ $invoice->shipment->created_at->format('Y-m-d') }}</td>
+        <td>{{ optional($invoice->shipment->created_at)->format('Y-m-d') }}</td>
         <th>{{ __('invoice.invoice_type') }}</th>
         <td>
             {{ $invoice->invoice_type === 'initial'
