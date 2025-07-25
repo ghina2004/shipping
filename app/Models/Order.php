@@ -50,5 +50,9 @@ class Order extends Model
         return $this->hasOne(Conversation::class);
     }
 
+    public function orderRoute(){
+        return $this->hasOne(OrdertRoute::class);
+    }
+
 
 }

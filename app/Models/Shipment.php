@@ -39,9 +39,7 @@ class Shipment extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function shipmentRoute(){
-        return $this->hasOne(ShipmentRoute::class);
-    }
+
 
     public function shipmentNotifications()
     {
