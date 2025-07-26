@@ -16,8 +16,9 @@ class CartService
 {
     public function createCart(User $user): void
     {
-        if(!$user->cart()) Cart::query()->create(['customer_id'=>$user['id']]);
+        Cart::query()->create(['customer_id'=>$user['id']]);
     }
+
     public function showShipmentsCart($user)
     {
         $cart = $user->cart;

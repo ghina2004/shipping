@@ -63,9 +63,20 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/accountant', 'showAccountantOrders');
             Route::get('/{orderId}', 'showOrder');
             Route::get('/shipments/{orderId}', 'showShipmentsOrder');
-            Route::get('/confirmed', 'confirmedOrders');
-            Route::get('/unconfirmed', 'unconfirmedOrders');
+
         });
+        Route::prefix('show/order')->controller(OrderController::class)->group(function () {
+            Route::get('/confirmed-customer', 'confirmedOrders')->middleware('can:show.confirmed.order');
+            Route::get('/unconfirmed-customer', 'unconfirmedOrders')->middleware('can:show.unconfirmed.order');
+        });
+
+
+        Route::prefix('shipment')->controller(ShipmentController::class)->group(function () {
+            Route::post('/', 'store')->middleware('can:create.shipment');
+            Route::get('/{shipmentId}', 'show');
+            Route::post('/update/{shipmentId}', 'update');
+        });
+
 
         Route::prefix('order/request')->controller(RequestOrderController::class)->group(function () {
             Route::get('/employee', 'showEmployeeOrderRequest');
@@ -86,11 +97,7 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{id}','destroy');
         });
 
-        Route::prefix('shipment')->controller(ShipmentController::class)->group(function () {
-            Route::post('/', 'store');//->middleware('permission:create.shipment');
-            Route::get('/{shipmentId}', 'show');
-            Route::post('/update/{shipmentId}', 'update');
-        });
+
 
         Route::prefix('shipment')->controller(ShipmentStatusController::class)->group(function () {
             Route::get('/complete-info/{shipment}', 'changeToComplete');
@@ -114,25 +121,23 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{id}','destroy');
         });
         Route::prefix('carts')->controller(CartController::class)->group(function () {
-            Route::get('/cartshipments', 'showShipmentsCart');
-            Route::get('/send', 'send');
+            Route::get('/cartshipments', 'showShipmentsCart')->middleware('can:show.shipments.cart');
+            Route::get('/send', 'send')->middleware('can:send.shipments.cart');
 
         });
 
         Route::prefix('shipment-answers')->group(function () {
-            Route::post('/', [ShipmentAnswerController::class, 'store']);//->middleware('can:create.answer');
+            Route::post('/', [ShipmentAnswerController::class, 'store'])->middleware('can:create.answer');
             Route::get('{shipmentAnswer}', [ShipmentAnswerController::class, 'show']);
             Route::put('{shipmentAnswer}', [ShipmentAnswerController::class, 'update']);
             Route::delete('{shipmentAnswer}', [ShipmentAnswerController::class, 'destroy']);
         });
-        Route::prefix('supplier')->group(function () {
-            Route::post('/', [SupplierController::class, 'store']);//->middleware('can:create.supplier');
-        });
+
 
         Route::prefix('shipment-full')->controller(ShipmentFullController::class)->group(function () {
-            Route::get('/{shipmentId}',  'show');//->middleware('can:show.shipment.full');
-            Route::post('/{shipmentId}',  'update');//->middleware('can:update.shipment.full');
-            Route::post('/{shipmentId}',  'delete');//->middleware('can:delete.shipment.full');
+            Route::get('/{shipmentId}',  'show')->middleware('can:show.shipment.full');
+            Route::post('/{shipmentId}',  'update')->middleware('can:update.shipment.full');
+            Route::delete('/{shipmentId}',  'delete')->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
             Route::post('/',  'store');//->middleware('can:create.answer');
@@ -169,6 +174,8 @@ Route::middleware(['locale'])->group(function () {
         });
 
     });
+
+
 });
 
 

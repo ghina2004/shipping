@@ -48,12 +48,18 @@ class OrderService
 
     public function getConfirmedOrdersForUser()
     {
-        return Auth::user()->orderCustomers()->where('status', true)->get();
+        $user = Auth::user()->load(['orderCustomers' => function ($query) {
+            $query->where('status', true)->with('shipments');
+        }]);
+        return $user->orderCustomers;
     }
 
+
     public function getUnconfirmedOrdersForUser()
-    {
-        return Auth::user()->orderCustomers()->where('status', false)->get();
+    { $user = Auth::user()->load(['orderCustomers' => function ($query) {
+        $query->where('status', false)->with('shipments');
+    }]);
+        return $user->orderCustomers;
     }
 
 }

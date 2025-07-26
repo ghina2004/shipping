@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
+            $table->foreignId('cart_id')->nullable()->constrained('carts')->onDelete('cascade');
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->constrained('categories');
-            $table->foreignId('Supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
             $table->string('number')->unique();
             $table->date('shipping_date');
             $table->string('service_type');
@@ -28,9 +28,9 @@ return new class extends Migration
             $table->integer('containers_numbers')->nullable();
             $table->text('employee_notes')->nullable();
             $table->text('customer_notes')->nullable();
-            $table->boolean('is_information_complete')->default('0');
-            $table->boolean('is_confirm')->default('0');
-            $table->boolean('having_supplier')->default('0');
+            $table->boolean('is_information_complete')->default(0);
+            $table->boolean('is_confirm')->default(0);
+            $table->boolean('having_supplier')->default(0);
             $table->timestamps();
         });
     }

@@ -29,6 +29,7 @@ class ShipmentFullController extends Controller
 
         $shipment->loadMissing(['shipmentSupplier', 'answersShipment' ,'shipmentDocuments']);
 
+
         return self::Success(new ShipmentFullResource($shipment), __('success'));
     }
 
@@ -50,7 +51,7 @@ class ShipmentFullController extends Controller
             $shipment = $this->shipmentService->update( $shipmentData, $shipmentId);
 
 
-            $supplierData = collect($data)->only([
+            $supplierData = collect($data['supplier'] ?? [])->only([
                 'name', 'address', 'contact_email', 'contact_phone'
             ])->toArray();
 
@@ -69,15 +70,18 @@ class ShipmentFullController extends Controller
                     }
                 }
             }
-            if (!empty($data['lab_invoice'])) {
-                $existingDocument = $shipment->shipmentDocuments()->where('type', 'lab_invoice')->first();
+            if (!empty($data['sup_invoice'])) {
+                $shipment->load('shipmentDocuments');
+                $existingDocument = $shipment->shipmentDocuments->firstWhere('type', 'sup_invoice');
 
                 if ($existingDocument) {
                     // ✅ تعديل المستند الحالي
-                    $this->shipmentDocumentService->updateShipmentDocument($existingDocument, $data['lab_invoice']
+                    $this->shipmentDocumentService->updateShipmentDocument($existingDocument, $data['sup_invoice']
                     );
                 }
             }
+            $shipment->load(['shipmentSupplier', 'answersShipment', 'shipmentDocuments']);
+
 
             return self::Success(new ShipmentFullResource($shipment), __('success'));
         });
@@ -96,9 +100,10 @@ class ShipmentFullController extends Controller
         if ($shipment->shipmentSupplier) {
             $this->supplierService->delete($shipment->shipmentSupplier);
         }
-
-        if ($shipment->shipmentDocuments ) {
-            $this->shipmentDocumentService->deleteShipmentDocument($shipment->shipmentDocuments);
+        if ($shipment->shipmentDocuments) {
+            foreach ($shipment->shipmentDocuments as $document) {
+                $this->shipmentDocumentService->deleteShipmentDocument($document);
+            }
         }
 
         $this->shipmentService->delete($shipment);

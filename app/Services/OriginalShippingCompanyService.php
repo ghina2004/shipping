@@ -6,7 +6,7 @@ use App\Models\OriginalShippingCompany;
 
 class OriginalShippingCompanyService
 {
-    public function all()
+    public function index()
     {
         return OriginalShippingCompany::all();
     }

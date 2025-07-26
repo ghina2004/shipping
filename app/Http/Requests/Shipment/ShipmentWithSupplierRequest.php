@@ -28,12 +28,19 @@ class ShipmentWithSupplierRequest extends FormRequest
             'containers_numbers' => 'nullable|integer',
             'customer_notes' => 'nullable|string|max:1000',
             'employee_notes'=> 'nullable|string|max:1000',
+            'is_information_complete' => 'nullable|boolean',
+            'is_confirm' => 'nullable|boolean',
+
+
 
             'having_supplier' => 'required|boolean',
             'supplier.name' => 'required_if:having_supplier,1|string|max:255',
             'supplier.address' => 'required_if:having_supplier,1|string|max:255',
             'supplier.contact_email' => 'required_if:having_supplier,1|email',
             'supplier.contact_phone' => 'required_if:having_supplier,1|numeric',
+
+
+            'sup_invoice' => 'required_if:having_supplier,true|file|mimes:pdf,jpg,png,docx',
         ];
     }
 }
