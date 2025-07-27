@@ -49,10 +49,15 @@ class MediaService
     private function storeFile(UploadedFile $file, string $folder): string
     {
         $filename = Str::random(32) . "." . time() . '.' . $file->getClientOriginalExtension();
-        $filePath = $folder . '/' . $filename;
 
-        Storage::disk('public')->put($filePath, file_get_contents($file));
+        $destinationPath = public_path($folder);
 
-        return $filePath;
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $file->move($destinationPath, $filename);
+
+        return $folder . '/' . $filename;
     }
 }

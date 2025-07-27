@@ -18,7 +18,7 @@ class ShipmentDocumentResource extends JsonResource
             'id' => $this->id,
             'shipment_id' => $this->shipment_id,
             'type' => $this->type,
-            'file_path' => asset('storage/' . $this->file_path),
+            'file_path' => asset($this->file_path),
             'uploaded_by' => $this->uploaded_by,
             'visible_to_customer' => $this->visible_to_customer,
 
