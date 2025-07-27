@@ -51,8 +51,9 @@ class AuthService
             throw new CustomException(__('auth.not_verified'), 400);
         }
 
-        if(!$user->cart()) $this->cartService->createCart($user);
-
+        if (!$user->cart()->exists() && $user->hasRole('customer')) {
+            $this->cartService->createCart($user);
+        }
         return $user;
     }
 

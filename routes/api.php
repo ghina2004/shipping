@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\MessageSent;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
