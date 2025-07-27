@@ -42,10 +42,10 @@ class AuthService
         $user = User::query()->where('email', $request['email'])->first();
 
         if (! $user || ! Hash::check($request['password'], $user['password'])) {
-            throw new CustomException(__('auth.incorrect_credentials'), 400);
+            throw new CustomException(('auth.incorrect_credentials'), 400);
         }
         if($user->email_verified_at == null) {
-            throw new CustomException(__('auth.not_verify_code'), 400);
+            throw new CustomException(('auth.not_verify_code'), 400);
         }
         if($user->is_verified == 0) {
             throw new CustomException(__('auth.not_verified'), 400);

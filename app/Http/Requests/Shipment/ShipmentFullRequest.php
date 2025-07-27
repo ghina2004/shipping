@@ -30,10 +30,10 @@ class ShipmentFullRequest extends FormRequest
             'is_confirm' => ['sometimes', 'boolean'],
 
             // Supplier fields
-            'name' => ['sometimes', 'string'],
-            'address' => ['sometimes', 'string'],
-            'contact_email' => ['sometimes', 'email'],
-            'contact_phone' => ['sometimes', 'string'],
+            'supplier.name' => ['sometimes', 'string'],
+            'supplier.address' => ['sometimes', 'string'],
+            'supplier.contact_email' => ['sometimes', 'email'],
+            'supplier.contact_phone' => ['sometimes', 'string'],
 
             // Answers (array of shipment answer updates)
             'answers' => ['sometimes', 'array'],
@@ -41,7 +41,7 @@ class ShipmentFullRequest extends FormRequest
             'answers.*.answer' => ['sometimes', 'string'],
 
             //document
-            'lab_invoice' => 'sometimes|file|mimes:pdf,jpg,png,docx',
+            'sup_invoice' => 'sometimes|file|mimes:pdf,jpg,png,docx',
         ];
 
     }

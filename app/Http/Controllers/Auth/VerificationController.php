@@ -36,16 +36,15 @@ class VerificationController extends Controller
         $this->cartService = $cartService;
     }
 
-    /**
-     * @throws CustomException
-     */
     public function verifyAuthCode(UserCodeCheckRequest $request, $userId): JsonResponse
     {
         $user = $this->verificationService->verifyCode($request->validated(),$userId);
 
         $token = $this->authService->generateToken($user);
 
-        $this->cartService->createCart($userId);
+        $user = User::findOrFail($userId);
+
+        $this->cartService->createCart($user);
 
         return self::Success([
             'user' => new UserResource($user),

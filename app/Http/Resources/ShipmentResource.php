@@ -12,7 +12,7 @@ class ShipmentResource extends JsonResource
             'id' => $this->id,
             'cart_id'=>$this->cart_id ,
             'category_id' => $this->category_id,
-            'Supplier_id' => $this->Supplier_id,
+            'supplier_id' => $this->supplier_id,
             'number' => $this->number,
             'shipping_date' => $this->shipping_date,
             'service_type' => $this->service_type,
@@ -24,8 +24,9 @@ class ShipmentResource extends JsonResource
             'containers_numbers' => $this->containers_numbers,
             'employee_notes' => $this->employee_notes,
             'customer_notes' => $this->customer_notes,
-            'is_information_complete' => $this->is_information_complete,
-            'is_confirm' => $this->is_confirm,
+            'is_information_complete' => (int) $this->is_information_complete,
+            'is_confirm' => (int) $this->is_confirm,
+            'having_supplier' => $this->having_supplier,
         ];
     }
 }

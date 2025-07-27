@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ShipmentRoute extends Model
+class OrdertRoute extends Model
 {
     protected $fillable =[
-        'order_id', 'tracking_number' ,'tracking_link'
+        'order_id', 'tracking_number' ,'tracking_link','status'
     ];
 
     public function order(){
-        return $this->belongsTo(Shipment::class);
+        return $this->belongsTo(Order::class);
     }
 }

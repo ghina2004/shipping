@@ -16,7 +16,7 @@ class ShipmentDocumentRequest extends FormRequest
     {
         return [
             'shipment_id' => 'required|exists:shipments,id',
-            'lab_invoice' => 'required|file|mimes:pdf,jpg,png,docx',
+            'sup_invoice' => 'required|file|mimes:pdf,jpg,png,docx',
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\Shipment\ShipmentRequest;
 use App\Http\Requests\Shipment\ShipmentWithSupplierRequest;
 use App\Http\Requests\Shipment\UpdateShipmentRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ShipmentDocumentResource;
 use App\Http\Resources\ShipmentResource;
 use App\Http\Resources\SupplierResource;
 use App\Models\Shipment;
@@ -27,6 +28,7 @@ class ShipmentController extends Controller
         return self::success([
             'shipment'   => new ShipmentResource($result['shipment']),
             'supplier' => $result['supplier'] ? new SupplierResource($result['supplier']) : null,
+            'document' => $result['document'] ? new ShipmentDocumentResource($result['document']) : null,
         ], __('shipment.created_successfully'));
     }
 

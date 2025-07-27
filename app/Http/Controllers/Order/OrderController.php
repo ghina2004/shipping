@@ -72,7 +72,7 @@ class OrderController extends Controller
         $orders = $this->orderService->getConfirmedOrdersForUser();
 
         return self::Success([
-            'order' => new OrderResource($orders),
+            'order' =>  OrderResource::collection($orders),
         ], __('success'));
     }
 
@@ -80,7 +80,7 @@ class OrderController extends Controller
     {
         $orders = $this->orderService->getUnconfirmedOrdersForUser();
         return self::Success([
-            'order' => new OrderResource($orders),
+            'order' =>  OrderResource::collection($orders),
         ], __('success'));
     }
 

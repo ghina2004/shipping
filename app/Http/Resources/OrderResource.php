@@ -14,7 +14,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'customer_id' => $this->customer_id,
             'order_number' => $this->order_number,
-            'status'=> $this->status,
+            'status'=>(int) $this->status,
             'original_company_id'   => $this->original_company_id,
             'shipments'   => ShipmentResource::collection(
                 $this->whenLoaded('shipments')

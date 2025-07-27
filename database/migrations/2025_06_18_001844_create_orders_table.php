@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
@@ -17,18 +15,16 @@ return new class extends Migration
             $table->foreignId('employee_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('shipping_manager_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('accountant_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->string('order_number')->unique();
-            $table->boolean('status')->default('0'); //confirm or not
-            $table->boolean('placement')->default('0');
-            $table->boolean('has_accountant')->default('0');
             $table->foreignId('original_company_id')->nullable()->constrained('original_shipping_companies')->onDelete('cascade');
+            $table->string('order_number')->unique();
+            $table->boolean('status')->default(0); //confirm or not
+            $table->boolean('placement')->default(0);
+            $table->boolean('has_accountant')->default(0);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('orders');
