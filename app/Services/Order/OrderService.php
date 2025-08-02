@@ -62,4 +62,20 @@ class OrderService
         return $user->orderCustomers;
     }
 
+    public function getUnconfirmedOrders()
+    { $user = Auth::user()->load(['orderCustomers' => function ($query) {
+        $query->where('status', false);
+    }]);
+        return $user->orderCustomers;
+    }
+    public function getConfirmedOrders()
+    {
+        $user = Auth::user()->load(['orderCustomers' => function ($query) {
+            $query->where('status', true);
+        }]);
+        return $user->orderCustomers;
+    }
+
+
+
 }

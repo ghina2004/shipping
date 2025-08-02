@@ -41,7 +41,7 @@ class ShipmentFullRequest extends FormRequest
             'answers.*.answer' => ['sometimes', 'string'],
 
             //document
-            'sup_invoice' => 'sometimes|file|mimes:pdf,jpg,png,docx',
+            'sup_invoice' => 'sometimes|file|mimes:pdf,docx',
         ];
 
     }

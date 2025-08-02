@@ -26,8 +26,8 @@ class CartService
         if (!$cart) {
             throw new ModelNotFoundException('Cart not found.');
         }
-
-        return $cart->with('shipments')->get();
+        $cart->load('shipments');
+        return $cart;
     }
 
     public function sendCart($user)

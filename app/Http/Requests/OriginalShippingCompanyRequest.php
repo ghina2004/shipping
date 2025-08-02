@@ -18,7 +18,7 @@ class OriginalShippingCompanyRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'contact_email' => 'required|email',
-            'contact_phone' => 'nullable|numeric|max:20',
+            'contact_phone' => 'nullable|digits_between:8,20',
             'address' => 'required|string|max:255',
         ];
     }

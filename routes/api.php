@@ -68,6 +68,8 @@ Route::middleware(['locale'])->group(function () {
         Route::prefix('show/order')->controller(OrderController::class)->group(function () {
             Route::get('/confirmed-customer', 'confirmedOrders')->middleware('can:show.confirmed.order');
             Route::get('/unconfirmed-customer', 'unconfirmedOrders')->middleware('can:show.unconfirmed.order');
+            Route::get('/showConfirmed-customer', 'showConfirmedOrders');//->middleware('can:show.unconfirmed.order');
+            Route::get('/showUnconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
         });
 
 
@@ -121,8 +123,8 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{id}','destroy');
         });
         Route::prefix('carts')->controller(CartController::class)->group(function () {
-            Route::get('/cartshipments', 'showShipmentsCart')->middleware('can:show.shipments.cart');
-            Route::get('/send', 'send')->middleware('can:send.shipments.cart');
+            Route::get('/cartshipments', 'showShipmentsCart');//->middleware('can:show.shipments.cart');
+            Route::get('/send', 'send');//->middleware('can:send.shipments.cart');
 
         });
 
@@ -140,11 +142,12 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{shipmentId}',  'delete')->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
-            Route::post('/',  'store');//->middleware('can:create.answer');
-            Route::get('{originalShippingCompany}', 'show');
-            Route::put('{originalShippingCompany}',  'update');
-            Route::delete('{originalShippingCompany}',  'destroy');
-            Route::post('/{order}',  'addAndAssignCompany');
+            Route::post('/',  'store');//->middleware('can:create.company');
+            Route::get('{originalShippingCompany}', 'show');//->middleware('can:show.company');
+            Route::put('{originalShippingCompany}',  'update');//->middleware('can:update.company');
+            Route::delete('{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
+            Route::post('/{order}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
+            Route::post('/{order}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {

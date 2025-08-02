@@ -26,7 +26,7 @@ class CartController extends Controller
 
         $cart = $this->cartService->showShipmentsCart($user);
 
-        return self::Success(CartResource::collection($cart), __('cart.shipments_shown'));
+        return self::Success( new CartResource($cart), __('cart.shipments_shown'));
     }
     public function send()
     {

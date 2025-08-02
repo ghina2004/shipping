@@ -84,4 +84,22 @@ class OrderController extends Controller
         ], __('success'));
     }
 
+    public function showConfirmedOrders()
+    {
+        $orders = $this->orderService->getConfirmedOrders();
+
+        return self::Success([
+            'order' =>  OrderResource::collection($orders),
+        ], __('success'));
+    }
+
+    public function showUnconfirmedOrders()
+    {
+        $orders = $this->orderService->getUnconfirmedOrders();
+
+        return self::Success([
+            'order' =>  OrderResource::collection($orders),
+        ], __('success'));
+    }
+
 }

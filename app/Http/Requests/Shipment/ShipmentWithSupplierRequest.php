@@ -40,7 +40,7 @@ class ShipmentWithSupplierRequest extends FormRequest
             'supplier.contact_phone' => 'required_if:having_supplier,1|numeric',
 
 
-            'sup_invoice' => 'required_if:having_supplier,true|file|mimes:pdf,jpg,png,docx',
+            'sup_invoice' => 'required_if:having_supplier,true|file|mimes:pdf,docx',
         ];
     }
 }

@@ -19,7 +19,7 @@ class SupplierRequest extends FormRequest
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact_email' => 'required|email',
-            'contact_phone' => 'required|numeric',
+            'contact_phone' => 'nullable|digits_between:8,20'
         ];
     }
 }

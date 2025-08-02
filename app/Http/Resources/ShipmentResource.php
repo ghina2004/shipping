@@ -26,7 +26,7 @@ class ShipmentResource extends JsonResource
             'customer_notes' => $this->customer_notes,
             'is_information_complete' => (int) $this->is_information_complete,
             'is_confirm' => (int) $this->is_confirm,
-            'having_supplier' => $this->having_supplier,
+            'having_supplier' => (int) $this->having_supplier,
         ];
     }
 }

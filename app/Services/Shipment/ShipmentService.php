@@ -36,13 +36,13 @@ class ShipmentService
             $document = null;
 
             if (!empty($data['having_supplier']) && $data['having_supplier']) {
-                // إنشاء المعمل
+
                 $supplierData = $data['supplier'] ?? [];
                 $supplierData['user_id'] = $user->id;
                 $supplier = Supplier::create($supplierData);
             }
             $dataWithoutSupplier = collect($data)->except(['supplier', 'sup_invoice'])->toArray();
-            // إنشاء الشحنة
+
             $shipment = Shipment::create(array_merge($dataWithoutSupplier, [
                 'cart_id' => $cart->id,
                 'supplier_id' => $supplier?->id,
@@ -51,7 +51,6 @@ class ShipmentService
                 'shipping_method' => ShippingMethod::from($data['shipping_method']),
             ]));
 
-            // إذا يوجد ملف، خزنه
             if (!empty($data['sup_invoice'])) {
                 $filePath = FileHelper::upload($data['sup_invoice'], 'shipment_documents');
 
