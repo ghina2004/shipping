@@ -18,7 +18,6 @@ class CartService
     {
         Cart::query()->create(['customer_id'=>$user['id']]);
     }
-
     public function showShipmentsCart($user)
     {
         $cart = $user->cart;
