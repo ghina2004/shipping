@@ -30,8 +30,10 @@ class OrderInvoiceController extends Controller
         ], 'Invoice created successfully');
     }
 
-    public function show(OrderInvoice $invoice): JsonResponse
+    public function show(Order $order): JsonResponse
     {
+        $invoice = $this->invoiceService->show($order);
+
         return self::Success([
             'invoice' => new InvoiceOrderResource($invoice)
         ],'invoice shown successfully');

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('cart_id')->nullable()->constrained('carts')->onDelete('cascade');
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->constrained('categories');
-            $table->foreignId('Supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
             $table->string('number')->unique();
             $table->date('shipping_date');
             $table->string('service_type');

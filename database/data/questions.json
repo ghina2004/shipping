@@ -1,0 +1,166 @@
+{
+    "توصيل داخلي / Local Delivery": [
+        {
+            "text_ar": "ما عنوان المرسل؟",
+            "text_en": "What is the sender's address?",
+            "type": "text"
+        },
+        {
+            "text_ar": "ما عنوان المستلم؟",
+            "text_en": "What is the recipient's address?",
+            "type": "text"
+        },
+        {
+            "text_ar": "هل هناك موعد تسليم محدد؟",
+            "text_en": "Is there a specific delivery time?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        },
+        {
+            "text_ar": "ما نوع الطرد؟",
+            "text_en": "What is the parcel type?",
+            "type": "select",
+            "options": ["وثائق|Documents", "طرد صغير|Small Parcel", "طرد كبير|Large Parcel"]
+        },
+        {
+            "text_ar": "هل الطرد قابل للكسر؟",
+            "text_en": "Is the parcel fragile?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        }
+    ],
+    "توصيل دولي / International Shipping": [
+        {
+            "text_ar": "ما البلد المستلم؟",
+            "text_en": "What is the destination country?",
+            "type": "text"
+        },
+        {
+            "text_ar": "هل يحتوي الطرد على بطاريات؟",
+            "text_en": "Does the package contain batteries?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        },
+        {
+            "text_ar": "نوع الخدمة المطلوبة؟",
+            "text_en": "What type of service is needed?",
+            "type": "select",
+            "options": ["سريع|Express", "عادي|Standard"]
+        },
+        {
+            "text_ar": "هل ترغب بالتأمين على الطرد؟",
+            "text_en": "Do you want to insure the package?",
+            "type": "checkbox",
+            "options": ["نعم|Yes"]
+        }
+    ],
+    "نقل مبرد / Refrigerated Transport": [
+        {
+            "text_ar": "هل الطرد يحتاج تبريد خاص؟",
+            "text_en": "Does the package require special refrigeration?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        },
+        {
+            "text_ar": "درجة الحرارة المطلوبة؟",
+            "text_en": "Required temperature?",
+            "type": "text"
+        },
+        {
+            "text_ar": "نوع المادة المنقولة؟",
+            "text_en": "Type of material being shipped?",
+            "type": "select",
+            "options": ["طعام|Food", "دواء|Medicine", "مواد كيميائية|Chemicals"]
+        }
+    ],
+    "شحن بضائع / Freight Shipping": [
+        {
+            "text_ar": "وزن الشحنة؟",
+            "text_en": "Shipment weight?",
+            "type": "text"
+        },
+        {
+            "text_ar": "حجم الشحنة؟",
+            "text_en": "Shipment volume?",
+            "type": "text"
+        },
+        {
+            "text_ar": "هل تحتوي الشحنة على مواد خطرة؟",
+            "text_en": "Does it contain hazardous materials?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        }
+    ],
+    "توصيل مستندات / Document Delivery": [
+        {
+            "text_ar": "نوع الوثائق؟",
+            "text_en": "Type of documents?",
+            "type": "select",
+            "options": ["جواز سفر|Passport", "عقد|Contract", "شهادة|Certificate"]
+        },
+        {
+            "text_ar": "هل الوثائق حساسة؟",
+            "text_en": "Are the documents sensitive?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        }
+    ],
+    "شحن إلكترونيات / Electronics Shipping": [
+        {
+            "text_ar": "نوع الجهاز؟",
+            "text_en": "Type of device?",
+            "type": "select",
+            "options": ["هاتف|Phone", "لابتوب|Laptop", "تابلت|Tablet"]
+        },
+        {
+            "text_ar": "هل يتطلب تغليف خاص؟",
+            "text_en": "Does it require special packaging?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        }
+    ],
+    "توصيل شخصي / Personal Pickup": [
+        {
+            "text_ar": "اسم المستلم؟",
+            "text_en": "Recipient name?",
+            "type": "text"
+        },
+        {
+            "text_ar": "رقم هوية المستلم؟",
+            "text_en": "Recipient ID number?",
+            "type": "text"
+        }
+    ],
+    "توصيل ليلي / Overnight Delivery": [
+        {
+            "text_ar": "هل الشحنة جاهزة للاستلام الليلة؟",
+            "text_en": "Is the package ready tonight?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        },
+        {
+            "text_ar": "هل يتم التسليم في نفس اليوم؟",
+            "text_en": "Should delivery be same-day?",
+            "type": "radio",
+            "options": ["نعم|Yes", "لا|No"]
+        }
+    ],
+    "توصيل شركات / B2B Delivery": [
+        {
+            "text_ar": "اسم الشركة المستفيدة؟",
+            "text_en": "Receiving company name?",
+            "type": "text"
+        },
+        {
+            "text_ar": "الرقم الضريبي؟",
+            "text_en": "Tax number?",
+            "type": "text"
+        },
+        {
+            "text_ar": "نوع الخدمة؟",
+            "text_en": "Service type?",
+            "type": "select",
+            "options": ["استلام يومي|Daily pickup", "استلام أسبوعي|Weekly pickup"]
+        }
+    ]
+}

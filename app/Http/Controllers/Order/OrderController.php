@@ -5,15 +5,11 @@ namespace App\Http\Controllers\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ShipmentResource;
-use App\Http\Resources\UserResource;
 use App\Models\Order;
-use App\Models\Status;
 use App\Services\Order\OrderRequestService;
 use App\Services\Order\OrderService;
-use App\Services\Shipment\ShipmentService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -27,7 +23,7 @@ class OrderController extends Controller
 
         return self::Success([
             'order' => OrderResource::collection($orders),
-        ], __('order.employee_orders_listed'));
+        ], ('order.employee_orders_listed'));
     }
 
     public function showShippingManagerOrders(): JsonResponse
@@ -36,7 +32,7 @@ class OrderController extends Controller
 
         return self::Success([
             'order' => OrderResource::collection($orders),
-        ], __('order.employee_orders_listed'));
+        ], ('order.employee_orders_listed'));
     }
 
     public function showAccountantOrders(): JsonResponse
@@ -45,7 +41,7 @@ class OrderController extends Controller
 
         return self::Success([
             'order' => OrderResource::collection($orders),
-        ], __('order.employee_orders_listed'));
+        ], ('order.employee_orders_listed'));
     }
 
     public function showOrder($orderId): JsonResponse
@@ -54,34 +50,41 @@ class OrderController extends Controller
 
         return self::Success([
             'order' => OrderResource::collection($orders),
-        ], __('order.order_details_retrieved'));
+        ], ('order.order_details_retrieved'));
     }
 
     public function showShipmentsOrder($orderId): JsonResponse
     {
         $shipments = $this->orderService->showShipmentsOrder($orderId);
+
         return self::Success([
             'shipments' => ShipmentResource::collection($shipments),
-        ], __('order.shipments_listed'));
+        ], ('order.shipments_listed'));
     }
 
 
-
-    public function confirmedOrders()
+    public function showConfirmedOrders()
     {
-        $orders = $this->orderService->getConfirmedOrdersForUser();
+        $orders = $this->orderService->getConfirmedOrders();
 
         return self::Success([
             'order' =>  OrderResource::collection($orders),
-        ], __('success'));
+        ], ('success'));
     }
 
-    public function unconfirmedOrders(): JsonResponse
+    public function showUnconfirmedOrders()
     {
-        $orders = $this->orderService->getUnconfirmedOrdersForUser();
+        $orders = $this->orderService->getUnconfirmedOrders();
+
         return self::Success([
             'order' =>  OrderResource::collection($orders),
-        ], __('success'));
+        ], ('success'));
     }
 
+    public function changeStatusToConfirm(Order $order)
+    {
+        $orderResource = $this->orderService->confirmOrder($order);
+
+        return self::Success([], __('Order confirmed successfully.'));
+    }
 }

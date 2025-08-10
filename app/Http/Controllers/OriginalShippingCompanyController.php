@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OriginalShippingCompanyRequest;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\OriginalShippingCompanyResource;
 use App\Models\Order;
 use App\Models\OriginalShippingCompany;
@@ -20,7 +21,7 @@ class OriginalShippingCompanyController extends Controller
 
     public function index()
     {
-        $companies = $this->service->all();
+        $companies = $this->service->index();
         return self::Success(OriginalShippingCompanyResource::collection($companies), __('companies showed successfully'));
     }
 
@@ -59,5 +60,16 @@ class OriginalShippingCompanyController extends Controller
 
         return self::Success(new OriginalShippingCompanyResource($company), __('company created and order updated successfully'));
 
+    }
+    public function selectCompany( Order $order, OriginalShippingCompany $company){
+        if ($order->original_company_id) {
+            return self::Error([],__('A company is already assigned to this order.'));
+        }
+
+        $order->update([
+            'original_company_id' => $company->id,
+        ]);
+
+        return self::Success(new OrderResource($order), __('company selected  successfully'));
     }
 }

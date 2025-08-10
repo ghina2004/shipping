@@ -75,7 +75,7 @@ class ShipmentFullController extends Controller
                 $existingDocument = $shipment->shipmentDocuments->firstWhere('type', 'sup_invoice');
 
                 if ($existingDocument) {
-                    // ✅ تعديل المستند الحالي
+
                     $this->shipmentDocumentService->updateShipmentDocument($existingDocument, $data['sup_invoice']
                     );
                 }

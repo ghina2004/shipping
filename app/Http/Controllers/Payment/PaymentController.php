@@ -3,23 +3,35 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Payment\PaymentRequest;
 use App\Models\OrderInvoice;
 use App\Services\Payment\StripePaymentService;
+use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 
 class PaymentController extends Controller
 {
+    use ResponseTrait;
     public function __construct(protected StripePaymentService $paymentService) {}
 
-    public function initial(OrderInvoice $invoice): JsonResponse
+    public function pay(OrderInvoice $invoice): JsonResponse
     {
-        $payment = $this->paymentService->handleInitialPayment($invoice);
-        return response()->json(['status' => 1, 'data' => $payment, 'message' => 'Initial payment created.']);
+        $result = $this->paymentService->pay($invoice);
+
+        return self::Success($result['data'], $result['message']);
     }
 
-    public function remaining(OrderInvoice $invoice): JsonResponse
+    public function verify(PaymentRequest $request): JsonResponse
     {
-        $payment = $this->paymentService->handleRemainingPayment($invoice);
-        return response()->json(['status' => 1, 'data' => $payment, 'message' => 'Remaining payment completed.']);
+        $invoice = OrderInvoice::query()->findOrFail($request['invoice_id']);
+
+        $result = $this->paymentService->verifyAndMarkPaid($invoice, $request['payment_intent_id']);
+
+        return self::Success(
+            $result,
+            $result['status'] === 'succeeded'
+                ? 'Payment verified and recorded.'
+                : 'Payment not yet succeeded.'
+        );
     }
 }

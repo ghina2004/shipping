@@ -12,7 +12,7 @@ class ShipmentFullResource extends JsonResource
     { return [
         'shipment' => new ShipmentResource($this),
         'supplier' => new SupplierResource($this->whenLoaded('shipmentSupplier')),
-            'answers' => ShipmentAnswerResource::collection($this->whenLoaded('answersShipment')),
+        'answers' => ShipmentAnswerResource::collection($this->whenLoaded('answersShipment')),
         'documents' =>  ShipmentDocumentResource::collection($this->whenLoaded('shipmentDocuments')),
         ];
     }
