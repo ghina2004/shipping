@@ -25,16 +25,28 @@ class PaymentInfoService
             'due_date'    => now()->addDays(15)->toDateString(),
         ]);
 
-        $total = (float) $invoice->total_final_amount;
-        $paid  = (float) $payment->paid_amount;
+        $total = round((float) $invoice->total_final_amount, 2);
+        $paid  = round((float) $payment->paid_amount, 2);
         $due   = max(0, round($total - $paid, 2));
 
-        $nextPhase  = $paid > 0 && $due > 0 ? 'remaining' : ($due > 0 ? 'initial' : null);
-        $nextAmount = $due;
+        $nextPhase = null;
+        if ($due > 0) {
+            $nextPhase = ($paid > 0) ? 'remaining' : 'initial';
+        }
 
-        $payment->setAttribute('total', $total);
-        $payment->setAttribute('paid', $paid);
-        $payment->setAttribute('due', $due);
+        // احسبي الدفعة التالية
+        if ($nextPhase === 'initial') {
+            $userStatus = optional($order->customer)->status ?? (optional(\Illuminate\Support\Facades\Auth::user())->status ?? 0);
+            $pct = ($userStatus === 0) ? 0.75 : 0.25;
+
+            $initialAmount = round($total * $pct, 2);
+            $nextAmount = min($due, $initialAmount);
+        } elseif ($nextPhase === 'remaining') {
+            $nextAmount = $due;
+        } else {
+            $nextAmount = 0.0;
+        }
+
         $payment->setAttribute('next_payment_phase', $nextPhase);
         $payment->setAttribute('next_payment_amount', $nextAmount);
 

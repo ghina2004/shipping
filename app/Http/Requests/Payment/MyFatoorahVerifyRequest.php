@@ -5,7 +5,7 @@ namespace App\Http\Requests\Payment;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PaymentRequest extends FormRequest
+class MyFatoorahVerifyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,9 @@ class PaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'invoice_id'        => ['required','integer','exists:order_invoices,id'],
-            'payment_intent_id' => ['required','string'],
+            'order_id'      => ['required','integer','exists:orders,id'],
+            'mf_invoice_id' => ['required_without:payment_id','string'],
+            'payment_id'    => ['required_without:mf_invoice_id','string'],
         ];
     }
 

@@ -18,9 +18,6 @@ class PaymentInfoResource extends JsonResource
             'paid_at'     => optional($this->paid_at)->toDateString(),
             'due_date'    => optional($this->due_date)->toDateString(),
 
-            'total'               => $this->total ?? null,
-            'paid'                => $this->paid ?? null,
-            'due'                 => $this->due ?? null,
             'next_payment_phase'  => $this->next_payment_phase ?? null,
             'next_payment_amount' => $this->next_payment_amount ?? null,
         ];

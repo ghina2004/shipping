@@ -12,16 +12,14 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\RequestOrderController;
 use App\Http\Controllers\Order\SendOrderController;
 use App\Http\Controllers\OriginalShippingCompanyController;
-use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\Payment\MyFatoorahPaymentController;
 use App\Http\Controllers\Payment\PaymentInfoController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
 use App\Http\Controllers\Shipment\ShipmentStatusController;
 use App\Http\Controllers\ShipmentFullController;
-use App\Http\Controllers\supplier\SupplierController;
 use App\Http\Controllers\User\CustomerRequestController;
-use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {
@@ -174,14 +172,23 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('payments')->middleware('auth:sanctum')->group(function () {
-            Route::get('pay/{invoice}', [PaymentController::class, 'pay']);
-            Route::post('verify',[PaymentController::class, 'verify']);
+
             Route::post('info/{order}',[PaymentInfoController::class, 'show']);
+
+         /*   Route::controller(StripePaymentController::class)->group(function () {
+                Route::post('pay/{order}', 'pay');
+                Route::post('verify','verify');
+            });*/
+
+            Route::controller(MyFatoorahPaymentController::class)->group(function () {
+                Route::post('pay', 'pay');
+                Route::post('verify','verify');
+                Route::get('callback', 'callback')->name('payments.myfatoorah.callback');
+            });
 
         });
 
     });
-
 
 });
 
