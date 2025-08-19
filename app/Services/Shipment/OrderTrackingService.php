@@ -3,45 +3,60 @@
 namespace App\Services\Shipment;
 
 use App\Enums\Status\OrderTrackingStatus;
-use App\Http\Requests\OrderRouteRequest;
-use App\Models\OrdertRoute;
+use App\Http\Requests\Rout\OrderRouteRequest;
+use App\Models\Order;
+use App\Models\OrderRoute;
 use App\Traits\ResponseTrait;
+use Illuminate\Support\Str;
 
 class OrderTrackingService
 {
     use ResponseTrait;
 
-    public function store(OrderRouteRequest $request)
+    public function store(array $data)
     {
-        $route = OrdertRoute::create($request->validated());
-        return self::Success(new OrderRouteResource($route), 'تم إنشاء مسار الطلب بنجاح');
+
+        $data['tracking_number'] = Str::upper(Str::random(5));
+
+        return OrderRoute::create($data);
+
     }
 
-    public function update(OrderRouteRequest $request, OrdertRoute $orderRoute)
+    public function show(OrderRoute $orderRoute): OrderRoute
     {
-        $orderRoute->update($request->validated());
-        return self::Success(new OrderRouteResource($orderRoute), 'تم تعديل المسار بنجاح');
+        return $orderRoute;
     }
 
-    public function destroy(OrdertRoute $orderRoute)
+    public function update(OrderRoute $orderRoute, array $data): OrderRoute
+    {
+
+        $orderRoute->update($data);
+        return $orderRoute;
+    }
+
+    public function delete(OrderRoute $orderRoute): void
     {
         $orderRoute->delete();
-        return self::Success(null, 'تم حذف المسار بنجاح');
     }
 
-    public function show(OrdertRoute $orderRoute)
+    public function showByOrderId(int $orderId): array
     {
-        return self::Success(new OrderRouteResource($orderRoute), 'تم جلب تفاصيل المسار بنجاح');
-    }
 
-    public function updateStatus(OrdertRoute $route, int $status)
-    {
-        if (!OrderTrackingStatus::tryFrom($status)) {
-            return ResponseTrait::Error(null, 'الحالة غير صالحة', 422);
+        $order = Order::with(['shipments', 'trackingLogs', 'orderRoutes'])->findOrFail($orderId);
+
+        $shippingMethod = $order->shipments->first()->shipping_method ?? null;
+
+        if ($shippingMethod === 'land') {
+            return [
+                'type' => 'land',
+                'logs' => $order->trackingLogs,
+            ];
         }
 
-        $route->update(['status' => $status]);
-
-        return ResponseTrait::Success($route->refresh(), 'تم تحديث حالة التتبع بنجاح');
+        return [
+            'type' => $shippingMethod,
+            'routes' => $order->orderRoutes,
+        ];
     }
+
 }

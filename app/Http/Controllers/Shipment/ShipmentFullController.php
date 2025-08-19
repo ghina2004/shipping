@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shipment;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Shipment\ShipmentFullRequest;
 use App\Http\Resources\ShipmentFullResource;
 use App\Models\Shipment;
-use App\Services\Shipment\ShipmentDocument\ShipmentDocumentService;
-use App\Traits\ResponseTrait;
-use Illuminate\Http\Request;
-use App\Services\Shipment\ShipmentService;
 use App\Services\Answer\ShipmentAnswerService;
+use App\Services\Shipment\ShipmentDocument\ShipmentDocumentService;
+use App\Services\Shipment\ShipmentService;
 use App\Services\Supplier\SupplierService;
+use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
 
 class ShipmentFullController extends Controller

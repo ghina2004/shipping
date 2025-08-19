@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Company;
 
-use App\Http\Requests\OriginalShippingCompanyRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\OriginalShippingCompanyRequest;
+use App\Http\Requests\Company\UpdateOriginalShippingCompanyRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OriginalShippingCompanyResource;
 use App\Models\Order;
 use App\Models\OriginalShippingCompany;
-use App\Services\OriginalShippingCompanyService;
+use App\Services\Company\OriginalShippingCompanyService;
 use App\Traits\ResponseTrait;
-use Illuminate\Http\Request;
 
 class OriginalShippingCompanyController extends Controller
 {
@@ -36,7 +37,7 @@ class OriginalShippingCompanyController extends Controller
         return self::Success(new OriginalShippingCompanyResource($originalShippingCompany), __('success'));
     }
 
-    public function update(OriginalShippingCompanyRequest $request, OriginalShippingCompany $originalShippingCompany)
+    public function update(UpdateOriginalShippingCompanyRequest $request, OriginalShippingCompany $originalShippingCompany)
     {
         $company = $this->service->update($originalShippingCompany, $request->validated());
         return self::Success(new OriginalShippingCompanyResource($company), __('company updated successfully'));

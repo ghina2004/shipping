@@ -2,6 +2,7 @@
 
 namespace App\Services\Order;
 
+use App\Exceptions\Types\CustomException;
 use App\Models\Order;
 use App\Models\Shipment;
 use App\Models\Status;
@@ -10,10 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
-    public function create(Order $order)
-    {
 
-    }
 
     public function showEmployeeOrders(): Collection
     {
@@ -46,22 +44,6 @@ class OrderService
         return $order;
     }
 
-    public function getConfirmedOrdersForUser()
-    {
-        $user = Auth::user()->load(['orderCustomers' => function ($query) {
-            $query->where('status', true)->with('shipments');
-        }]);
-        return $user->orderCustomers;
-    }
-
-
-    public function getUnconfirmedOrdersForUser()
-    { $user = Auth::user()->load(['orderCustomers' => function ($query) {
-        $query->where('status', false)->with('shipments');
-    }]);
-        return $user->orderCustomers;
-    }
-
     public function getUnconfirmedOrders()
     { $user = Auth::user()->load(['orderCustomers' => function ($query) {
         $query->where('status', false);
@@ -75,6 +57,29 @@ class OrderService
         }]);
         return $user->orderCustomers;
     }
+
+    public function confirmOrder(Order $order)
+    {
+
+        if ($order->status === 1) {
+            throw new CustomException(__('Order is already confirmed.'), 422);
+        }
+
+        $order->load('shipments');
+
+        $unconfirmed = $order->shipments->contains(function ($shipment) {
+            return $shipment->is_confirm == 0;
+        });
+
+        if ($unconfirmed) {
+            throw new CustomException(__('Not all shipments are confirmed.'), 422);
+        }
+
+        $order->update(['status' => 1]);
+
+        return $order;
+    }
+
 
 
 

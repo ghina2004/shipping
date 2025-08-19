@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Document;
 use App\Http\Controllers\Controller;
-    use App\Http\Requests\ShipmentDocumentRequest;
-    use App\Http\Resources\ShipmentDocumentResource;
-    use App\Models\ShipmentDocument;
-    use App\Services\Shipment\ShipmentDocument\ShipmentDocumentService;
-    use App\Traits\ResponseTrait;
+use App\Http\Requests\Document\ShipmentDocumentRequest;
+use App\Http\Resources\ShipmentDocumentResource;
+use App\Models\ShipmentDocument;
+use App\Services\Shipment\ShipmentDocument\ShipmentDocumentService;
+use App\Traits\ResponseTrait;
 
 
 class ShipmentDocumentController extends Controller

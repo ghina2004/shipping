@@ -66,24 +66,6 @@ class OrderController extends Controller
     }
 
 
-
-    public function confirmedOrders()
-    {
-        $orders = $this->orderService->getConfirmedOrdersForUser();
-
-        return self::Success([
-            'order' =>  OrderResource::collection($orders),
-        ], __('success'));
-    }
-
-    public function unconfirmedOrders(): JsonResponse
-    {
-        $orders = $this->orderService->getUnconfirmedOrdersForUser();
-        return self::Success([
-            'order' =>  OrderResource::collection($orders),
-        ], __('success'));
-    }
-
     public function showConfirmedOrders()
     {
         $orders = $this->orderService->getConfirmedOrders();
@@ -102,4 +84,11 @@ class OrderController extends Controller
         ], __('success'));
     }
 
-}
+    public function changeStatusToConfirm(Order $order)
+    {
+        $orderResource = $this->orderService->confirmOrder($order);
+
+        return self::Success([], __('Order confirmed successfully.'));
+
+
+}}

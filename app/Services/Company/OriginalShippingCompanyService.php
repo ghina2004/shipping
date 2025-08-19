@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Company;
 
 use App\Models\OriginalShippingCompany;
 
@@ -8,7 +8,7 @@ class OriginalShippingCompanyService
 {
     public function index()
     {
-        return OriginalShippingCompany::all();
+        return OriginalShippingCompany::get();
     }
 
     public function create(array $data)

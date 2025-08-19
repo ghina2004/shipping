@@ -6,21 +6,21 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Chat\MessageController;
+use App\Http\Controllers\Company\OriginalShippingCompanyController;
 use App\Http\Controllers\Invoice\OrderInvoiceController;
 use App\Http\Controllers\Invoice\ShipmentInvoiceController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\RequestOrderController;
 use App\Http\Controllers\Order\SendOrderController;
-use App\Http\Controllers\OriginalShippingCompanyController;
+use App\Http\Controllers\OrderTrackingLogController;
 use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Question\QuestionController;
+use App\Http\Controllers\Route\OrderRouteController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
+use App\Http\Controllers\Shipment\ShipmentFullController;
 use App\Http\Controllers\Shipment\ShipmentStatusController;
-use App\Http\Controllers\ShipmentFullController;
-use App\Http\Controllers\supplier\SupplierController;
 use App\Http\Controllers\User\CustomerRequestController;
-use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {
@@ -62,13 +62,14 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/accountant', 'showAccountantOrders');
             Route::get('/{orderId}', 'showOrder');
             Route::get('/shipments/{orderId}', 'showShipmentsOrder');
+            Route::get('/confirm/{order}', 'changeStatusToConfirm');
 
         });
+
         Route::prefix('show/order')->controller(OrderController::class)->group(function () {
-            Route::get('/confirmed-customer', 'confirmedOrders')->middleware('can:show.confirmed.order');
-            Route::get('/unconfirmed-customer', 'unconfirmedOrders')->middleware('can:show.unconfirmed.order');
-            Route::get('/showConfirmed-customer', 'showConfirmedOrders');//->middleware('can:show.unconfirmed.order');
-            Route::get('/showUnconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
+            Route::get('/confirmed-customer', 'showConfirmedOrders');//->middleware('can:show.confirmed.order');
+            Route::get('/unconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
+
         });
 
 
@@ -141,10 +142,13 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{shipmentId}',  'delete')->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
+            Route::get('/all', 'index');
             Route::post('/',  'store');//->middleware('can:create.company');
-            Route::get('{originalShippingCompany}', 'show');//->middleware('can:show.company');
-            Route::put('{originalShippingCompany}',  'update');//->middleware('can:update.company');
-            Route::delete('{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
+            Route::get('/{originalShippingCompany}', 'show');//->middleware('can:show.company');
+            Route::post('/update/{originalShippingCompany}',  'update');//->middleware('can:update.company');
+            Route::delete('/{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
+        });
+        Route::prefix('companies')->controller(OriginalShippingCompanyController::class)->group(function () {
             Route::post('/{order}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
             Route::post('/{order}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
         });
@@ -174,6 +178,22 @@ Route::middleware(['locale'])->group(function () {
             Route::post('initial/{invoice}', [PaymentController::class, 'initial']);
             Route::post('remaining/{invoice}', [PaymentController::class, 'remaining']);
         });
+
+
+        Route::prefix('order-routes')->controller(OrderRouteController::class)->group(function () {
+        Route::get('/{order}', 'showByOrder');
+        Route::post('/',  'store');
+        Route::post('/{orderRoute}', 'update');
+        Route::delete('{orderRoute}', 'destroy');
+        });
+
+        Route::prefix('order-logs')->controller(OrderTrackingLogController::class)->group(function () {
+            Route::post('/',  'store');
+            Route::post('/{orderTracking}', 'update');
+            Route::delete('{orderTracking}', 'destroy');
+            Route::post('/{order}', 'addTrackingLog');
+        });
+
 
     });
 

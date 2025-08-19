@@ -51,7 +51,11 @@ class Order extends Model
     }
 
     public function orderRoute(){
-        return $this->hasOne(OrdertRoute::class);
+        return $this->hasOne(OrderRoute::class);
+    }
+    public function trackingLogs()
+    {
+        return $this->hasMany(OrderTrackingLog::class);
     }
 
 
