@@ -1,0 +1,898 @@
+[
+    {
+        "order_number": "ORD-26480",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "66396197-023d-464a-96b1-c6f28ade4add",
+                "shipping_date": "2025-02-04",
+                "service_type": "import",
+                "origin_country": "Bermuda",
+                "destination_country": "Central African Republic",
+                "shipping_method": "Land",
+                "cargo_weight": 191,
+                "containers_size": 20,
+                "containers_numbers": 2,
+                "employee_notes": "Repellat id nostrum magni ut unde corporis voluptates.",
+                "customer_notes": "Explicabo in amet nulla fuga hic quasi.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "c17f7cad-3aea-4c7a-be2c-0b712ac75c45",
+                "shipping_date": "2025-01-28",
+                "service_type": "export",
+                "origin_country": "Niger",
+                "destination_country": "Suriname",
+                "shipping_method": "air",
+                "cargo_weight": 481,
+                "containers_size": 40,
+                "containers_numbers": 2,
+                "employee_notes": "Qui rerum molestiae fuga officia explicabo.",
+                "customer_notes": "Placeat cumque fugiat veniam.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Ruiz PLC",
+                    "address": "3284 David Streets\nNew David, MA 94404",
+                    "contact_email": "jadelevy@harris.biz",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "5a0073f9-acbf-4b8d-900f-5b62b29b777n",
+                "shipping_date": "2025-04-06",
+                "service_type": "export",
+                "origin_country": "Saint Pierre and Miquelon",
+                "destination_country": "El Salvador",
+                "shipping_method": "sea",
+                "cargo_weight": 576,
+                "containers_size": 20,
+                "containers_numbers": 1,
+                "employee_notes": "Dignissimos ipsa quis rem deserunt sapiente.",
+                "customer_notes": "Accusantium ad ad quibusdam suscipit harum doloribus.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Ruiz PLC",
+                    "address": "3284 David Streets\nNew David, MA 94404",
+                    "contact_email": "jadelevy@harris.biz",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-99468",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "1ba6c61b-afbd-4020-99ed-11a710653f7e",
+                "shipping_date": "2025-04-08",
+                "service_type": "export",
+                "origin_country": "Suriname",
+                "destination_country": "Nicaragua",
+                "shipping_method": "Land",
+                "cargo_weight": 411,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": "Nostrum eos sequi illo.",
+                "customer_notes": "Architecto nobis neque corrupti perspiciatis laboriosam dolorum.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Jacobs, Evans and Baker",
+                    "address": "PSC 6371, Box 8122\nAPO AP 45830",
+                    "contact_email": "alejandromeyer@mack.info",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "0fb9b849-678b-4771-b6dd-c3d76a69da11",
+                "shipping_date": "2025-05-15",
+                "service_type": "import",
+                "origin_country": "Israel",
+                "destination_country": "Latvia",
+                "shipping_method": "air",
+                "cargo_weight": 302,
+                "containers_size": 40,
+                "containers_numbers": 2,
+                "employee_notes": "Inventore voluptate suscipit debitis sit.",
+                "customer_notes": "Doloribus officiis exercitationem facere corrupti nulla ipsa.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "f2a82668-5bca-4046-978b-ab107583269f",
+                "shipping_date": "2025-03-13",
+                "service_type": "import",
+                "origin_country": "IceLand",
+                "destination_country": "San Marino",
+                "shipping_method": "air",
+                "cargo_weight": 760,
+                "containers_size": 40,
+                "containers_numbers": 1,
+                "employee_notes": "Quod occaecati sed corporis adipisci ullam quae.",
+                "customer_notes": "Fugiat minus esse unde provident harum et.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Patton and Sons",
+                    "address": "785 Allen Track\nEast Kellymouth, TN 57946",
+                    "contact_email": "buckmeghan@burton-vega.com",
+                    "contact_phone": "5823974291",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-5185",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "3611cc11-2006-499f-8b5f-69a73a0cf7df",
+                "shipping_date": "2025-06-27",
+                "service_type": "import",
+                "origin_country": "Haiti",
+                "destination_country": "Guernsey",
+                "shipping_method": "sea",
+                "cargo_weight": 739,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": "Est ullam consectetur delectus quae dignissimos cum officia.",
+                "customer_notes": "Odit qui bLanditiis quisquam qui.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "00161ffc-ce33-4312-b619-868846ba6512",
+                "shipping_date": "2025-04-18",
+                "service_type": "import",
+                "origin_country": "NetherLands Antilles",
+                "destination_country": "Malaysia",
+                "shipping_method": "air",
+                "cargo_weight": 95,
+                "containers_size": 40,
+                "containers_numbers": 1,
+                "employee_notes": "Dolores occaecati non ipsam quos.",
+                "customer_notes": "Aliquid beatae perspiciatis quasi.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "87ab0c73-0f36-4399-8101-50dc2a51f68e",
+                "shipping_date": "2025-01-24",
+                "service_type": "export",
+                "origin_country": "Puerto Rico",
+                "destination_country": "Belize",
+                "shipping_method": "Land",
+                "cargo_weight": 92,
+                "containers_size": 40,
+                "containers_numbers": 3,
+                "employee_notes": "Placeat eos inventore sit adipisci.",
+                "customer_notes": "Vel id ab iusto veritatis rerum.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-18531",
+        "status": 0,
+        "shipments": [
+            {
+                "number": "688692ac-ab4d-456d-94e8-ad92af2a3cc8",
+                "shipping_date": "2025-04-30",
+                "service_type": "import",
+                "origin_country": "Kuwait",
+                "destination_country": "Saint Lucia",
+                "shipping_method": "Land",
+                "cargo_weight": 655,
+                "containers_size": 20,
+                "containers_numbers": 4,
+                "employee_notes": "Velit vero velit.",
+                "customer_notes": "Vel itaque hic dolorum dolorum illo laudantium.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 0
+            },
+            {
+                "number": "0fd7271f-06dd-42a1-9e5e-5bc52ec577e7",
+                "shipping_date": "2025-04-26",
+                "service_type": "import",
+                "origin_country": "Burundi",
+                "destination_country": "Tokelau",
+                "shipping_method": "air",
+                "cargo_weight": 828,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": "Quo corrupti recusandae molestiae aliquid.",
+                "customer_notes": "Dolores vel ab omnis.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Smith, Gray and Leon",
+                    "address": "35740 Hall Point\nCarrfurt, NV 84255",
+                    "contact_email": "linda58@larsen.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "372791d8-81e3-43b6-95a2-d6c52b05e019",
+                "shipping_date": "2025-07-08",
+                "service_type": "export",
+                "origin_country": "Australia",
+                "destination_country": "Wallis and Futuna",
+                "shipping_method": "sea",
+                "cargo_weight": 244,
+                "containers_size": 20,
+                "containers_numbers": 3,
+                "employee_notes": "Consequuntur ex sequi similique libero.",
+                "customer_notes": "Voluptatibus ipsa suscipit voluptates non qui impedit.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Craig, Francis and Jones",
+                    "address": "Unit 2271 Box 9861\nDPO AP 13106",
+                    "contact_email": "ugutierrez@thomas.biz",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-76645",
+        "status": 0,
+        "shipments": [
+            {
+                "number": "79109e1c-4126-4a08-82b8-4e6411989a8d",
+                "shipping_date": "2025-02-28",
+                "service_type": "import",
+                "origin_country": "Mayotte",
+                "destination_country": "Peru",
+                "shipping_method": "air",
+                "cargo_weight": 577,
+                "containers_size": 20,
+                "containers_numbers": 1,
+                "employee_notes": "Architecto nobis alias optio quam.",
+                "customer_notes": "Pariatur doloribus dignissimos culpa dicta.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "85550a3a-4858-484e-bdf2-8b8352e10c37",
+                "shipping_date": "2025-04-22",
+                "service_type": "export",
+                "origin_country": "Nepal",
+                "destination_country": "Aruba",
+                "shipping_method": "sea",
+                "cargo_weight": 963,
+                "containers_size": 40,
+                "containers_numbers": 2,
+                "employee_notes": "Perferendis necessitatibus nesciunt maxime cumque temporibus accusamus ipsam.",
+                "customer_notes": "Nemo corrupti consequatur sapiente perferendis excepturi.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "15decfb2-8840-4e1d-96d5-481df3e3665c",
+                "shipping_date": "2025-07-08",
+                "service_type": "export",
+                "origin_country": "Bulgaria",
+                "destination_country": "Lebanon",
+                "shipping_method": "sea",
+                "cargo_weight": 408,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": "Excepturi incidunt minus commodi aliquam nesciunt nam.",
+                "customer_notes": "Magni repellendus quae sequi nisi occaecati bLanditiis.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Gonzalez, Hogan and Bullock",
+                    "address": "131 Turner Keys Apt. 967\nLake Emilytown, IL 53180",
+                    "contact_email": "karendavis@taylor.com",
+                    "contact_phone": "6933909442",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-38547",
+        "status": 0,
+        "shipments": [
+            {
+                "number": "ea0d7f15-f128-491c-a693-1171bbff7fc2",
+                "shipping_date": "2025-05-01",
+                "service_type": "export",
+                "origin_country": "Tanzania",
+                "destination_country": "Mauritius",
+                "shipping_method": "Land",
+                "cargo_weight": 303,
+                "containers_size": 20,
+                "containers_numbers": 3,
+                "employee_notes": "Delectus architecto laboriosam officia asperiores.",
+                "customer_notes": "Sint ut magni aut asperiores optio quaerat.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Sullivan and Sons",
+                    "address": "PSC 1416, Box 0346\nAPO AA 04709",
+                    "contact_email": "holly59@le-powell.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "f223dd90-bd3a-48ba-9ce8-b94e9a89b3cf",
+                "shipping_date": "2025-07-29",
+                "service_type": "import",
+                "origin_country": "Hong Kong",
+                "destination_country": "Jordan",
+                "shipping_method": "Land",
+                "cargo_weight": 735,
+                "containers_size": 40,
+                "containers_numbers": 5,
+                "employee_notes": "Necessitatibus quo esse doloremque sequi quis earum.",
+                "customer_notes": "Rem labore incidunt error aperiam atque.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 0
+            },
+            {
+                "number": "babad447-5d7b-4760-a2b8-d59b50091855",
+                "shipping_date": "2025-07-10",
+                "service_type": "import",
+                "origin_country": "United States Minor Outlying IsLands",
+                "destination_country": "Romania",
+                "shipping_method": "sea",
+                "cargo_weight": 885,
+                "containers_size": 40,
+                "containers_numbers": 2,
+                "employee_notes": "Eveniet doloribus facilis harum.",
+                "customer_notes": "Id nesciunt iste corporis earum.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Rivera, Brown and Reyes",
+                    "address": "12823 Combs Viaduct Suite 180\nLisaton, TX 53179",
+                    "contact_email": "snyderryan@grant.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-51169",
+        "status": 0,
+        "shipments": [
+            {
+                "number": "92c8ee76-9b23-46c8-87d9-65dd3dcbaa48",
+                "shipping_date": "2025-06-09",
+                "service_type": "export",
+                "origin_country": "Brunei Darussalam",
+                "destination_country": "United Arab Emirates",
+                "shipping_method": "Land",
+                "cargo_weight": 498,
+                "containers_size": 20,
+                "containers_numbers": 4,
+                "employee_notes": "Veritatis quisquam hic saepe.",
+                "customer_notes": "Non totam maxime dolore quos cupiditate quidem.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "5554ecf2-91f4-464a-b2bf-73daea4edeec",
+                "shipping_date": "2025-05-19",
+                "service_type": "import",
+                "origin_country": "Martinique",
+                "destination_country": "French Southern Territories",
+                "shipping_method": "Land",
+                "cargo_weight": 729,
+                "containers_size": 20,
+                "containers_numbers": 4,
+                "employee_notes": "Soluta consectetur harum.",
+                "customer_notes": "Labore expedita debitis.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "4661050b-2527-413b-b6fd-86a0640610d6",
+                "shipping_date": "2025-05-19",
+                "service_type": "import",
+                "origin_country": "Lithuania",
+                "destination_country": "Samoa",
+                "shipping_method": "Land",
+                "cargo_weight": 168,
+                "containers_size": 20,
+                "containers_numbers": 4,
+                "employee_notes": "Dolore ipsam occaecati inventore nemo voluptatibus.",
+                "customer_notes": "Rerum dolore possimus sunt.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Lawrence, Romero and Daniel",
+                    "address": "654 Mary Summit Apt. 755\nKatherineview, MS 68673",
+                    "contact_email": "dylanparker@butler.info",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-93881",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "0ec64db0-99e5-46ee-9e8a-0181e54d7708",
+                "shipping_date": "2025-06-24",
+                "service_type": "import",
+                "origin_country": "Nigeria",
+                "destination_country": "Kenya",
+                "shipping_method": "air",
+                "cargo_weight": 700,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": "Fuga molestiae omnis nihil a voluptatem.",
+                "customer_notes": "Cupiditate inventore hic dignissimos.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Morton, Patterson and Brown",
+                    "address": "6865 Sara Prairie\nEast Savannah, GA 17118",
+                    "contact_email": "warrenwilliams@rodriguez.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "b1a5028c-b116-4a6b-b058-55f9f6515ded",
+                "shipping_date": "2025-01-12",
+                "service_type": "export",
+                "origin_country": "French Guiana",
+                "destination_country": "Bermuda",
+                "shipping_method": "Land",
+                "cargo_weight": 467,
+                "containers_size": 40,
+                "containers_numbers": 4,
+                "employee_notes": "Pariatur eveniet provident atque eaque.",
+                "customer_notes": "Fugit voluptates at aspernatur.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "41e23459-06d4-4911-b6bb-aace5b7bd3ef",
+                "shipping_date": "2025-04-30",
+                "service_type": "import",
+                "origin_country": "Saint Lucia",
+                "destination_country": "Moldova",
+                "shipping_method": "air",
+                "cargo_weight": 114,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": "Excepturi bLanditiis fuga recusandae.",
+                "customer_notes": "Nam dignissimos perferendis doloribus deserunt nam.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-90135",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "25af6951-6b48-46ea-97ec-b69719595cd9",
+                "shipping_date": "2025-04-12",
+                "service_type": "export",
+                "origin_country": "Philippines",
+                "destination_country": "Jamaica",
+                "shipping_method": "sea",
+                "cargo_weight": 156,
+                "containers_size": 20,
+                "containers_numbers": 3,
+                "employee_notes": "Id ipsa doloremque corporis.",
+                "customer_notes": "Et commodi rem exercitationem.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Boyd, Pierce and Mckinney",
+                    "address": "4551 Corey Isle\nWest Richard, MN 79110",
+                    "contact_email": "erikbennett@barton.org",
+                    "contact_phone": "4513220446",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "4a229a16-532a-4ace-988f-e7cb2d0fa039",
+                "shipping_date": "2025-02-13",
+                "service_type": "export",
+                "origin_country": "Niue",
+                "destination_country": "Egypt",
+                "shipping_method": "Land",
+                "cargo_weight": 789,
+                "containers_size": 40,
+                "containers_numbers": 1,
+                "employee_notes": "Voluptate nam omnis ipsum sapiente illum.",
+                "customer_notes": "At minus reprehenderit consectetur qui.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Hunt-Peters",
+                    "address": "75251 Jeffrey Stravenue\nLake Jennifer, SD 37924",
+                    "contact_email": "barias@gonzalez.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "7d5e98b0-6aab-4a56-b82e-db5605b986cb",
+                "shipping_date": "2025-01-05",
+                "service_type": "export",
+                "origin_country": "Malawi",
+                "destination_country": "Bulgaria",
+                "shipping_method": "sea",
+                "cargo_weight": 205,
+                "containers_size": 40,
+                "containers_numbers": 5,
+                "employee_notes": "Explicabo laudantium occaecati iusto bLanditiis.",
+                "customer_notes": "Consequatur occaecati sunt atque alias maxime veniam.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Lee and Sons",
+                    "address": "15218 Darlene Views\nPort Williammouth, TX 58767",
+                    "contact_email": "paynechristy@bowers-greer.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-66197",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "ee9f91e3-4f39-4016-a5d9-cb6eb12b4da1",
+                "shipping_date": "2025-06-14",
+                "service_type": "export",
+                "origin_country": "Panama",
+                "destination_country": "Estonia",
+                "shipping_method": "sea",
+                "cargo_weight": 426,
+                "containers_size": 40,
+                "containers_numbers": 5,
+                "employee_notes": "Eligendi doloribus sint quisquam accusamus assumenda necessitatibus.",
+                "customer_notes": "Nulla eveniet aut dolorum at ipsum.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "f45f5305-c9c3-42e3-9213-43c863e3ffa6",
+                "shipping_date": "2025-07-17",
+                "service_type": "import",
+                "origin_country": "Lithuania",
+                "destination_country": "Uganda",
+                "shipping_method": "air",
+                "cargo_weight": 474,
+                "containers_size": 40,
+                "containers_numbers": 5,
+                "employee_notes": "Alias illum voluptatibus iure magnam rem.",
+                "customer_notes": "Error at iusto numquam delectus expedita.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Carr LLC",
+                    "address": "8169 Robert Manor\nNorth Tonyville, WA 81642",
+                    "contact_email": "lreed@kidd-lutz.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "bba1a1dd-bf35-447e-a690-bcb29231889c",
+                "shipping_date": "2025-05-02",
+                "service_type": "export",
+                "origin_country": "Barbados",
+                "destination_country": "Uzbekistan",
+                "shipping_method": "sea",
+                "cargo_weight": 721,
+                "containers_size": 40,
+                "containers_numbers": 4,
+                "employee_notes": "Corrupti cum maiores perferendis occaecati.",
+                "customer_notes": "Ipsam inventore tempora corrupti a vel.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-11111",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "66396197-023d-464a-96b1-c6f28ade4abb",
+                "shipping_date": "2025-02-04",
+                "service_type": "import",
+                "origin_country": "Bermuda",
+                "destination_country": "Central African Republic",
+                "shipping_method": "Land",
+                "cargo_weight": 191,
+                "containers_size": 20,
+                "containers_numbers": 2,
+                "employee_notes": "Repellat id nostrum magni ut unde corporis voluptates.",
+                "customer_notes": "Explicabo in amet nulla fuga hic quasi.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "c17f7cad-3aea-4c7a-be2c-0b712ac75caa",
+                "shipping_date": "2025-01-28",
+                "service_type": "export",
+                "origin_country": "Niger",
+                "destination_country": "Suriname",
+                "shipping_method": "air",
+                "cargo_weight": 481,
+                "containers_size": 40,
+                "containers_numbers": 2,
+                "employee_notes": "Qui rerum molestiae fuga officia explicabo.",
+                "customer_notes": "Placeat cumque fugiat veniam.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Ruiz PLC",
+                    "address": "3284 David Streets\nNew David, MA 94404",
+                    "contact_email": "jadelevy@harris.biz",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "5a0073f9-acbf-4b8d-900f-5b62b29b777a",
+                "shipping_date": "2025-04-06",
+                "service_type": "export",
+                "origin_country": "Saint Pierre and Miquelon",
+                "destination_country": "El Salvador",
+                "shipping_method": "sea",
+                "cargo_weight": 576,
+                "containers_size": 20,
+                "containers_numbers": 1,
+                "employee_notes": "Dignissimos ipsa quis rem deserunt sapiente.",
+                "customer_notes": "Accusantium ad ad quibusdam suscipit harum doloribus.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-22228",
+        "status": 0,
+        "shipments": [
+            {
+                "number": "1ba6c61b-afbd-4020-99ed-11a710651bb56",
+                "shipping_date": "2025-04-08",
+                "service_type": "export",
+                "origin_country": "Suriname",
+                "destination_country": "Nicaragua",
+                "shipping_method": "Land",
+                "cargo_weight": 411,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": null,
+                "customer_notes": "Architecto nobis neque corrupti perspiciatis laboriosam dolorum.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Jacobs, Evans and Baker",
+                    "address": "PSC 6371, Box 8122\nAPO AP 45830",
+                    "contact_email": "alejandromeyer@mack.info",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "0fb9b849-678b-4771-b6dd-c3d76a69348h",
+                "shipping_date": "2025-05-15",
+                "service_type": "import",
+                "origin_country": "Israel",
+                "destination_country": "Latvia",
+                "shipping_method": "air",
+                "cargo_weight": 302,
+                "containers_size": 40,
+                "containers_numbers": 2,
+                "employee_notes":null,
+                "customer_notes": "Doloribus officiis exercitationem facere corrupti nulla ipsa.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 0
+            },
+            {
+                "number": "f2a82668-5bca-4046-978b-ab107583333",
+                "shipping_date": "2025-03-13",
+                "service_type": "import",
+                "origin_country": "IceLand",
+                "destination_country": "San Marino",
+                "shipping_method": "air",
+                "cargo_weight": 760,
+                "containers_size": 40,
+                "containers_numbers": 1,
+                "employee_notes": null,
+                "customer_notes": null,
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Patton and Sons",
+                    "address": "785 Allen Track\nEast Kellymouth, TN 57946",
+                    "contact_email": "buckmeghan@burton-vega.com",
+                    "contact_phone": "5823974291",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-5184",
+        "status": 1,
+        "shipments": [
+            {
+                "number": "3611cc11-2006-499f-8b5f-69a73a0c45t66",
+                "shipping_date": "2025-06-27",
+                "service_type": "import",
+                "origin_country": "Haiti",
+                "destination_country": "Guernsey",
+                "shipping_method": "sea",
+                "cargo_weight": 739,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": null,
+                "customer_notes": "Odit qui bLanditiis quisquam qui.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "00161ffc-ce33-4312-b619-868846b4567",
+                "shipping_date": "2025-04-18",
+                "service_type": "import",
+                "origin_country": "NetherLands Antilles",
+                "destination_country": "Malaysia",
+                "shipping_method": "air",
+                "cargo_weight": 95,
+                "containers_size": 40,
+                "containers_numbers": 1,
+                "employee_notes": null,
+                "customer_notes": null,
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            },
+            {
+                "number": "87ab0c73-0f36-4399-8101-50dc2a51f678u",
+                "shipping_date": "2025-01-24",
+                "service_type": "export",
+                "origin_country": "Puerto Rico",
+                "destination_country": "Belize",
+                "shipping_method": "Land",
+                "cargo_weight": 92,
+                "containers_size": 40,
+                "containers_numbers": 3,
+                "employee_notes": null,
+                "customer_notes": "Vel id ab iusto veritatis rerum.",
+                "is_information_complete": 1,
+                "is_confirm": 1,
+                "having_supplier": 0
+            }
+        ]
+    },
+    {
+        "order_number": "ORD-18440",
+        "status": 0,
+        "shipments": [
+            {
+                "number": "688692ac-ab4d-456d-94e8-ad92af2a3c99",
+                "shipping_date": "2025-04-30",
+                "service_type": "import",
+                "origin_country": "Kuwait",
+                "destination_country": "Saint Lucia",
+                "shipping_method": "Land",
+                "cargo_weight": 655,
+                "containers_size": 20,
+                "containers_numbers": 4,
+                "employee_notes": null,
+                "customer_notes": "Vel itaque hic dolorum dolorum illo laudantium.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 0
+            },
+            {
+                "number": "0fd7271f-06dd-42a1-9e5e-5bc52ec57755",
+                "shipping_date": "2025-04-26",
+                "service_type": "import",
+                "origin_country": "Burundi",
+                "destination_country": "Tokelau",
+                "shipping_method": "air",
+                "cargo_weight": 828,
+                "containers_size": 20,
+                "containers_numbers": 5,
+                "employee_notes": null,
+                "customer_notes": "Dolores vel ab omnis.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Smith, Gray and Leon",
+                    "address": "35740 Hall Point\nCarrfurt, NV 84255",
+                    "contact_email": "linda58@larsen.com",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            },
+            {
+                "number": "372791d8-81e3-43b6-95a2-d6c52b05e044",
+                "shipping_date": "2025-07-08",
+                "service_type": "export",
+                "origin_country": "Australia",
+                "destination_country": "Wallis and Futuna",
+                "shipping_method": "sea",
+                "cargo_weight": 244,
+                "containers_size": 20,
+                "containers_numbers": 3,
+                "employee_notes": null,
+                "customer_notes": "Voluptatibus ipsa suscipit voluptates non qui impedit.",
+                "is_information_complete": 0,
+                "is_confirm": 0,
+                "having_supplier": 1,
+                "supplier": {
+                    "name": "Craig, Francis and Jones",
+                    "address": "Unit 2271 Box 9861\nDPO AP 13106",
+                    "contact_email": "ugutierrez@thomas.biz",
+                    "contact_phone": "9941746003603",
+                    "document": "shipment_documents/L1nnrB8BZSh15xbGDAVT1v6ZyEh0BTLm.1754233005.pdf"
+                }
+            }
+        ]
+    }
+]

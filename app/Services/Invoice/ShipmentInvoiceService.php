@@ -4,26 +4,34 @@ namespace App\Services\Invoice;
 
 use App\Enums\Invoice\InvoiceType;
 use App\Exceptions\Types\CustomException;
+use App\Models\Shipment;
 use App\Models\ShipmentInvoice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
 
 class ShipmentInvoiceService
 {
-    public function createInvoice(array $data, int $shipmentId): ShipmentInvoice
-    {
-        $this->ensureNoExistingInvoice($shipmentId);
+    public function __construct(protected OrderInvoiceService $orderInvoiceService) {}
 
-        $data['shipment_id'] = $shipmentId;
+    /**
+     * @throws CustomException
+     */
+    public function createInvoice(array $data, Shipment $shipment): ShipmentInvoice
+    {
+        $this->ensureNoExistingInvoice($shipment->id);
+
+        $data['shipment_id'] = $shipment->id;
         $data['invoice_number'] = $this->generateInvoiceNumber();
         $data['invoice_type'] = InvoiceType::from($data['invoice_type']);
 
         return ShipmentInvoice::create($data);
     }
 
-    public function showInvoice(int $invoiceId): ShipmentInvoice
+    public function showInvoice(Shipment $shipment): ShipmentInvoice
     {
-        return ShipmentInvoice::with('shipment')->findOrFail($invoiceId);
+        $invoice = $shipment->invoice;
+        if(!$invoice) throw new CustomException('there is no invoice yet',404);
+        return $invoice;
     }
 
     public function updateInvoice(ShipmentInvoice $invoice, array $data): ShipmentInvoice
@@ -33,7 +41,11 @@ class ShipmentInvoiceService
         }
 
         $invoice->update($data);
-        return $invoice;
+
+        $order = $invoice->shipment->shipmentOrder;
+        $this->orderInvoiceService->recalcIfExists($order);
+
+        return $invoice->refresh();
     }
 
     public function deleteInvoice(ShipmentInvoice $invoice): void

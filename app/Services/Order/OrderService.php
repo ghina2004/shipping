@@ -6,16 +6,20 @@ use App\Exceptions\Types\CustomException;
 use App\Models\Order;
 use App\Models\Shipment;
 use App\Models\Status;
+use App\Services\Invoice\OrderInvoiceService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+
 
 class OrderService
 {
 
 
+    public function __construct(protected OrderInvoiceService $invoiceService) {}
+
     public function showEmployeeOrders(): Collection
     {
-       return Order::query()->where('employee_id',auth()->user()->id)->get();
+        return Order::query()->where('employee_id',auth()->user()->id)->get();
     }
 
     public function showShippingManagerOrders(): Collection
@@ -33,10 +37,10 @@ class OrderService
         return Order::query()->where('id',$orderId)->get();
     }
 
-   public function showShipmentsOrder($orderId): Collection
-   {
-       return Shipment::query()->where('order_id', $orderId)->get();
-   }
+    public function showShipmentsOrder($orderId): Collection
+    {
+        return Shipment::query()->where('order_id', $orderId)->get();
+    }
 
     public function updateOrderStatus(Order $order,Status $status): Order
     {
@@ -62,7 +66,9 @@ class OrderService
     {
 
         if ($order->status === 1) {
-            throw new CustomException(__('Order is already confirmed.'), 422);
+
+            throw new CustomException(('Order is already confirmed.'), 422);
+
         }
 
         $order->load('shipments');
@@ -72,8 +78,11 @@ class OrderService
         });
 
         if ($unconfirmed) {
-            throw new CustomException(__('Not all shipments are confirmed.'), 422);
+
+            throw new CustomException(('Not all shipments are confirmed.'), 422);
         }
+
+        $this->invoiceService->createOrderInvoice($order);
 
         $order->update(['status' => 1]);
 

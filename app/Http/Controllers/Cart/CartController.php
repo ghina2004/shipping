@@ -4,15 +4,9 @@ namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
-use App\Http\Resources\orderResource;
-use App\Http\Resources\ShipmentResource;
-use App\Http\Resources\UserResource;
-use App\Models\Cart;
+use App\Http\Resources\OrderResource;
 use App\Services\Cart\CartService;
-use App\Services\Order\orderService;
 use App\Traits\ResponseTrait;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {

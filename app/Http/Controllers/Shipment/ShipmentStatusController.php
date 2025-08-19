@@ -8,6 +8,7 @@ use App\Models\Shipment;
 use App\Services\Shipment\ShipmentStatusService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class ShipmentStatusController extends Controller
 {
@@ -26,6 +27,7 @@ class ShipmentStatusController extends Controller
 
     public function ChangeToConfirm(Shipment $shipment): JsonResponse
     {
+
         $shipment = $this->shipmentStatusService->changeStatusToConfirm($shipment);
 
         return self::success([

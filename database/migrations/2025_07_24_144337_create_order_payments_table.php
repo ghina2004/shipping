@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('order_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_invoice_id')->constrained('order_invoices')->onDelete('cascade');
-            $table->float('paid_amount');
-            $table->float('due_amount');
+            $table->string('stripe_payment_intent_id')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('paid_amount',10,2);
+            $table->float('due_amount',10,2);
             $table->string('status');
-            $table->date('paid_at');
-            $table->date('due_date');
+            $table->date('paid_at')->nullable();
+            $table->date('due_date')->nullable();
             $table->timestamps();
         });
     }

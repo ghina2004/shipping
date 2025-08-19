@@ -36,4 +36,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'myfatoorah' => [
+        'api_key'   => env('MYFATOORAH_API_KEY'),
+        'test_mode' => env('MYFATOORAH_TEST_MODE', true),
+        'base_url'  => rtrim(env('MYFATOORAH_BASE_URL', 'https://apitest.myfatoor ah.com'), '/'),
+    ],
+
 ];

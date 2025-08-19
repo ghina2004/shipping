@@ -10,6 +10,8 @@
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "myfatoorah/laravel-package": "^2.2",
+        "myfatoorah/library": "^2.2",
         "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-data": "^4.15",
         "spatie/laravel-permission": "^6.20",

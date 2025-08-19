@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Invoice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\InvoiceRequest;
 use App\Http\Resources\InvoiceResource;
+use App\Models\Shipment;
 use App\Models\ShipmentInvoice;
 use App\Services\Invoice\ShipmentInvoiceService;
 use App\Traits\ResponseTrait;
@@ -17,18 +18,18 @@ class ShipmentInvoiceController extends Controller
 
     public function __construct(protected ShipmentInvoiceService $invoiceService) {}
 
-    public function create(InvoiceRequest $request, int $shipmentId): JsonResponse
+    public function create(InvoiceRequest $request, Shipment $shipment): JsonResponse
     {
-        $invoice = $this->invoiceService->createInvoice($request->validated(), $shipmentId);
+        $invoice = $this->invoiceService->createInvoice($request->validated(), $shipment);
 
         return self::Success([
             'invoice' => new InvoiceResource($invoice)
         ], 'Invoice created successfully');
     }
 
-    public function show(int $invoiceId): JsonResponse
+    public function show(Shipment $shipment): JsonResponse
     {
-        $invoice = $this->invoiceService->showInvoice($invoiceId);
+        $invoice = $this->invoiceService->showInvoice($shipment);
 
         return self::Success([
             'invoice' => new InvoiceResource($invoice)

@@ -21,7 +21,7 @@ class Shipment extends Model
     }
     public function shipmentOrder()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class,'order_id');
     }
 
     public function shipmentCategory()

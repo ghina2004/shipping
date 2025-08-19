@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'third_name'   => $this->third_name,
             'email'        => $this->email,
             'phone'        => $this->phone,
+            'role'  => $this->getRoleNames()->first(),
         ];
 
         if ($this->hasRole('customer')) {

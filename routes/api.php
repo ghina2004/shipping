@@ -13,7 +13,8 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\RequestOrderController;
 use App\Http\Controllers\Order\SendOrderController;
 use App\Http\Controllers\OrderTrackingLogController;
-use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\Payment\MyFatoorahPaymentController;
+use App\Http\Controllers\Payment\PaymentInfoController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Route\OrderRouteController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
@@ -69,8 +70,8 @@ Route::middleware(['locale'])->group(function () {
         Route::prefix('show/order')->controller(OrderController::class)->group(function () {
             Route::get('/confirmed-customer', 'showConfirmedOrders');//->middleware('can:show.confirmed.order');
             Route::get('/unconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
-
         });
+
 
 
         Route::prefix('shipment')->controller(ShipmentController::class)->group(function () {
@@ -142,6 +143,7 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{shipmentId}',  'delete')->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
+
             Route::get('/all', 'index');
             Route::post('/',  'store');//->middleware('can:create.company');
             Route::get('/{originalShippingCompany}', 'show');//->middleware('can:show.company');
@@ -149,21 +151,22 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
         });
         Route::prefix('companies')->controller(OriginalShippingCompanyController::class)->group(function () {
+
             Route::post('/{order}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
             Route::post('/{order}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
             Route::post('/create/{shipmentId}','create');
-            Route::get('/show/{invoice}','show');
+            Route::get('/show/{shipment}','show');
             Route::post('/update/{invoice}','update');
             Route::delete('/delete/{invoice}','delete');
             Route::get('/{invoice}/download','download');
         });
 
         Route::prefix('invoice/order')->controller(OrderInvoiceController::class)->group(function () {
-            Route::post('/create/{order}','create');
-            Route::get('/show/{invoice}','show');
+            Route::get('/create/{order}','create');
+            Route::get('/show/{order}','show');
             Route::delete('/delete/{invoice}','delete');
             Route::get('/{invoice}/download','download');
         });
@@ -174,9 +177,21 @@ Route::middleware(['locale'])->group(function () {
             Route::get('{order}/messages', [MessageController::class, 'getMessages']);
         });
 
-        Route::prefix('payments')->group(function () {
-            Route::post('initial/{invoice}', [PaymentController::class, 'initial']);
-            Route::post('remaining/{invoice}', [PaymentController::class, 'remaining']);
+        Route::prefix('payments')->middleware('auth:sanctum')->group(function () {
+
+            Route::post('info/{order}',[PaymentInfoController::class, 'show']);
+
+         /*   Route::controller(StripePaymentController::class)->group(function () {
+                Route::post('pay/{order}', 'pay');
+                Route::post('verify','verify');
+            });*/
+
+            Route::controller(MyFatoorahPaymentController::class)->group(function () {
+                Route::post('pay', 'pay');
+                Route::post('verify','verify');
+                Route::get('callback', 'callback')->name('payments.myfatoorah.callback');
+            });
+
         });
 
 
@@ -196,7 +211,6 @@ Route::middleware(['locale'])->group(function () {
 
 
     });
-
 
 });
 
