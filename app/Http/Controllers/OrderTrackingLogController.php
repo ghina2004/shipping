@@ -44,7 +44,7 @@ class OrderTrackingLogController extends Controller
         return self::Success([], __('Deleted successfully.'));
     }
 
-    public function addTrackingLog(OrderTrackingLogRequest $request,  Order $order)
+    public function addTrackingLog(UpdateOrderTrackingLogRequest $request,  Order $order)
     {
         $log = $this->service->addTrackingLogByOrderId($order, $request->validated());
         return self::Success(new OrderTrackingLogResource($log), __('Tracking log added successfully'));

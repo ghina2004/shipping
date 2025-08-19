@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('order_routes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id');
-            $table->integer('tracking_number')->unique();
+            $table->string('tracking_number')->unique();
             $table->string('tracking_link');
             $table->timestamps();
         });

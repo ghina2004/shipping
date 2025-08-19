@@ -41,21 +41,27 @@ class OrderTrackingService
 
     public function showByOrderId(int $orderId): array
     {
+        $order = Order::with(['trackingLogs', 'orderRoute'])
+            ->findOrFail($orderId);
 
-        $order = Order::with(['shipments', 'trackingLogs', 'orderRoutes'])->findOrFail($orderId);
 
-        $shippingMethod = $order->shipments->first()->shipping_method ?? null;
+        $shipmentsData = $order->shipments->map(function ($shipment) use ($order) {
+            if ($shipment->shipping_method->value === 'Land') {
+                return [
+                    'type' => 'Land',
+                    'logs' => $order->trackingLogs,
+                ];
+            }
 
-        if ($shippingMethod === 'land') {
             return [
-                'type' => 'land',
-                'logs' => $order->trackingLogs,
+                'type' => $shipment->shipping_method->value,
+                'routes' => $order->orderRoute,
             ];
-        }
+        });
 
         return [
-            'type' => $shippingMethod,
-            'routes' => $order->orderRoutes,
+            'order_id' => $order->id,
+            'shipments' => $shipmentsData,
         ];
     }
 

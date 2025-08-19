@@ -206,7 +206,7 @@ Route::middleware(['locale'])->group(function () {
             Route::post('/',  'store');
             Route::post('/{orderTracking}', 'update');
             Route::delete('{orderTracking}', 'destroy');
-            Route::post('/{order}', 'addTrackingLog');
+            Route::post('/add/{order}', 'addTrackingLog');
         });
 
 
