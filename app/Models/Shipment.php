@@ -63,6 +63,18 @@ class Shipment extends Model
     {
         return $this->hasOne(ShipmentInvoice::class);
     }
+    public function originalCompany()
+    {
+        return $this->belongsTo(OriginalShippingCompany::class, 'original_company_id');
+    }
+
+    public function shipmentRoute(){
+        return $this->hasOne(ShipmentRoute::class);
+    }
+    public function trackingLogs()
+    {
+        return $this->hasMany(ShipmentTrackingLog::class);
+    }
 
 
 }

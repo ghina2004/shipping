@@ -16,7 +16,7 @@ use App\Http\Controllers\OrderTrackingLogController;
 use App\Http\Controllers\Payment\MyFatoorahPaymentController;
 use App\Http\Controllers\Payment\PaymentInfoController;
 use App\Http\Controllers\Question\QuestionController;
-use App\Http\Controllers\Route\OrderRouteController;
+use App\Http\Controllers\Route\ShipmentRouteController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
 use App\Http\Controllers\Shipment\ShipmentFullController;
@@ -152,8 +152,8 @@ Route::middleware(['locale'])->group(function () {
         });
         Route::prefix('companies')->controller(OriginalShippingCompanyController::class)->group(function () {
 
-            Route::post('/{order}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
-            Route::post('/{order}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
+            Route::post('/{shipment}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
+            Route::post('/{shipment}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
@@ -195,18 +195,18 @@ Route::middleware(['locale'])->group(function () {
         });
 
 
-        Route::prefix('order-routes')->controller(OrderRouteController::class)->group(function () {
-        Route::get('/{order}', 'showByOrder');
+        Route::prefix('order-routes')->controller(ShipmentRouteController::class)->group(function () {
+        Route::get('/{shipment}', 'showByShipment');
         Route::post('/',  'store');
-        Route::post('/{orderRoute}', 'update');
-        Route::delete('{orderRoute}', 'destroy');
+        Route::post('/{ShipmentRoute}', 'update');
+        Route::delete('{ShipmentRoute}', 'destroy');
+        Route::get('/show/{ShipmentRoute}', 'show');
         });
 
         Route::prefix('order-logs')->controller(OrderTrackingLogController::class)->group(function () {
             Route::post('/',  'store');
-            Route::post('/{orderTracking}', 'update');
-            Route::delete('{orderTracking}', 'destroy');
-            Route::post('/add/{order}', 'addTrackingLog');
+            Route::post('/{shipmentTracking}', 'update');
+            Route::delete('{shipmentTracking}', 'destroy');
         });
 
 

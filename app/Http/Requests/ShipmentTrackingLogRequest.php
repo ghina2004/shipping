@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOrderTrackingLogRequest extends FormRequest
+class ShipmentTrackingLogRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -16,8 +16,8 @@ class UpdateOrderTrackingLogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_id' => 'exists:orders,id',
-            'location' => 'string|max:1000',
+            'shipment_id' => 'required|exists:shipments,id',
+            'location' => 'required|string|max:1000',
         ];
     }
 }

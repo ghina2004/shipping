@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Rout;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderTrackingLogRequest extends FormRequest
+class UpdateShipmentRouteRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -16,8 +16,8 @@ class OrderTrackingLogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_id' => 'required|exists:orders,id',
-            'location' => 'required|string|max:1000',
+            'shipment_id' => 'exists:shipments,id',
+            'tracking_link' => 'url',
         ];
     }
 }

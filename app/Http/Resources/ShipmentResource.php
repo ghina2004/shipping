@@ -13,6 +13,7 @@ class ShipmentResource extends JsonResource
             'cart_id'=>$this->cart_id ,
             'category_id' => $this->category_id,
             'supplier_id' => $this->supplier_id,
+            'original_company_id'   => $this->original_company_id,
             'number' => $this->number,
             'shipping_date' => $this->shipping_date,
             'service_type' => $this->service_type,

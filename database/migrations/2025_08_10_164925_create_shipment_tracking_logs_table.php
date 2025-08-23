@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
-        Schema::create('order_tracking_logs', function (Blueprint $table) {
+        Schema::create('shipment_tracking_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('shipment_id')->constrained()->cascadeOnDelete();
             $table->string('location');
             $table->timestamps();
         });
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_tracking_logs');
+        Schema::dropIfExists('shipment_tracking_logs');
     }
 };

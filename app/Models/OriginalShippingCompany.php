@@ -10,8 +10,8 @@ class OriginalShippingCompany extends Model
         'name', 'contact_email', 'contact_phone', 'address'
     ];
 
-    public function originalOrders()
+    public function originalShipments()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Shipment::class);
     }
 }

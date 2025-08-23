@@ -5,15 +5,16 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderTrackingLogResource extends JsonResource
+class ShipmentRouteResource extends JsonResource
 {
 
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'order_id' => $this->order_id,
-            'location' => $this->location,
+            'shipment_id' => $this->shipment_id,
+            'tracking_link' => $this->tracking_link,
+
         ];
     }
 }

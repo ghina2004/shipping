@@ -8,8 +8,10 @@ use App\Http\Requests\Company\UpdateOriginalShippingCompanyRequest;
 
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OriginalShippingCompanyResource;
+use App\Http\Resources\ShipmentResource;
 use App\Models\Order;
 use App\Models\OriginalShippingCompany;
+use App\Models\Shipment;
 use App\Services\Company\OriginalShippingCompanyService;
 use App\Traits\ResponseTrait;
 
@@ -35,7 +37,7 @@ class OriginalShippingCompanyController extends Controller
 
     public function show(OriginalShippingCompany $originalShippingCompany)
     {
-        return self::Success(new OriginalShippingCompanyResource($originalShippingCompany), __('success'));
+        return self::Success(new OriginalShippingCompanyResource($originalShippingCompany), __('company showed success'));
     }
 
     public function update(UpdateOriginalShippingCompanyRequest $request, OriginalShippingCompany $originalShippingCompany)
@@ -52,26 +54,26 @@ class OriginalShippingCompanyController extends Controller
 
     public function addAndAssignCompany(
         OriginalShippingCompanyRequest $request,
-        Order $order)
+        shipment $shipment)
     {
         $company = $this->service->create($request->validated());
 
-        $order->update([
+        $shipment->update([
             'original_company_id' => $company->id,
         ]);
 
         return self::Success(new OriginalShippingCompanyResource($company), __('company created and order updated successfully'));
 
     }
-    public function selectCompany( Order $order, OriginalShippingCompany $company){
-        if ($order->original_company_id) {
-            return self::Error([],__('A company is already assigned to this order.'));
+    public function selectCompany( shipment $shipment, OriginalShippingCompany $originalShippingCompany){
+        if ($shipment->original_company_id) {
+            return self::Error([],__('A company is already assigned to this shipment.'));
         }
 
-        $order->update([
-            'original_company_id' => $company->id,
+        $shipment->update([
+            'original_company_id' => $originalShippingCompany->id,
         ]);
 
-        return self::Success(new OrderResource($order), __('company selected  successfully'));
+        return self::Success(new ShipmentResource($shipment), __('company selected  successfully'));
     }
 }

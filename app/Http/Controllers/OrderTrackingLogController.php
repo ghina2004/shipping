@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderTrackingLogRequest;
-use App\Http\Requests\UpdateOrderTrackingLogRequest;
-use App\Http\Resources\OrderTrackingLogResource;
+use App\Http\Requests\ShipmentTrackingLogRequest;
+use App\Http\Requests\UpdateShipmentTrackingLogRequest;
+use App\Http\Resources\ShipmentTrackingLogResource;
 use App\Models\Order;
-use App\Models\OrderTrackingLog;
+use App\Models\ShipmentTrackingLog;
 use App\Traits\ResponseTrait;
 use App\Services\OrderTrackingLogService;
 use Illuminate\Http\Request;
@@ -19,34 +19,34 @@ class OrderTrackingLogController extends Controller
     {
     }
 
-    public function store(OrderTrackingLogRequest $request)
+    public function store(ShipmentTrackingLogRequest $request)
     {
         $route = $this->service->create($request->validated());
-        return self::Success(new OrderTrackingLogResource($route), __('order route created successfully'));
+        return self::Success(new ShipmentTrackingLogResource($route), __('shipment route created successfully'));
     }
 
-    public function show(OrderTrackingLog $orderTracking)
+    public function show(ShipmentTrackingLog $shipmentTracking)
     {
-        $route = $this->service->show($orderTracking);
-        return self::Success(new OrderTrackingLogResource($route), __('success'));
+        $route = $this->service->show($shipmentTracking);
+        return self::Success(new ShipmentTrackingLogResource($route), __('success'));
     }
 
 
-    public function update(UpdateOrderTrackingLogRequest $request, OrderTrackingLog $orderTracking)
+    public function update(UpdateShipmentTrackingLogRequest $request, ShipmentTrackingLog $shipmentTracking)
     {
-        $route = $this->service->update($orderTracking, $request->validated());
-        return self::Success(new OrderTrackingLogResource($route), __('order route updated successfully'));
+        $route = $this->service->update($shipmentTracking, $request->validated());
+        return self::Success(new ShipmentTrackingLogResource($route), __('shipment route updated successfully'));
     }
 
-    public function destroy(OrderTrackingLog $orderTracking)
+    public function destroy(ShipmentTrackingLog $shipmentTracking)
     {
-        $this->service->delete($orderTracking);
+        $this->service->delete($shipmentTracking);
         return self::Success([], __('Deleted successfully.'));
     }
 
-    public function addTrackingLog(UpdateOrderTrackingLogRequest $request,  Order $order)
-    {
-        $log = $this->service->addTrackingLogByOrderId($order, $request->validated());
-        return self::Success(new OrderTrackingLogResource($log), __('Tracking log added successfully'));
-    }
+//    public function addTrackingLog(UpdateShipmentTrackingLogRequest $request, Order $order)
+//    {
+//        $log = $this->service->addTrackingLogByOrderId($order, $request->validated());
+//        return self::Success(new ShipmentTrackingLogResource($log), __('Tracking log added successfully'));
+//    }
 }

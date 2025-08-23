@@ -9,10 +9,9 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('order_routes', function (Blueprint $table) {
+        Schema::create('shipment_routes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id');
-            $table->string('tracking_number')->unique();
+            $table->foreignId('shipment_id');
             $table->string('tracking_link');
             $table->timestamps();
         });
@@ -21,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('order_routes');
+        Schema::dropIfExists('shipment_routes');
     }
 };
