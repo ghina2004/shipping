@@ -2,6 +2,7 @@
 
 namespace App\Services\Payment;
 
+use App\Exceptions\Types\CustomException;
 use App\Models\OrderInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,8 @@ class MyFatoorahPaymentService
     {
         $payment = $invoice->orderPayment;
         $currency = strtoupper($currency ?: 'USD');
+
+        if($payment && $payment->status == 'complete') throw new CustomException('The invoice has already been fully paid',409);
 
         if (!$payment || $payment->paid_amount <= 0) {
             $res = $this->handleInitialPayment($invoice, $currency);
