@@ -6,20 +6,26 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Chat\MessageController;
+use App\Http\Controllers\Company\OriginalShippingCompanyController;
+use App\Http\Controllers\Customer\CustomerProfileController;
+use App\Http\Controllers\Customer\CustomerRequestController;
 use App\Http\Controllers\Invoice\OrderInvoiceController;
 use App\Http\Controllers\Invoice\ShipmentInvoiceController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\RequestOrderController;
 use App\Http\Controllers\Order\SendOrderController;
-use App\Http\Controllers\OriginalShippingCompanyController;
+use App\Http\Controllers\OrderTrackingLogController;
 use App\Http\Controllers\Payment\MyFatoorahPaymentController;
 use App\Http\Controllers\Payment\PaymentInfoController;
 use App\Http\Controllers\Question\QuestionController;
+use App\Http\Controllers\Rate\RateOrderController;
+use App\Http\Controllers\Route\ShipmentRouteController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
+use App\Http\Controllers\Shipment\ShipmentFullController;
 use App\Http\Controllers\Shipment\ShipmentStatusController;
-use App\Http\Controllers\ShipmentFullController;
-use App\Http\Controllers\User\CustomerRequestController;
+use App\Http\Controllers\User\ManageCustomerController;
+use App\Http\Controllers\User\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {
@@ -61,14 +67,15 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/accountant', 'showAccountantOrders');
             Route::get('/{orderId}', 'showOrder');
             Route::get('/shipments/{orderId}', 'showShipmentsOrder');
-            Route::get('/confirm/{order}', 'changeStatusToConfirm');
+            Route::get('/confirm', 'changeStatusToConfirm');
 
         });
+
         Route::prefix('show/order')->controller(OrderController::class)->group(function () {
             Route::get('/confirmed-customer', 'showConfirmedOrders');//->middleware('can:show.confirmed.order');
             Route::get('/unconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
-            //  Route::get('/showConfirmed-customer', 'showConfirmedOrders');//->middleware('can:show.unconfirmed.order');
-            //  Route::get('/showUnconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
+            Route::get('/delivered', 'showDeliveredOrders');//->middleware('can:show.unconfirmed.order');
+
         });
 
 
@@ -142,12 +149,17 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/{shipmentId}',  'delete')->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
+
+            Route::get('/all', 'index');
             Route::post('/',  'store');//->middleware('can:create.company');
-            Route::get('{originalShippingCompany}', 'show');//->middleware('can:show.company');
-            Route::put('{originalShippingCompany}',  'update');//->middleware('can:update.company');
-            Route::delete('{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
-            Route::post('/{order}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
-            Route::post('/{order}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
+            Route::get('/{originalShippingCompany}', 'show');//->middleware('can:show.company');
+            Route::post('/update/{originalShippingCompany}',  'update');//->middleware('can:update.company');
+            Route::delete('/{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
+        });
+        Route::prefix('companies')->controller(OriginalShippingCompanyController::class)->group(function () {
+
+            Route::post('/{shipment}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
+            Route::post('/{shipment}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
@@ -188,6 +200,58 @@ Route::middleware(['locale'])->group(function () {
 
         });
 
+        Route::prefix('order-routes')->controller(ShipmentRouteController::class)->group(function () {
+        Route::get('/{shipment}', 'showByShipment');
+        Route::post('/',  'store');
+        Route::post('/{ShipmentRoute}', 'update');
+        Route::delete('{ShipmentRoute}', 'destroy');
+        Route::get('/show/{ShipmentRoute}', 'show');
+        });
+
+        Route::prefix('order-logs')->controller(OrderTrackingLogController::class)->group(function () {
+            Route::post('/',  'store');
+            Route::post('/{shipmentTracking}', 'update');
+            Route::delete('{shipmentTracking}', 'destroy');
+        });
+
+        Route::prefix('admin/users')->controller(UserManagementController::class)->group(function () {
+            // Employees
+            Route::post('employees', 'addEmployee');
+            Route::get('show/employees', 'employees');
+            Route::post('update/employees/{id}', 'updateEmployee');
+
+            // Accountants
+            Route::post('accountants', 'addAccountant');
+            Route::get('show/accountants', 'accountants');
+            Route::post('update/accountants/{id}', 'updateAccountant');
+
+            // Shipment Managers
+            Route::post('shipment-managers', 'addShipmentManager');
+            Route::get('show/shipment-managers', 'shipmentManagers');
+            Route::post('update/shipment-managers/{id}', 'updateShipmentManager');
+
+            // Common
+            Route::get('info/{id}', 'show');
+            Route::delete('delete/{id}', 'delete');
+        });
+
+        Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCustomerController::class)->group(function () {
+            Route::get('/view','index');
+            Route::get('/show/{customer}','show');
+            Route::delete('delete/{customer}', 'destroy');
+        });
+
+        Route::prefix('customer/profile')->controller(CustomerProfileController::class)->group(function () {
+                Route::get('/show', 'show');
+                Route::post('/update', 'update');
+                Route::post('/upload/image', 'uploadImage');
+                Route::delete('/delete/image', 'deleteImage');
+        });
+
+        Route::prefix('orders')->middleware(['auth:sanctum','role:customer'])->controller(RateOrderController::class)->group(function () {
+            Route::post('{order}/rate','store');
+            Route::get('{order}/rate','show');
+        });
     });
 
 });

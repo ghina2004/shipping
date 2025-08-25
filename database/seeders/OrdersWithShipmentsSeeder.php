@@ -14,7 +14,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Arr;
-
 class OrdersWithShipmentsSeeder extends Seeder
 {
     public function run(): void
@@ -41,7 +40,6 @@ class OrdersWithShipmentsSeeder extends Seeder
                 'employee_id' => Arr::random($employees),
                 'shipping_manager_id' => Arr::random($managers),
                 'accountant_id' => Arr::random($accountants),
-                'original_company_id' => $orderData['original_company_id'] ?? null,
                 'order_number' => $orderData['order_number'],
                 'status' => $orderData['status'],
                 'placement' => $orderData['placement'] ?? 0,

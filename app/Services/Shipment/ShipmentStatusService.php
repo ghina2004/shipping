@@ -2,6 +2,7 @@
 
 namespace App\Services\Shipment;
 
+use App\Enums\Status\ShipmentStatusEnum;
 use App\Exceptions\Types\CustomException;
 use App\Models\Shipment;
 
@@ -28,5 +29,10 @@ class ShipmentStatusService
         return $shipment;
     }
 
+    public function changeStatus(Shipment $shipment, ShipmentStatusEnum $status): Shipment
+    {
+        $shipment->update(['status' => 'delivered']);
+        return $shipment;
+    }
 
 }

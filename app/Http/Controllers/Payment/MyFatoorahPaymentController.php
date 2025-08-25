@@ -20,7 +20,7 @@ class MyFatoorahPaymentController extends Controller
 
     public function pay(MyFatoorahPaymentRequest $request): JsonResponse
     {
-        $order   = Order::findOrFail($request->integer('order_id'));
+        $order   = Order::query()->findOrFail($request->integer('order_id'));
         $invoice = $order->orderInvoice()->firstOrFail();
 
         $currency = strtoupper($request->input('currency', 'USD'));
@@ -39,23 +39,27 @@ class MyFatoorahPaymentController extends Controller
 
     public function verify(MyFatoorahVerifyRequest $request): JsonResponse
     {
-
         $invoice = OrderInvoice::where('order_id', $request->order_id)->firstOrFail();
 
         $out = $this->paymentService->verifyAndMarkPaid(
             $invoice,
-            paymentId:    $request->input('payment_id'),
-            mfInvoiceId:  $request->input('mf_invoice_id')
+            paymentId:   $request->input('payment_id'),
+            mfInvoiceId: $request->input('mf_invoice_id')
         );
+
+        if (($out['status'] ?? null) === 'succeeded') {
+            $order = $invoice->order()->first();
+            if ($order && (int)$order->status === 0) {
+                $order->update(['status' => 1]);
+            }
+        }
 
         return self::Success(
             $out,
             $out['status'] === 'succeeded'
-                ? 'Payment verified and recorded.'
+                ? (isset($order) && (int)$order->status === 1 ? 'Payment verified and order confirmed.' : 'Payment verified and recorded.')
                 : ($out['message'] ?? 'Payment not completed.')
         );
     }
-
-
 
 }

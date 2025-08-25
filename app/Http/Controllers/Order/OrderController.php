@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Payment\MyFatoorahPaymentRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\Question\MyFatoorahResource;
 use App\Http\Resources\ShipmentResource;
 use App\Models\Order;
 use App\Services\Order\OrderRequestService;
@@ -15,7 +17,9 @@ class OrderController extends Controller
 {
     use ResponseTrait;
 
-    public function __construct(protected orderService $orderService, protected orderRequestService $orderRequestService) {}
+    public function __construct(protected orderService $orderService, protected orderRequestService $orderRequestService)
+    {
+    }
 
     public function showEmployeeOrders(): JsonResponse
     {
@@ -68,7 +72,16 @@ class OrderController extends Controller
         $orders = $this->orderService->getConfirmedOrders();
 
         return self::Success([
-            'order' =>  OrderResource::collection($orders),
+            'order' => OrderResource::collection($orders),
+        ], ('success'));
+    }
+
+    public function showDeliveredOrders()
+    {
+        $orders = $this->orderService->getDeliveredOrder();
+
+        return self::Success([
+            'order' => OrderResource::collection($orders),
         ], ('success'));
     }
 
@@ -77,14 +90,18 @@ class OrderController extends Controller
         $orders = $this->orderService->getUnconfirmedOrders();
 
         return self::Success([
-            'order' =>  OrderResource::collection($orders),
+            'order' => OrderResource::collection($orders),
         ], ('success'));
     }
 
-    public function changeStatusToConfirm(Order $order)
+    public function changeStatusToConfirm(MyFatoorahPaymentRequest $request): JsonResponse
     {
-        $orderResource = $this->orderService->confirmOrder($order);
+        $currency = strtoupper($request->input('currency', 'USD'));
 
-        return self::Success([], __('Order confirmed successfully.'));
+        $order = Order::query()->findOrFail($request->integer('order_id'));
+
+        $data = $this->orderService->confirmOrder($order, $currency);
+
+        return self::Success(new MyFatoorahResource($data), 'Payment link generated. Complete payment to confirm the order.');
     }
 }

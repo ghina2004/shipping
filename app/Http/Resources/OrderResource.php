@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Status\OrderPaymentStatusEnum;
+use App\Enums\Status\OrderStatusEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderResource extends JsonResource
@@ -15,11 +17,13 @@ class OrderResource extends JsonResource
             'customer_id' => $this->customer_id,
             'order_number' => $this->order_number,
             'status'=>(int) $this->status,
-            'original_company_id'   => $this->original_company_id,
+            'payment_status' => OrderPaymentStatusEnum::from($this->payment_status)->label(),
+            'order_status' => OrderStatusEnum::from($this->order_status)->label(),
             'shipments'   => ShipmentResource::collection(
                 $this->whenLoaded('shipments')
             ),
         ];
+
 
         if (! $user->hasRole('customer')) {
             $data['employee_id'] = $this->employee_id;

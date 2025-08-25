@@ -41,7 +41,6 @@ class MyFatoorahPaymentService
             'paid_amount' => 0,
             'due_amount' => $invoice->$amount,
             'status' => 'pending',
-            'due_date' => now()->addDays(2)->toDateString(),
         ]);
 
         return [

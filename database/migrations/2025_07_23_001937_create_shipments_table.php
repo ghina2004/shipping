@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade');
+            $table->foreignId('original_company_id')->nullable()->constrained('original_shipping_companies')->onDelete('cascade');
             $table->string('number')->unique();
             $table->date('shipping_date');
             $table->string('service_type');
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->boolean('is_information_complete')->default(0);
             $table->boolean('is_confirm')->default(0);
             $table->boolean('having_supplier')->default(0);
+            $table->string('status')->default('pending'); // enum: pending, delivered
             $table->timestamps();
         });
     }

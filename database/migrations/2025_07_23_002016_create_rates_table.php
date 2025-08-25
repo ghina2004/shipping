@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('employee_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('shipment_id')->constrained('shipments')->onDelete('cascade');
-            $table->integer('service_rate');
-            $table->integer('employee_rate');
-            $table->text('comment');
+            $table->foreignId('employee_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->unsignedTinyInteger('service_rate');
+            $table->unsignedTinyInteger('employee_rate');
+            $table->text('comment')->nullable();
             $table->timestamps();
+            $table->unique(['customer_id','order_id']);
         });
     }
 
@@ -28,6 +29,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rates');
+        Schema::table('rates', function (Blueprint $table) {
+            $table->dropUnique('rates_customer_order_unique');
+        });
     }
 };

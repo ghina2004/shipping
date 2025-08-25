@@ -35,10 +35,6 @@ class Order extends Model
     {
         return $this->hasMany(Shipment::class);
     }
-    public function originalCompany()
-    {
-        return $this->belongsTo(OriginalShippingCompany::class, 'original_company_id');
-    }
 
     public function orderInvoice()
     {
@@ -50,8 +46,9 @@ class Order extends Model
         return $this->hasOne(Conversation::class);
     }
 
-    public function orderRoute(){
-        return $this->hasOne(OrdertRoute::class);
+    public function rate()
+    {
+        return $this->hasMany(Rate::class);
     }
 
 

@@ -9,11 +9,12 @@ class ShipmentFullResource extends JsonResource
 {
 
     public function toArray( $request): array
-    { return [
-        'shipment' => new ShipmentResource($this),
-        'supplier' => new SupplierResource($this->whenLoaded('shipmentSupplier')),
-        'answers' => ShipmentAnswerResource::collection($this->whenLoaded('answersShipment')),
-        'documents' =>  ShipmentDocumentResource::collection($this->whenLoaded('shipmentDocuments')),
+    {
+        return [
+            'shipment' => new ShipmentResource($this),
+            'supplier' => new SupplierResource($this->whenLoaded('shipmentSupplier')),
+            'answers' => ShipmentAnswerResource::collection($this->whenLoaded('answersShipment')),
+            'documents' =>  ShipmentDocumentResource::collection($this->whenLoaded('shipmentDocuments')),
         ];
     }
 }

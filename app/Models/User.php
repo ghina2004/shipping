@@ -90,11 +90,11 @@ class User extends Authenticatable
 
     public function customersRating()
     {
-        return $this->hasMany(Rating::class, 'customer_id');
+        return $this->hasMany(Rate::class, 'customer_id');
     }
     public function employeesRating()
     {
-        return $this->hasMany(Rating::class, 'employee_id');
+        return $this->hasMany(Rate::class, 'employee_id');
     }
 
     public function userNotifications()

@@ -6,7 +6,6 @@ use App\Models\Shipment;
 use App\Models\User;
 use Illuminate\Support\Arr;
 
-
 class ShipmentUpdateStrategy
 {
     public function handle(User $user, array $data, $shipmentId): Shipment
@@ -28,6 +27,10 @@ class ShipmentUpdateStrategy
 
         if ($user->hasRole('customer')) {
             return Arr::except($data, ['employee_notes']);
+        }
+
+        if ($user->hasRole('shipment_manager')) {
+            return Arr::only($data, ['shipping_date', 'shipping_method', 'origin_country','cargo_weight','containers_size','containers_numbers']);
         }
 
         return $data;

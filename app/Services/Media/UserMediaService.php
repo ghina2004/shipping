@@ -20,4 +20,15 @@ class UserMediaService extends MediaService
             MediaFolder::COMMERCIAL_REGISTER->value
         );
     }
+
+    public function uploadCustomerProfileImage($file, $userId): Media
+    {
+        return $this->uploadFile(
+            $file,
+            $userId,
+            MediaModel::USER->value,
+            MediaType::USER_PROFILE->value,
+            MediaFolder::USER_PROFILE->value
+        );
+    }
 }
