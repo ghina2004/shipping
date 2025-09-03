@@ -14,6 +14,7 @@ class ShipmentRouteResource extends JsonResource
             'id' => $this->id,
             'shipment_id' => $this->shipment_id,
             'tracking_link' => $this->tracking_link,
+            'tracking_number'=>$this->tracking_number,
 
         ];
     }

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('shipment_id');
             $table->string('tracking_link');
+            $table->string('tracking_number');
             $table->timestamps();
         });
     }

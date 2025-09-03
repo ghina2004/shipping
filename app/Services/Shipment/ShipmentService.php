@@ -4,6 +4,7 @@ namespace App\Services\Shipment;
 
 use App\Enums\shipment\ServiceType;
 use App\Enums\shipment\ShippingMethod;
+use App\Enums\Status\ShipmentStatusEnum;
 use App\Helper\FileHelper;
 use App\Models\Cart;
 use App\Models\Shipment;
@@ -49,6 +50,7 @@ class ShipmentService
                 'number' => Str::upper(Str::random(5)),
                 'service_type' => ServiceType::from($data['service_type']),
                 'shipping_method' => ShippingMethod::from($data['shipping_method']),
+                'status' => ShipmentStatusEnum::Pending->value,
             ]));
 
             if (!empty($data['sup_invoice'])) {
