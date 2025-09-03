@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ShipmentRoute extends Model
 {
     protected $fillable =[
-        'shipment_id' ,'tracking_link'
+        'shipment_id' ,'tracking_number','tracking_link'
     ];
 
     public function shipmentTracking(){

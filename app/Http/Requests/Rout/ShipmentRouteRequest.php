@@ -18,6 +18,7 @@ class ShipmentRouteRequest extends FormRequest
         return [
             'shipment_id' => 'required|exists:shipments,id',
             'tracking_link' => 'required|url',
+            'tracking_number'=>'required|string|max:10',
 
         ];
     }

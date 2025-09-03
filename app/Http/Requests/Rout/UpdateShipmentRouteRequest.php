@@ -18,6 +18,7 @@ class UpdateShipmentRouteRequest extends FormRequest
         return [
             'shipment_id' => 'exists:shipments,id',
             'tracking_link' => 'url',
+            'tracking_number'=>'string|max:10',
         ];
     }
 }
