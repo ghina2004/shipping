@@ -39,7 +39,7 @@ class MyFatoorahPaymentService
 
         $invoice->orderPayment()->firstOrCreate([], [
             'paid_amount' => 0,
-            'due_amount' => $invoice->$amount,
+            'due_amount'  => $invoice->total_final_amount,
             'status' => 'pending',
         ]);
 
@@ -68,7 +68,6 @@ class MyFatoorahPaymentService
 
         $resp = $this->createMyFatoorahInvoice($invoice, $dueAmount, $currency, 'remaining');
 
-        $payment->update(['status' => 'pending+']);
 
         return [
             'payment_link'  => $resp['payment_url'],
@@ -79,14 +78,9 @@ class MyFatoorahPaymentService
     }
 
 
-    private function createMyFatoorahInvoice(
-        OrderInvoice $invoice,
-        float $amount,
-        string $displayCurrency, // يجي من الطلب: EGP أو JOD أو USD...
-        string $phase
-    ): array {
+    private function createMyFatoorahInvoice(OrderInvoice $invoice, float $amount, string $displayCurrency, string $phase): array
+    {
         $user = Auth::user();
-
         [$mobileCode, $mobile] = $this->splitFullPhone((string)($user->phone ?? '+96500000000'));
 
         $payload = [
@@ -98,25 +92,26 @@ class MyFatoorahPaymentService
             'MobileCountryCode'  => $mobileCode,
             'CustomerMobile'     => $mobile,
             'CustomerReference'  => (string) $invoice->id,
-            'UserDefinedField'   => (string) $invoice->order_id,
+            // المهم: مرر المرحلة هنا
+            'UserDefinedField'   => $phase, // ✅ بدل order_id
             'CallBackUrl'        => 'https://example.com/payment-success',
             'ErrorUrl'           => 'https://example.com/payment-failed',
             'Language'           => app()->getLocale() === 'ar' ? 'ar' : 'en',
         ];
 
         $res = Http::withToken(config('services.myfatoorah.api_key'))
-            ->post(config('services.myfatoorah.base_url').'/v2/SendPayment', $payload)
+            ->post(rtrim(config('services.myfatoorah.base_url'), '/').'/v2/SendPayment', $payload)
             ->json();
 
         if (empty($res['IsSuccess']) || !$res['IsSuccess']) {
-            throw new \Exception('MyFatoorah SendPayment failed: '.json_encode($res));
-        }
-
-        return [
-            'payment_url'  => (string)($res['Data']['InvoiceURL'] ?? ''),
-            'mf_invoice_id'=> (string)($res['Data']['InvoiceId'] ?? ''),
-        ];
+        throw new \Exception('MyFatoorah SendPayment failed: '.json_encode($res));
     }
+
+    return [
+        'payment_url'   => (string)($res['Data']['InvoiceURL'] ?? ''),
+        'mf_invoice_id' => (string)($res['Data']['InvoiceId'] ?? ''),
+    ];
+}
 
     public function verifyAndMarkPaid(OrderInvoice $invoice, ?string $paymentId = null, ?string $mfInvoiceId = null): array
     {
@@ -125,7 +120,7 @@ class MyFatoorahPaymentService
             : ['KeyType' => 'PaymentId',  'Key' => $paymentId];
 
         $res = Http::withToken(config('services.myfatoorah.api_key'))
-            ->post(config('services.myfatoorah.base_url') . '/v2/GetPaymentStatus', $payload)
+            ->post(rtrim(config('services.myfatoorah.base_url'), '/') . '/v2/GetPaymentStatus', $payload)
             ->json();
 
         if (empty($res['IsSuccess']) || !$res['IsSuccess']) {
@@ -147,14 +142,14 @@ class MyFatoorahPaymentService
         $total = round((float) $invoice->total_final_amount, 2);
 
         if ($phase === 'initial') {
-            $newPaid = round($total * (($invoice->order->user->status ?? 0) === 0 ? 0.75 : 0.25), 2);
+            $newPaid   = round($total * (($invoice->order->user->status ?? 0) === 0 ? 0.75 : 0.25), 2);
             $dueAmount = max(0, round($total - $newPaid, 2));
         } else {
-            $newPaid = $total;
+            $newPaid   = $total;
             $dueAmount = 0.00;
         }
 
-        DB::transaction(function () use ($invoice, $newPaid, $paymentId, $data, $total, $dueAmount) {
+        DB::transaction(function () use ($invoice, $newPaid, $paymentId, $data, $total, $dueAmount, $phase) {
             $payment = $invoice->orderPayment ?? $invoice->orderPayment()->create([
                 'paid_amount' => 0,
                 'due_amount'  => $total,
@@ -168,9 +163,16 @@ class MyFatoorahPaymentService
                 'gateway_payment_id' => $paymentId ?? ($data['InvoiceTransactions'][0]['PaymentId'] ?? null),
                 'paid_amount'        => $newPaid,
                 'due_amount'         => $dueAmount,
-                'status'             => $newPaid >= $total ? 'complete' : 'partial',
+                'status'             => $newPaid >= $total ? 'paid' : 'partial',
                 'paid_at'            => now()->toDateTimeString(),
             ]);
+
+            $order = $invoice->order()->first();
+            if ($order) {
+                $order->update([
+                    'payment_status' => $dueAmount <= 0 ? 'paid' : 'partial',
+                ]);
+            }
         });
 
         return ['status' => 'succeeded'];

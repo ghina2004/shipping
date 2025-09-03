@@ -7,6 +7,8 @@ use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Chat\MessageController;
 use App\Http\Controllers\Company\OriginalShippingCompanyController;
+use App\Http\Controllers\Complaint\AdminGeneralComplaintController;
+use App\Http\Controllers\Complaint\CustomerGeneralComplaintController;
 use App\Http\Controllers\Customer\CustomerProfileController;
 use App\Http\Controllers\Customer\CustomerRequestController;
 use App\Http\Controllers\Invoice\OrderInvoiceController;
@@ -19,6 +21,8 @@ use App\Http\Controllers\Payment\MyFatoorahPaymentController;
 use App\Http\Controllers\Payment\PaymentInfoController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Rate\RateOrderController;
+use App\Http\Controllers\Reports\AdminReportController;
+use App\Http\Controllers\Reports\ShippingManagerReportController;
 use App\Http\Controllers\Route\ShipmentRouteController;
 use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
@@ -67,7 +71,8 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/accountant', 'showAccountantOrders');
             Route::get('/{orderId}', 'showOrder');
             Route::get('/shipments/{orderId}', 'showShipmentsOrder');
-            Route::get('/confirm', 'changeStatusToConfirm');
+            Route::post('/confirm', 'changeStatusToConfirm');
+            Route::post('/change_status/{order}', 'changeOrderStatus');
 
         });
 
@@ -111,6 +116,8 @@ Route::middleware(['locale'])->group(function () {
         Route::prefix('shipment')->controller(ShipmentStatusController::class)->group(function () {
             Route::get('/complete-info/{shipment}', 'changeToComplete');
             Route::get('/confirm/{shipment}', 'ChangeToConfirm');
+            Route::post('/change_status/{shipment}', 'ChangeShipmentStatus');
+
         });
 
         Route::prefix('questions')->controller(QuestionController::class)->group(function () {
@@ -144,9 +151,9 @@ Route::middleware(['locale'])->group(function () {
 
 
         Route::prefix('shipment-full')->controller(ShipmentFullController::class)->group(function () {
-            Route::get('/{shipmentId}',  'show')->middleware('can:show.shipment.full');
-            Route::post('/{shipmentId}',  'update')->middleware('can:update.shipment.full');
-            Route::delete('/{shipmentId}',  'delete')->middleware('can:delete.shipment.full');
+            Route::get('/{shipmentId}',  'show');//->middleware('can:show.shipment.full');
+            Route::post('/{shipmentId}',  'update');//->middleware('can:update.shipment.full');
+            Route::delete('/{shipmentId}',  'delete');//->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
 
@@ -163,7 +170,7 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
-            Route::post('/create/{shipmentId}','create');
+            Route::post('/create/{shipment}','create');
             Route::get('/show/{shipment}','show');
             Route::post('/update/{invoice}','update');
             Route::delete('/delete/{invoice}','delete');
@@ -187,10 +194,10 @@ Route::middleware(['locale'])->group(function () {
 
             Route::post('info/{order}',[PaymentInfoController::class, 'show']);
 
-         /*   Route::controller(StripePaymentController::class)->group(function () {
-                Route::post('pay/{order}', 'pay');
-                Route::post('verify','verify');
-            });*/
+            /*   Route::controller(StripePaymentController::class)->group(function () {
+                   Route::post('pay/{order}', 'pay');
+                   Route::post('verify','verify');
+               });*/
 
             Route::controller(MyFatoorahPaymentController::class)->group(function () {
                 Route::post('pay', 'pay');
@@ -201,11 +208,11 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('order-routes')->controller(ShipmentRouteController::class)->group(function () {
-        Route::get('/{shipment}', 'showByShipment');
-        Route::post('/',  'store');
-        Route::post('/{ShipmentRoute}', 'update');
-        Route::delete('{ShipmentRoute}', 'destroy');
-        Route::get('/show/{ShipmentRoute}', 'show');
+            Route::get('/{shipment}', 'showByShipment');
+            Route::post('/',  'store');
+            Route::post('/{ShipmentRoute}', 'update');
+            Route::delete('{ShipmentRoute}', 'destroy');
+            Route::get('/show/{ShipmentRoute}', 'show');
         });
 
         Route::prefix('order-logs')->controller(OrderTrackingLogController::class)->group(function () {
@@ -242,15 +249,35 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('customer/profile')->controller(CustomerProfileController::class)->group(function () {
-                Route::get('/show', 'show');
-                Route::post('/update', 'update');
-                Route::post('/upload/image', 'uploadImage');
-                Route::delete('/delete/image', 'deleteImage');
+            Route::get('/show', 'show');
+            Route::post('/update', 'update');
+            Route::post('/upload/image', 'uploadImage');
+            Route::delete('/delete/image', 'deleteImage');
         });
 
         Route::prefix('orders')->middleware(['auth:sanctum','role:customer'])->controller(RateOrderController::class)->group(function () {
             Route::post('{order}/rate','store');
-            Route::get('{order}/rate','show');
+            Route::get('{order}/show/rate','show');
+        });
+
+        Route::middleware(['auth:sanctum','role:customer'])
+            ->prefix('customer/complaints')->controller(CustomerGeneralComplaintController::class)->group(function () {
+                Route::get('/show','index');
+                Route::post('/store','store');
+                Route::get('{id}','show');
+            });
+
+        Route::middleware(['auth:sanctum','role:admin'])
+            ->prefix('admin/complaints')->controller(AdminGeneralComplaintController::class)->group(function () {
+                Route::get('/','index');
+                Route::get('{complaint}','show');
+                Route::post('{complaint}/reply','reply');
+                Route::post('{complaint}/resolve','resolve');
+            });
+
+        Route::prefix('reports')->group(function () {
+            Route::get('/admin', [AdminReportController::class, 'index']);
+            Route::get('/shipping-manager', [ShippingManagerReportController::class, 'index']);
         });
     });
 

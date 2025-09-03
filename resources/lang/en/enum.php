@@ -25,4 +25,10 @@ return [
         'new'  => 'New',
         'old'  => 'Old',
     ],
+
+    'complaint_status' => [
+        'open'     => 'Open',
+        'replied'  => 'Replied',
+        'resolved' => 'Resolved',
+    ],
 ];

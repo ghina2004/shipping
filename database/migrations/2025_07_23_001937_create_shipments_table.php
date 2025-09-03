@@ -33,6 +33,8 @@ return new class extends Migration
             $table->boolean('is_confirm')->default(0);
             $table->boolean('having_supplier')->default(0);
             $table->string('status')->default('pending'); // enum: pending, delivered
+            $table->date('shipped_date')->nullable();
+            $table->date('delivered_date')->nullable();
             $table->timestamps();
         });
     }

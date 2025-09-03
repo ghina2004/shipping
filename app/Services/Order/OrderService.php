@@ -40,6 +40,11 @@ class OrderService
         return Order::query()->where('id',$orderId)->get();
     }
 
+    public function deleteOrder($orderId): Collection
+    {
+        return Order::query()->where('id',$orderId)->delete();
+    }
+
     public function showShipmentsOrder($orderId): Collection
     {
         return Shipment::query()->where('order_id', $orderId)->get();

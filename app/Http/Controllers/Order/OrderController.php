@@ -57,6 +57,13 @@ class OrderController extends Controller
         ], ('order.order_details_retrieved'));
     }
 
+    public function deleteOrder($orderId): JsonResponse
+    {
+        $orders = $this->orderService->deleteOrder($orderId);
+
+        return self::Success([], ('order.order_delete'));
+    }
+
     public function showShipmentsOrder($orderId): JsonResponse
     {
         $shipments = $this->orderService->showShipmentsOrder($orderId);

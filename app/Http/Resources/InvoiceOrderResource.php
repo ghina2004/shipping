@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Status\OrderPaymentStatusEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\Rule;
 
@@ -35,8 +36,8 @@ class InvoiceOrderResource extends JsonResource
             'total_service_fee' => $this->total_service_fee,
             'total_company_profit' => $this->total_company_profit,
             'total_final_amount' => $this->total_final_amount,
+            'payment_status' => OrderPaymentStatusEnum::from($this->order?->payment_status)->label(),
             'notes' => $this->notes,
-
             'next_payment_amount' => $nextAmount,
         ];
     }

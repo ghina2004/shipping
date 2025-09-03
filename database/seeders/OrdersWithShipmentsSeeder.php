@@ -99,7 +99,7 @@ class OrdersWithShipmentsSeeder extends Seeder
                     $language = App::getLocale(); // or 'ar'
 
                     $fakeAnswer = match ($question['type']) {
-                        'text' => fake()->sentence(),
+                        'text' => 'text',
                         'radio', 'select' => explode('|', $question['options'][array_rand($question['options'])])[$language === 'en' ? 1 : 0],
                         'checkbox' => implode(', ', array_map(
                             fn($opt) => explode('|', $opt)[$language === 'en' ? 1 : 0],

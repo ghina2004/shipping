@@ -25,4 +25,10 @@ return [
         'new'  => 'جديد',
         'old'  => 'قديم',
     ],
+
+    'complaint_status' => [
+        'open'     => 'مفتوحة',
+        'replied'  => 'تم الرد',
+        'resolved' => 'منتهية',
+    ],
 ];

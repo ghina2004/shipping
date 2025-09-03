@@ -11,4 +11,6 @@ return [
     'employee_accept_order' => 'The order accepted successfully.',
     'accountant_orders_request_listed' => 'Accountant orders request retrieved successfully.',
     'accountant_accept_order' => 'The order accepted successfully.',
+    'order_delete' => 'The order deleted successfully.',
+
 ];

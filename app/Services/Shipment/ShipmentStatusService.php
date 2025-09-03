@@ -31,8 +31,18 @@ class ShipmentStatusService
 
     public function changeStatus(Shipment $shipment, ShipmentStatusEnum $status): Shipment
     {
-        $shipment->update(['status' => 'delivered']);
-        return $shipment;
-    }
+        $updateData = ['status' => $status->value];
 
+        if ($status === ShipmentStatusEnum::InProcess) {
+            $updateData['shipped_date'] = now()->toDateString();
+        }
+
+        if ($status === ShipmentStatusEnum::Delivered) {
+            $updateData['delivered_date'] = now()->toDateString();
+        }
+
+        $shipment->update($updateData);
+
+        return $shipment->fresh();
+    }
 }

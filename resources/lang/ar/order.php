@@ -10,4 +10,5 @@ return [
     'employee_accept_order' => 'تم قبول العربة من قبل الموظف بنجاح.',
     'accountant_orders_request_listed' => 'تم جلب طلبات عربات المحاسب بنجاح.',
     'accountant_accept_order' => 'تم قبول العربة من قبل المحاسب بنجاح.',
+    'order_delete' =>  'تم الحذف بنجاح.',
 ];
