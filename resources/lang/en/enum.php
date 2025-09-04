@@ -31,4 +31,16 @@ return [
         'replied'  => 'Replied',
         'resolved' => 'Resolved',
     ],
+
+    'contract_type' => [
+        'service'           => 'Service Agreement',
+        'goods_description' => 'Goods Description',
+        'bill_of_lading'    => 'Bill of Lading',
+    ],
+    'contract_status' => [
+        'pending_signature' => 'Pending Signature',
+        'signed'            => 'Signed',
+        'final'             => 'Final',
+    ],
+
 ];

@@ -67,6 +67,9 @@ class OrdersWithShipmentsSeeder extends Seeder
                     'is_information_complete' => $shipmentData['is_information_complete'],
                     'is_confirm' => $shipmentData['is_confirm'],
                     'having_supplier' => $shipmentData['having_supplier'],
+                    'shipped_date' => now()->subMonths(rand(1,3)),
+                    'delivered_date' => now()->subDays(rand(0, 365)),
+
                 ]);
 
                 if ($shipmentData['having_supplier'] && isset($shipmentData['supplier'])) {

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Complaint\AdminReplyComplaintRequest;
 use App\Http\Resources\Question\ComplaintResource;
 use App\Models\Complaint;
-use App\Services\Support\ComplaintService;
+use App\Services\Complaint\ComplaintService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 

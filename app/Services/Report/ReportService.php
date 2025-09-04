@@ -3,6 +3,7 @@
 namespace App\Services\Report;
 
 
+use App\Models\Complaint;
 use App\Models\OrderInvoice;
 use App\Models\Shipment;
 use Carbon\Carbon;
@@ -23,7 +24,8 @@ class ReportService
             'shipments_by_status'=> $this->shipmentStatusBreakdown($from, $to),
             'carriers_breakdown' => $this->carriersBreakdown($from, $to),
             'avg_time_to_deliver_days' => $this->timeToDeliverAvg($from, $to),
-            'employees_workload' => $this->employeesWorkload($from, $to),
+            'payments_breakdown' => $this->paymentStatusBreakdown($from, $to),
+            'complaints_summary'         => $this->complaintsSummary($from, $to),
         ];
     }
 
@@ -43,20 +45,31 @@ class ReportService
 
     private function range(array $f): array
     {
-        $y = (int)$f['year'];
+        $period = strtolower(trim($f['period'] ?? 'yearly'));
+        $year   = (int) ($f['year'] ?? now()->year);
 
-        if ($f['period'] === 'weekly') {
-            $w = (int)$f['week'];
-            $from = Carbon::now()->setISODate($y, $w)->startOfWeek();
-            $to   = Carbon::now()->setISODate($y, $w)->endOfWeek();
-        }
-        elseif ($f['period'] === 'monthly') {
-            $m = (int)$f['month'];
-            $from = Carbon::create($y, $m, 1)->startOfDay();
-            $to   = Carbon::create($y, $m, 1)->endOfMonth()->endOfDay();
-        } else {
-            $from = Carbon::create($y, 1, 1)->startOfDay();
-            $to   = Carbon::create($y, 12, 31)->endOfDay();
+        switch ($period) {
+            case 'weekly': {
+                $week = (int) ($f['week'] ?? now()->isoWeek);
+                $from = Carbon::now()->setISODate($year, $week)->startOfWeek(Carbon::MONDAY);
+                $to   = Carbon::now()->setISODate($year, $week)->endOfWeek(Carbon::SUNDAY)->endOfDay();
+                break;
+            }
+
+            case 'monthly': {
+                $month = (int) ($f['month'] ?? now()->month);
+                $month = max(1, min(12, $month));
+
+                $from = Carbon::createFromDate($year, $month, 1)->startOfDay();
+                $to   = Carbon::createFromDate($year, $month, 1)->endOfMonth()->endOfDay();
+                break;
+            }
+
+            default: { // yearly
+                $from = Carbon::createFromDate($year, 1, 1)->startOfDay();
+                $to   = Carbon::createFromDate($year, 12, 31)->endOfDay();
+                break;
+            }
         }
 
         return [$from, $to];
@@ -82,9 +95,7 @@ class ReportService
     }
 
 
-    /**
-     * تفصيل حسب طريقة الشحن (Land / sea / air).
-     */
+
     private function shippingMethodBreakdown(Carbon $from, Carbon $to, ?int $shippingManagerId = null): array
     {
         $q = Shipment::query()
@@ -102,9 +113,17 @@ class ReportService
             ->pluck('count','shipping_method')
             ->toArray();
     }
-    /**
-     * تفصيل حالات الشحنات (pending / in_process / delivered).
-     */
+    private function paymentStatusBreakdown(Carbon $from, Carbon $to): array
+    {
+        return DB::table('orders')
+            ->whereBetween('created_at', [$from, $to])
+            ->select('payment_status', DB::raw('COUNT(*) as count'))
+            ->groupBy('payment_status')
+            ->orderBy('count', 'desc')
+            ->pluck('count', 'payment_status')
+            ->toArray();
+    }
+
     private function shipmentStatusBreakdown(Carbon $from, Carbon $to, ?int $shippingManagerId = null): array
     {
         $q = Shipment::query()
@@ -123,9 +142,7 @@ class ReportService
             ->toArray();
     }
 
-    /**
-     * تفصيل شركات الشحن الأصلية (original_company_id).
-     */
+
     private function carriersBreakdown(Carbon $from, Carbon $to, ?int $shippingManagerId = null): array
     {
         $q = Shipment::query()
@@ -155,9 +172,7 @@ class ReportService
         return $out;
     }
 
-    /**
-     * متوسط مدة الشحن من shipped_date إلى delivered_date (بالأيام).
-     */
+
     private function timeToDeliverAvg(Carbon $from, Carbon $to, ?int $shippingManagerId = null): float
     {
         $q = Shipment::query()
@@ -187,9 +202,29 @@ class ReportService
     {
         $q = OrderInvoice::query()->whereBetween('created_at', [$from, $to]);
 
+
+return [
+    'total_company_profit' => (float) $q->sum('total_company_profit'),
+    'total_final_amount'   => (float) $q->sum('total_final_amount'),
+];
+    }
+
+    private function complaintsSummary(Carbon $from, Carbon $to): array
+    {
+        $q = Complaint::query()->whereBetween('created_at', [$from, $to]);
+
+        $total      = (clone $q)->count();
+        $open       = (clone $q)->where('status', 'open')->count();
+        $closed     = (clone $q)->where('status', 'closed')->count();
+        $unreplied  = (clone $q)->whereNull('admin_reply')->count();
+        $replied    = (clone $q)->whereNotNull('admin_reply')->count();
+
         return [
-            'total_company_profit' => (float) $q->sum('total_company_profit'),
-            'total_final_amount'   => (float) $q->sum('total_final_amount'),
+            'total'      => (int) $total,
+            'open'       => (int) $open,
+            'closed'     => (int) $closed,
+            'unreplied'  => (int) $unreplied,
+            'replied'    => (int) $replied,
         ];
     }
 

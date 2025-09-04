@@ -73,4 +73,7 @@ class Shipment extends Model
     }
 
 
+    public function contracts() { return $this->hasMany(\App\Models\Contract::class); }
+
+
 }
