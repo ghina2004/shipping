@@ -18,19 +18,19 @@ class ShipmentStatusService
 
     public function changeStatusToConfirm(Shipment $shipment): Shipment
     {
-        if (!$shipment->is_information_complete || $shipment->is_confirm) {
-            throw new CustomException(__('shipment.cannot_confirm_shipment'));
+        if (!$shipment->is_information_complete) {
+            throw new CustomException(('shipment.cannot_confirm_shipment'));
         }
-
         if ($shipment->is_confirm) {
-            throw new CustomException(__('shipment.cannot_confirm'));
+            throw new CustomException(('shipment.cannot_confirm'));
         }
 
         $shipment->update(['is_confirm' => 1]);
-        app(ContractService::class)->bootstrapOnShipmentConfirm($shipment);
-        return $shipment;
-    }
 
+        app(ContractService::class)->bootstrapOnShipmentConfirm($shipment);
+
+        return $shipment->fresh();
+    }
     public function changeStatus(Shipment $shipment, ShipmentStatusEnum $status): Shipment
     {
         $updateData = ['status' => $status->value];

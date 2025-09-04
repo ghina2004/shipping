@@ -43,7 +43,7 @@ class ContractService
         ]);
         $service->title = 'Service Agreement';
 
-        $servicePdf = Pdf::loadView('contracts.service', ['shipment' => $shipment])->output();
+        $servicePdf = Pdf::loadView('contracts.service_contract', ['shipment' => $shipment])->output();
 
         $dirRel = 'contracts/service/unsigned/' . $shipment->id;
         $dirAbs = $this->ensurePublicDir($dirRel);
@@ -55,8 +55,7 @@ class ContractService
         file_put_contents($abs, $servicePdf);
 
         $service->unsigned_file_path  = $rel;
-        $service->status              = ContractStatusEnum::Final->value;
-        $service->visible_to_customer = true;
+        $service->status              = ContractStatusEnum::PendingSignature->value;
         $service->save();
 
         $goods = Contract::query()->firstOrNew([
@@ -78,7 +77,6 @@ class ContractService
 
         $goods->unsigned_file_path  = $relG;
         $goods->status              = ContractStatusEnum::Final->value;
-        $goods->visible_to_customer = true;
         $goods->save();
 
         return [$service->refresh(), $goods->refresh()];
