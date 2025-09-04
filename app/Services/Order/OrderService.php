@@ -50,9 +50,9 @@ class OrderService
         return Shipment::query()->where('order_id', $orderId)->get();
     }
 
-    public function updateOrderStatus(Order $order,Status $status): Order
+    public function updateOrderStatus(Order $order,OrderStatusEnum $status): Order
     {
-        $order->update(['status' => $status['name']]);
+        $order->update(['order_status' => $status->value]);
         return $order;
     }
 

@@ -25,11 +25,9 @@ class ShipmentFullController extends Controller
 
     public function show($shipmentId)
     {
-
         $shipment = $this->shipmentService->show($shipmentId);
 
         $shipment->loadMissing(['shipmentSupplier', 'answersShipment' ,'shipmentDocuments']);
-
 
         return self::Success(new ShipmentFullResource($shipment), __('success'));
     }

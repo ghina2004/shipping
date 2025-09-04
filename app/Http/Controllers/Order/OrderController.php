@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Order;
 
+use App\Enums\Status\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\MyFatoorahPaymentRequest;
+use App\Http\Requests\Status\OrderStatusRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\Question\MyFatoorahResource;
 use App\Http\Resources\ShipmentResource;
@@ -110,5 +112,14 @@ class OrderController extends Controller
         $data = $this->orderService->confirmOrder($order, $currency);
 
         return self::Success(new MyFatoorahResource($data), 'Payment link generated. Complete payment to confirm the order.');
+    }
+
+    public function changeOrderStatus(Order $order,OrderStatusRequest $request): JsonResponse
+    {
+        $statusEnum = OrderStatusEnum::from($request->string('status'));
+
+        $orders = $this->orderService->updateOrderStatus($order,$statusEnum);
+
+        return self::Success([], ('success'));
     }
 }
