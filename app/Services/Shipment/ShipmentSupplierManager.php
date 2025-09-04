@@ -44,7 +44,6 @@ class ShipmentSupplierManager
             ]);
 
 
-            $this->documentService->addShipmentDocument($docPayload);
 
             return $shipment->fresh(['shipmentSupplier', 'shipmentDocuments']);
         });

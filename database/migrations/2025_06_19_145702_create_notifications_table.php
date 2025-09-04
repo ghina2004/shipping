@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('shipment_id');
             $table->string('title');
             $table->string('body');
             $table->boolean('read')->default(0);

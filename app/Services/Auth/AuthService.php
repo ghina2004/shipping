@@ -5,6 +5,7 @@ namespace App\Services\Auth;
 use App\Data\RegisterUserData;
 use App\Enums\Status\CustomerStatus;
 use App\Exceptions\Types\CustomException;
+use App\Http\Controllers\UserNotificationController;
 use App\Models\User;
 use App\Services\Cart\CartService;
 use App\Services\Media\UserMediaService;
@@ -14,7 +15,7 @@ class AuthService
 {
     public function __construct(
         protected UserMediaService $mediaService,
-        protected CartService $cartService
+        protected CartService $cartService,
     ) {}
     public function createCustomer(RegisterUserData $data,$commercial_register)
     {
