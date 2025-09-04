@@ -5,6 +5,7 @@ namespace App\Services\Shipment;
 use App\Enums\Status\ShipmentStatusEnum;
 use App\Exceptions\Types\CustomException;
 use App\Models\Shipment;
+use App\Services\Contract\ContractService;
 
 class ShipmentStatusService
 {
@@ -26,6 +27,7 @@ class ShipmentStatusService
         }
 
         $shipment->update(['is_confirm' => 1]);
+        app(ContractService::class)->bootstrapOnShipmentConfirm($shipment);
         return $shipment;
     }
 

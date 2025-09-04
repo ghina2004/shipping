@@ -9,6 +9,8 @@ use App\Http\Controllers\Chat\MessageController;
 use App\Http\Controllers\Company\OriginalShippingCompanyController;
 use App\Http\Controllers\Complaint\AdminGeneralComplaintController;
 use App\Http\Controllers\Complaint\CustomerGeneralComplaintController;
+use App\Http\Controllers\Contract\ContractController;
+use App\Http\Controllers\Contract\ContractDownloadController;
 use App\Http\Controllers\Customer\CustomerProfileController;
 use App\Http\Controllers\Customer\CustomerRequestController;
 use App\Http\Controllers\Invoice\OrderInvoiceController;
@@ -84,7 +86,6 @@ Route::middleware(['locale'])->group(function () {
         });
 
 
-
         Route::prefix('shipment')->controller(ShipmentController::class)->group(function () {
             Route::post('/', 'store')->middleware('can:create.shipment');
             Route::get('/{shipmentId}', 'show');
@@ -104,13 +105,12 @@ Route::middleware(['locale'])->group(function () {
 
         Route::prefix('categories')->controller(CategoryController::class)->group(function () {
             Route::get('/', 'index');
-            Route::get('/{id}','show');
-            Route::get('/{id}/with-questions','showWithQuestions');
-            Route::post('/','store');
-            Route::post('/update/{id}','update');
-            Route::delete('/{id}','destroy');
+            Route::get('/{id}', 'show');
+            Route::get('/{id}/with-questions', 'showWithQuestions');
+            Route::post('/', 'store');
+            Route::post('/update/{id}', 'update');
+            Route::delete('/{id}', 'destroy');
         });
-
 
 
         Route::prefix('shipment')->controller(ShipmentStatusController::class)->group(function () {
@@ -130,11 +130,11 @@ Route::middleware(['locale'])->group(function () {
 
         Route::prefix('categories')->controller(CategoryController::class)->group(function () {
             Route::get('/', 'index');
-            Route::get('/{id}','show');
-            Route::get('/{id}/with-questions','showWithQuestions');
-            Route::post('/store','store');
-            Route::post('/update/{id}','update');
-            Route::delete('/{id}','destroy');
+            Route::get('/{id}', 'show');
+            Route::get('/{id}/with-questions', 'showWithQuestions');
+            Route::post('/store', 'store');
+            Route::post('/update/{id}', 'update');
+            Route::delete('/{id}', 'destroy');
         });
         Route::prefix('carts')->controller(CartController::class)->group(function () {
             Route::get('/cartshipments', 'showShipmentsCart');//->middleware('can:show.shipments.cart');
@@ -151,37 +151,37 @@ Route::middleware(['locale'])->group(function () {
 
 
         Route::prefix('shipment-full')->controller(ShipmentFullController::class)->group(function () {
-            Route::get('/{shipmentId}',  'show');//->middleware('can:show.shipment.full');
-            Route::post('/{shipmentId}',  'update');//->middleware('can:update.shipment.full');
-            Route::delete('/{shipmentId}',  'delete');//->middleware('can:delete.shipment.full');
+            Route::get('/{shipmentId}', 'show');//->middleware('can:show.shipment.full');
+            Route::post('/{shipmentId}', 'update');//->middleware('can:update.shipment.full');
+            Route::delete('/{shipmentId}', 'delete');//->middleware('can:delete.shipment.full');
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
 
             Route::get('/all', 'index');
-            Route::post('/',  'store');//->middleware('can:create.company');
+            Route::post('/', 'store');//->middleware('can:create.company');
             Route::get('/{originalShippingCompany}', 'show');//->middleware('can:show.company');
-            Route::post('/update/{originalShippingCompany}',  'update');//->middleware('can:update.company');
-            Route::delete('/{originalShippingCompany}',  'destroy');//->middleware('can:delete.company');
+            Route::post('/update/{originalShippingCompany}', 'update');//->middleware('can:update.company');
+            Route::delete('/{originalShippingCompany}', 'destroy');//->middleware('can:delete.company');
         });
         Route::prefix('companies')->controller(OriginalShippingCompanyController::class)->group(function () {
 
-            Route::post('/{shipment}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
-            Route::post('/{shipment}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
+            Route::post('/{shipment}', 'addAndAssignCompany');//->middleware('can:add.and.assign.company');
+            Route::post('/{shipment}/{originalShippingCompany}', 'selectCompany');//->middleware('can:select.company');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
-            Route::post('/create/{shipment}','create');
-            Route::get('/show/{shipment}','show');
-            Route::post('/update/{invoice}','update');
-            Route::delete('/delete/{invoice}','delete');
-            Route::get('/{invoice}/download','download');
+            Route::post('/create/{shipment}', 'create');
+            Route::get('/show/{shipment}', 'show');
+            Route::post('/update/{invoice}', 'update');
+            Route::delete('/delete/{invoice}', 'delete');
+            Route::get('/{invoice}/download', 'download');
         });
 
         Route::prefix('invoice/order')->controller(OrderInvoiceController::class)->group(function () {
-            Route::get('/create/{order}','create');
-            Route::get('/show/{order}','show');
-            Route::delete('/delete/{invoice}','delete');
-            Route::get('/{invoice}/download','download');
+            Route::get('/create/{order}', 'create');
+            Route::get('/show/{order}', 'show');
+            Route::delete('/delete/{invoice}', 'delete');
+            Route::get('/{invoice}/download', 'download');
         });
 
 
@@ -192,7 +192,7 @@ Route::middleware(['locale'])->group(function () {
 
         Route::prefix('payments')->middleware('auth:sanctum')->group(function () {
 
-            Route::post('info/{order}',[PaymentInfoController::class, 'show']);
+            Route::post('info/{order}', [PaymentInfoController::class, 'show']);
 
             /*   Route::controller(StripePaymentController::class)->group(function () {
                    Route::post('pay/{order}', 'pay');
@@ -201,7 +201,7 @@ Route::middleware(['locale'])->group(function () {
 
             Route::controller(MyFatoorahPaymentController::class)->group(function () {
                 Route::post('pay', 'pay');
-                Route::post('verify','verify');
+                Route::post('verify', 'verify');
                 Route::get('callback', 'callback')->name('payments.myfatoorah.callback');
             });
 
@@ -209,14 +209,14 @@ Route::middleware(['locale'])->group(function () {
 
         Route::prefix('order-routes')->controller(ShipmentRouteController::class)->group(function () {
             Route::get('/{shipment}', 'showByShipment');
-            Route::post('/',  'store');
+            Route::post('/', 'store');
             Route::post('/{ShipmentRoute}', 'update');
             Route::delete('{ShipmentRoute}', 'destroy');
             Route::get('/show/{ShipmentRoute}', 'show');
         });
 
         Route::prefix('order-logs')->controller(OrderTrackingLogController::class)->group(function () {
-            Route::post('/',  'store');
+            Route::post('/', 'store');
             Route::post('/{shipmentTracking}', 'update');
             Route::delete('{shipmentTracking}', 'destroy');
         });
@@ -243,8 +243,8 @@ Route::middleware(['locale'])->group(function () {
         });
 
         Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCustomerController::class)->group(function () {
-            Route::get('/view','index');
-            Route::get('/show/{customer}','show');
+            Route::get('/view', 'index');
+            Route::get('/show/{customer}', 'show');
             Route::delete('delete/{customer}', 'destroy');
         });
 
@@ -255,32 +255,52 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('/delete/image', 'deleteImage');
         });
 
-        Route::prefix('orders')->middleware(['auth:sanctum','role:customer'])->controller(RateOrderController::class)->group(function () {
-            Route::post('{order}/rate','store');
-            Route::get('{order}/show/rate','show');
+        Route::prefix('orders')->middleware(['auth:sanctum', 'role:customer'])->controller(RateOrderController::class)->group(function () {
+            Route::post('{order}/rate', 'store');
+            Route::get('{order}/show/rate', 'show');
         });
 
-        Route::middleware(['auth:sanctum','role:customer'])
+        Route::middleware(['auth:sanctum', 'role:customer'])
             ->prefix('customer/complaints')->controller(CustomerGeneralComplaintController::class)->group(function () {
-                Route::get('/show','index');
-                Route::post('/store','store');
-                Route::get('{id}','show');
+                Route::get('/show', 'index');
+                Route::post('/store', 'store');
+                Route::get('{id}', 'show');
             });
 
-        Route::middleware(['auth:sanctum','role:admin'])
+        Route::middleware(['auth:sanctum', 'role:admin'])
             ->prefix('admin/complaints')->controller(AdminGeneralComplaintController::class)->group(function () {
-                Route::get('/show','index');
-                Route::get('{complaint}','show');
-                Route::post('{complaint}/reply','reply');
-                Route::post('{complaint}/resolve','resolve');
+                Route::get('/show', 'index');
+                Route::get('{complaint}', 'show');
+                Route::post('{complaint}/reply', 'reply');
+                Route::post('{complaint}/resolve', 'resolve');
             });
 
         Route::prefix('reports')->group(function () {
             Route::get('/admin', [AdminReportController::class, 'index']);
             Route::get('/shipping-manager', [ShippingManagerReportController::class, 'index']);
         });
-    });
 
+        Route::prefix('contracts')->group(function () {
+            // قائمة عقود الشحنة
+            Route::get('shipment/{shipment}', [ContractController::class, 'index']);
+
+            // توليد/تحميل ملفات “من النظام” (PDF) بالاعتماد على الشحنة
+            Route::get('service/{shipment}/download', [ContractDownloadController::class, 'downloadService']);
+            Route::get('goods/{shipment}/download',   [ContractDownloadController::class, 'downloadGoods']);
+
+            // تحميل بوليصة الشحن (المرفوعة من الموظف) بحسب الشحنة
+            Route::get('bol/{shipment}/download',     [ContractDownloadController::class, 'downloadBOLByShipment']);
+
+            // تحميل نسخة موقعة لعقد الخدمة بحسب الشحنة (إن وُجدت)
+            Route::get('service/{shipment}/download-signed', [ContractDownloadController::class, 'downloadSignedByShipment']);
+
+            // رفع بوليصة الشحن (موظف)
+            Route::post('shipment/{shipment}/bol',             [ContractController::class, 'uploadBillOfLading']);
+
+            // رفع عقد الخدمة الموقّع (عميل)
+            Route::post('shipment/{shipment}/service/signed',  [ContractController::class, 'uploadSignedService']);
+        });
+    });
 });
 
 
