@@ -28,6 +28,7 @@ use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
 use App\Http\Controllers\Shipment\ShipmentFullController;
 use App\Http\Controllers\Shipment\ShipmentStatusController;
+use App\Http\Controllers\ShipmentSupplierController;
 use App\Http\Controllers\User\ManageCustomerController;
 use App\Http\Controllers\User\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -167,6 +168,7 @@ Route::middleware(['locale'])->group(function () {
 
             Route::post('/{shipment}',  'addAndAssignCompany');//->middleware('can:add.and.assign.company');
             Route::post('/{shipment}/{originalShippingCompany}',  'selectCompany');//->middleware('can:select.company');
+            Route::get('/{shipment}',  'showShipmentWithCompany');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
@@ -220,6 +222,14 @@ Route::middleware(['locale'])->group(function () {
             Route::post('/{shipmentTracking}', 'update');
             Route::delete('{shipmentTracking}', 'destroy');
         });
+
+        Route::prefix('shipment-supplier')->controller(ShipmentSupplierController::class)->group(function () {
+            Route::post('/{shipment}',  'store');
+            Route::post('/{shipmentTracking}', 'update');
+            Route::delete('{shipmentTracking}', 'destroy');
+        });
+
+
 
         Route::prefix('admin/users')->controller(UserManagementController::class)->group(function () {
             // Employees
