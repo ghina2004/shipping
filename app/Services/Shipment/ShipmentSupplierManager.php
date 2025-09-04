@@ -46,7 +46,7 @@ class ShipmentSupplierManager
 
             $this->documentService->addShipmentDocument($docPayload);
 
-            return $shipment->fresh(['supplier', 'documents']);
+            return $shipment->fresh(['shipmentSupplier', 'shipmentDocuments']);
         });
     }
 
@@ -54,58 +54,53 @@ class ShipmentSupplierManager
     public function updateSupplierAndInvoice(
         Shipment $shipment,
         array $supplierData,
-        UploadedFile $invoiceFile ,
-        array $documentExtra = []
+        UploadedFile $invoiceFile
+
     ){
-        return DB::transaction(function () use ($shipment, $supplierData, $invoiceFile, $documentExtra) {
-            if (! $shipment->supplier) {
+        return DB::transaction(function () use ($shipment, $supplierData, $invoiceFile) {
+            if (! $shipment->shipmentSupplier) {
                 throw ValidationException::withMessages([
                     'supplier' => ['Shipment has no supplier to update.']
                 ]);
             }
 
-            $this->supplierService->update($shipment->supplier, $supplierData);
+            $this->supplierService->update($shipment->shipmentSupplier, $supplierData);
+
+            $shipment->load('shipmentDocuments');
 
             if ($invoiceFile) {
-                $document = $shipment->documents()->where('type', 'sup_invoice')->first();
+                $document = $shipment->shipmentDocuments
+                    ->firstWhere('type', 'sup_invoice');
                 if ($document) {
                     $this->documentService->updateShipmentDocument($document, $invoiceFile);
-                    // Optionally update visible_to_customer or other flags:
-                    if (isset($documentExtra['visible_to_customer'])) {
-                        $document->update(['visible_to_customer' => (bool)$documentExtra['visible_to_customer']]);
-                    }
-                } else {
-                    $docPayload = array_merge([
-                        'shipment_id' => $shipment->id,
-                        'type' => $documentExtra['type'] ?? 'sup_invoice',
-                        'sup_invoice' => $invoiceFile,
-                    ], $documentExtra);
-                    $this->documentService->addShipmentDocument($docPayload);
-                }
-            }
 
-            return $shipment->fresh(['supplier', 'documents']);
+                } }
+
+
+            return $shipment->fresh(['shipmentSupplier', 'shipmentDocuments']);
         });
     }
 
     public function deleteSupplierAndInvoice(Shipment $shipment): void
     {
         DB::transaction(function () use ($shipment) {
-            // delete documents of type sup_invoice
-            $documents = $shipment->documents()->where('type', 'sup_invoice')->get();
+
+            $shipment->load('shipmentDocuments', 'shipmentSupplier');
+
+
+            $documents = $shipment->shipmentDocuments->where('type', 'sup_invoice');
             foreach ($documents as $document) {
                 $this->documentService->deleteShipmentDocument($document);
             }
 
-            // delete supplier record (if exists)
-            if ($shipment->supplier) {
-                $this->supplierService->delete($shipment->supplier);
+
+            if ($shipment->shipmentSupplier) {
+                $this->supplierService->delete($shipment->shipmentSupplier);
             }
 
-            // unlink from shipment
+
             $shipment->update([
                 'supplier_id' => null,
-                'having_supplier' => false,
             ]);
         });
     }
@@ -113,9 +108,13 @@ class ShipmentSupplierManager
 
     public function showSupplierAndInvoice(Shipment $shipment): array
     {
+
+        $shipment->load('shipmentSupplier', 'shipmentDocuments');
+
         return [
-            'supplier' => $shipment->supplier,
-            'invoice' => $shipment->documents()->where('type', 'sup_invoice')->first(),
+            'supplier' => $shipment->shipmentSupplier,
+            'invoice'  => $shipment->shipmentDocuments->firstWhere('type', 'sup_invoice'),
         ];
     }
+
 }
