@@ -50,16 +50,16 @@ class OrderService
         return Shipment::query()->where('order_id', $orderId)->get();
     }
 
-    public function updateOrderStatus(Order $order,Status $status): Order
+    public function updateOrderStatus(Order $order,OrderStatusEnum $status): Order
     {
-        $order->update(['status' => $status['name']]);
+        $order->update(['order_status' => $status->value]);
         return $order;
     }
 
     public function getUnconfirmedOrders()
     {
         $user = Auth::user()->load(['orderCustomers' => function ($query) {
-        $query->where('status', false);
+            $query->where('status', false);
         }]);
 
         return $user->orderCustomers;

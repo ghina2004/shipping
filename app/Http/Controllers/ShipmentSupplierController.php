@@ -24,7 +24,7 @@ class ShipmentSupplierController extends Controller
 
         $validated = $request->validated();
         $supplierData = collect($validated)->only(['name', 'address', 'contact_email', 'contact_phone'])->toArray();
-        $invoiceFile = $validated['sup_invoice'];
+        $invoiceFile = $request->file('sup_invoice');
         $shipment = $this->service->addSupplierAndInvoiceToShipment(
             $shipment,
             $supplierData,
@@ -56,7 +56,7 @@ class ShipmentSupplierController extends Controller
     {
         $validated = $request->validated();
         $supplierData = collect($validated)->only(['name', 'address', 'contact_email', 'contact_phone'])->toArray();
-        $invoiceFile = $validated['sup_invoice'];
+        $invoiceFile = $request->file('sup_invoice');
         $shipment = $this->service->updateSupplierAndInvoice(
             $shipment,
             $supplierData,

@@ -5,18 +5,35 @@ namespace App\Services\Complaint;
 use App\Enums\Complaint\ComplaintStatusEnum;
 use App\Models\Complaint;
 use App\Models\User;
+use App\Services\Notification\NotificationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class ComplaintService
 {
     public function create(User $customer, array $data): Complaint {
-        return Complaint::create([
+        $complaint = Complaint::create([
             'customer_id' => $customer->id,
             'subject'     => $data['subject'],
             'message'     => $data['message'],
             'status'      => ComplaintStatusEnum::Open->value,
         ]);
+
+
+        $admins = \App\Models\User::role('admin')->get();
+
+        foreach ($admins as $admin) {
+            if ($admin->fcm_token) {
+                app(NotificationService::class)->send(
+                    $admin->toArray(),
+                    'شكوى جديدة',
+                    'تم تسجيل شكوى جديدة بعنوان: ' . $complaint->subject,
+                    'complaint'
+                );
+            }
+        }
+
+        return $complaint;
     }
 
     public function listForCustomer(User $customer): Collection {
@@ -42,13 +59,25 @@ class ComplaintService
     public function reply(Complaint $complaint, string $reply): Complaint
     {
         $data = [
-            'admin_reply' => $reply,
+            'admin_reply' => $complaint->admin_reply
+                ? $complaint->admin_reply . "\n---\n" . $reply
+                : $reply,
             'replied_at'  => now(),
             'status'      => ComplaintStatusEnum::Replied->value,
         ];
 
         $complaint->update($data);
 
+
+        $customer = $complaint->customer;
+        if ($customer && $customer->fcm_token) {
+            app(NotificationService::class)->send(
+                $customer->toArray(),
+                'تم الرد على الشكوى',
+                'تم الرد على شكواك بعنوان: ' . $complaint->subject,
+                'complaint_reply'
+            );
+        }
 
         return $complaint->fresh();
     }

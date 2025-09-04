@@ -42,6 +42,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('admin123'),
                 'email_verified_at' => now(),
                 'is_verified' => 1,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'admin',
             ],
             [
@@ -52,6 +53,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('shipment123'),
                 'email_verified_at' => now(),
                 'is_verified' => 1,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'shipment manager',
             ],
             [
@@ -62,6 +64,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('employee123'),
                 'email_verified_at' => now(),
                 'is_verified' => 1,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'employee',
             ],
             [
@@ -72,6 +75,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('customer123'),
                 'email_verified_at' => now(),
                 'is_verified' => 1,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'customer',
             ],
             [
@@ -82,6 +86,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('customer123'),
                 'email_verified_at' => now(),
                 'is_verified' => 1,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'customer',
             ],
             [
@@ -91,6 +96,7 @@ class RolesPermissionSeeder extends Seeder
                 'email' => 'customer2@gmail.com',
                 'password' => bcrypt('customer123'),
                 'email_verified_at' => now(),
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'is_verified' => 0,
                 'role' => 'customer',
             ],
@@ -102,6 +108,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('customer123'),
                 'email_verified_at' => now(),
                 'is_verified' => 0,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'customer',
             ],
             [
@@ -112,6 +119,7 @@ class RolesPermissionSeeder extends Seeder
                 'password' => bcrypt('accountant123'),
                 'email_verified_at' => now(),
                 'is_verified' => 1,
+                'fcm_token' => 'cdN5ePwlSVWByMHp99CFOE:APA91bEVIEsBPSpbzY6jKxzODHxdOsFv_rfmjSxIF8HlprtjsA6RGEPJ7xpl8o7Chn3aoSBOhVEKQ04Q4uUWUQ3uvaLewZTfg3wQ3ApCwnbJwLxgKr0s7LE',
                 'role' => 'accountant',
             ],
         ];

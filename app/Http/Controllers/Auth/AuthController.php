@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Data\RegisterUserData;
 use App\Exceptions\Types\CustomException;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserNotificationController;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Resources\UserResource;
@@ -26,15 +27,20 @@ class AuthController extends Controller
     private VerificationService $verificationService;
     private EmailService $emailService;
     private UserMediaService $userImageService;
+    private UserNotificationController $notificationController;
+
 
     private CartService $cartService;
 
-    public function __construct(AuthService $authService, VerificationService $verificationService, EmailService $emailService, UserMediaService $userImageService, CartService $cartService){
+    public function __construct(AuthService $authService, VerificationService $verificationService, EmailService $emailService, UserMediaService $userImageService, CartService $cartService,UserNotificationController $notificationController,
+){
         $this->authService = $authService;
         $this->verificationService = $verificationService;
         $this->emailService = $emailService;
         $this->userImageService = $userImageService;
         $this->cartService = $cartService;
+        $this->notificationController = $notificationController;
+
     }
 
     public function register(UserRegisterRequest $request): JsonResponse
@@ -75,6 +81,7 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
+        $this->notificationController->clearToken();
         auth()->user()->tokens()->delete();
         return self::Success('', __('auth.logout'));
     }

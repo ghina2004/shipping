@@ -31,8 +31,10 @@ use App\Http\Controllers\Shipment\ShipmentAnswerController;
 use App\Http\Controllers\Shipment\ShipmentController;
 use App\Http\Controllers\Shipment\ShipmentFullController;
 use App\Http\Controllers\Shipment\ShipmentStatusController;
+use App\Http\Controllers\ShipmentSupplierController;
 use App\Http\Controllers\User\ManageCustomerController;
 use App\Http\Controllers\User\UserManagementController;
+use App\Http\Controllers\UserNotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['locale'])->group(function () {
@@ -225,6 +227,20 @@ Route::prefix('show/order')->controller(OrderController::class)->group(function 
             Route::delete('{shipmentTracking}', 'destroy');
         });
 
+        Route::prefix('shipment-supplier')->controller(ShipmentSupplierController::class)->group(function () {
+            Route::post('/{shipment}', 'store');
+            Route::get('/{shipment}', 'show');
+            Route::delete('{shipment}', 'destroy');
+        });
+
+
+        Route::prefix('shipment-update-supplier')->controller(ShipmentSupplierController::class)->group(function () {
+             Route::post('/{shipment}', 'update');
+
+        });
+
+
+
         Route::prefix('admin/users')->controller(UserManagementController::class)->group(function () {
             // Employees
             Route::post('employees', 'addEmployee');
@@ -306,4 +322,15 @@ Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCus
             Route::post('shipment/{shipment}/service/signed',  [ContractController::class, 'uploadSignedService']);
         });
     });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('me/fcm-token', [UserNotificationController::class, 'storeToken']);
+        Route::post('me/fcm-token/clear', [UserNotificationController::class, 'clearToken']);
+    });
+
+    Route::prefix('notifications')->controller(UserNotificationController::class)->group(function () {
+        Route::get('/', 'index');          // كل الإشعارات
+        Route::get('/unread-count', 'unreadCount'); // عدد الغير مقروءة
+    });
+
 });
