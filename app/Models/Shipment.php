@@ -72,6 +72,8 @@ class Shipment extends Model
         return $this->hasMany(ShipmentTrackingLog::class);
     }
 
+
     public function contracts() { return $this->hasMany(\App\Models\Contract::class); }
+
 
 }

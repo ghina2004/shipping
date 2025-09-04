@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
@@ -78,12 +79,13 @@ Route::middleware(['locale'])->group(function () {
 
         });
 
-        Route::prefix('show/order')->controller(OrderController::class)->group(function () {
-            Route::get('/confirmed-customer', 'showConfirmedOrders');//->middleware('can:show.confirmed.order');
-            Route::get('/unconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
-            Route::get('/delivered', 'showDeliveredOrders');//->middleware('can:show.unconfirmed.order');
 
-        });
+Route::prefix('show/order')->controller(OrderController::class)->group(function () {
+    Route::get('/confirmed-customer', 'showConfirmedOrders');//->middleware('can:show.confirmed.order');
+    Route::get('/unconfirmed-customer', 'showUnconfirmedOrders');//->middleware('can:show.unconfirmed.order');
+    Route::get('/delivered', 'showDeliveredOrders');//->middleware('can:show.unconfirmed.order');
+
+});
 
 
         Route::prefix('shipment')->controller(ShipmentController::class)->group(function () {
@@ -157,6 +159,7 @@ Route::middleware(['locale'])->group(function () {
         });
         Route::prefix('original-shipping-companies')->controller(OriginalShippingCompanyController::class)->group(function () {
 
+
             Route::get('/all', 'index');
             Route::post('/', 'store');//->middleware('can:create.company');
             Route::get('/{originalShippingCompany}', 'show');//->middleware('can:show.company');
@@ -167,6 +170,7 @@ Route::middleware(['locale'])->group(function () {
 
             Route::post('/{shipment}', 'addAndAssignCompany');//->middleware('can:add.and.assign.company');
             Route::post('/{shipment}/{originalShippingCompany}', 'selectCompany');//->middleware('can:select.company');
+            Route::get('/{shipment}',  'showShipmentWithCompany');
         });
 
         Route::prefix('invoice')->controller(ShipmentInvoiceController::class)->group(function () {
@@ -242,11 +246,12 @@ Route::middleware(['locale'])->group(function () {
             Route::delete('delete/{id}', 'delete');
         });
 
-        Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCustomerController::class)->group(function () {
-            Route::get('/view', 'index');
-            Route::get('/show/{customer}', 'show');
-            Route::delete('delete/{customer}', 'destroy');
-        });
+
+Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCustomerController::class)->group(function () {
+    Route::get('/view', 'index');
+    Route::get('/show/{customer}', 'show');
+    Route::delete('delete/{customer}', 'destroy');
+});
 
         Route::prefix('customer/profile')->controller(CustomerProfileController::class)->group(function () {
             Route::get('/show', 'show');
@@ -302,6 +307,3 @@ Route::middleware(['locale'])->group(function () {
         });
     });
 });
-
-
-

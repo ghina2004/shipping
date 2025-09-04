@@ -31,6 +31,7 @@ return [
         'replied'  => 'Replied',
         'resolved' => 'Resolved',
     ],
+
     'contract_type' => [
         'service'           => 'Service Agreement',
         'goods_description' => 'Goods Description',
@@ -41,4 +42,5 @@ return [
         'signed'            => 'Signed',
         'final'             => 'Final',
     ],
+
 ];

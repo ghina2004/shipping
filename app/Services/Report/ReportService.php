@@ -95,9 +95,7 @@ class ReportService
     }
 
 
-    /**
-     * تفصيل حسب طريقة الشحن (Land / sea / air).
-     */
+
     private function shippingMethodBreakdown(Carbon $from, Carbon $to, ?int $shippingManagerId = null): array
     {
         $q = Shipment::query()
@@ -125,9 +123,7 @@ class ReportService
             ->pluck('count', 'payment_status')
             ->toArray();
     }
-    /**
-     * تفصيل حالات الشحنات (pending / in_process / delivered).
-     */
+
     private function shipmentStatusBreakdown(Carbon $from, Carbon $to, ?int $shippingManagerId = null): array
     {
         $q = Shipment::query()
@@ -146,9 +142,7 @@ class ReportService
             ->toArray();
     }
 
-    /**
-     * تفصيل شركات الشحن الأصلية (original_company_id).
-     */
+
     private function carriersBreakdown(Carbon $from, Carbon $to, ?int $shippingManagerId = null): array
     {
         $q = Shipment::query()
@@ -178,9 +172,7 @@ class ReportService
         return $out;
     }
 
-    /**
-     * متوسط مدة الشحن من shipped_date إلى delivered_date (بالأيام).
-     */
+
     private function timeToDeliverAvg(Carbon $from, Carbon $to, ?int $shippingManagerId = null): float
     {
         $q = Shipment::query()
@@ -210,10 +202,11 @@ class ReportService
     {
         $q = OrderInvoice::query()->whereBetween('created_at', [$from, $to]);
 
-        return [
-            'total_company_profit' => (float) $q->sum('total_company_profit'),
-            'total_final_amount'   => (float) $q->sum('total_final_amount'),
-        ];
+
+return [
+    'total_company_profit' => (float) $q->sum('total_company_profit'),
+    'total_final_amount'   => (float) $q->sum('total_final_amount'),
+];
     }
 
     private function complaintsSummary(Carbon $from, Carbon $to): array

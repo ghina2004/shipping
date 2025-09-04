@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Services\Complaint;
 
+namespace App\Services\Complaint;
 use App\Enums\Complaint\ComplaintStatusEnum;
 use App\Models\Complaint;
 use App\Models\User;
@@ -38,6 +38,7 @@ class ComplaintService
         return $complaint;
     }
 
+
     public function reply(Complaint $complaint, string $reply): Complaint
     {
         $data = [
@@ -47,6 +48,7 @@ class ComplaintService
         ];
 
         $complaint->update($data);
+
 
         return $complaint->fresh();
     }

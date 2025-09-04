@@ -31,6 +31,7 @@ return [
         'replied'  => 'تم الرد',
         'resolved' => 'منتهية',
     ],
+
     'contract_type' => [
         'service'           => 'عقد الخدمة',
         'goods_description' => 'وصف البضاعة',
@@ -41,4 +42,5 @@ return [
         'signed'            => 'موقّع',
         'final'             => 'نهائي',
     ],
+
 ];

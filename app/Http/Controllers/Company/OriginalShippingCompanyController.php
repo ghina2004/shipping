@@ -76,4 +76,23 @@ class OriginalShippingCompanyController extends Controller
 
         return self::Success(new ShipmentResource($shipment), __('company selected  successfully'));
     }
+
+
+    public function showShipmentWithCompany(Shipment $shipment)
+    {
+        $shipment->load('originalCompany');
+
+        return self::Success(
+            [
+                'shipment' => new ShipmentResource($shipment),
+                'company' => $shipment->originalCompany
+                    ? new OriginalShippingCompanyResource($shipment->originalCompany)
+                    : null,
+            ],
+            __('shipment with company showed successfully')
+        );
+    }
+
+
+
 }

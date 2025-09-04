@@ -8,5 +8,4 @@ enum MediaType: string
 
     case COMMERCIAL_REGISTER  = 'commercialRegister';
 
-
 }
