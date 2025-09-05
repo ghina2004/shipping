@@ -35,7 +35,7 @@ return [
     'contract_type' => [
         'service'           => 'عقد الخدمة',
         'goods_description' => 'وصف البضاعة',
-        'bill_of_lading'    => 'بوليصة الشحن',
+        'other'    => 'اخر',
     ],
     'contract_status' => [
         'pending_signature' => 'بانتظار توقيع العميل',

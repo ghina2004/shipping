@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('uploaded_by')->nullable();
             $table->boolean('is_signed')->default(false);
             $table->timestamp('signed_at')->nullable();
+            $table->boolean('show_signed_to_customer')->default(false);
+            $table->boolean('show_unsigned_to_customer')->default(false);
             $table->timestamps();
             $table->index(['shipment_id', 'type']);
             $table->index('status');

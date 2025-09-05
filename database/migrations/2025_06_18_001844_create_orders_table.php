@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('has_accountant')->default(0);
             $table->string('payment_status')->default('unpaid');
             $table->string('order_status')->default('In process');
+            $table->boolean('can_confirm')->default(0);
             $table->timestamps();
         });
     }

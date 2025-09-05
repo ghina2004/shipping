@@ -35,7 +35,7 @@ return [
     'contract_type' => [
         'service'           => 'Service Agreement',
         'goods_description' => 'Goods Description',
-        'bill_of_lading'    => 'Bill of Lading',
+        'other'    => 'other',
     ],
     'contract_status' => [
         'pending_signature' => 'Pending Signature',

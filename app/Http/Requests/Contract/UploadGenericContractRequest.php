@@ -4,7 +4,7 @@ namespace App\Http\Requests\Contract;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadBillOfLadingRequest extends FormRequest
+class UploadGenericContractRequest extends FormRequest
 {
     public function authorize(): bool
     {

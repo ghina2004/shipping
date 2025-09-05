@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
@@ -78,6 +77,7 @@ Route::middleware(['locale'])->group(function () {
             Route::get('/shipments/{orderId}', 'showShipmentsOrder');
             Route::post('/confirm', 'changeStatusToConfirm');
             Route::post('/change_status/{order}', 'changeOrderStatus');
+            Route::get('/change_to_confirm/{order}', 'ChangeToCanConfirm');
 
         });
 
@@ -121,7 +121,6 @@ Route::prefix('show/order')->controller(OrderController::class)->group(function 
             Route::get('/complete-info/{shipment}', 'changeToComplete');
             Route::get('/confirm/{shipment}', 'ChangeToConfirm');
             Route::post('/change_status/{shipment}', 'ChangeShipmentStatus');
-
         });
 
         Route::prefix('questions')->controller(QuestionController::class)->group(function () {
@@ -300,7 +299,7 @@ Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCus
             Route::get('/admin', [AdminReportController::class, 'index']);
             Route::get('/shipping-manager', [ShippingManagerReportController::class, 'index']);
         });
-
+/////////////////////////////////////////
         Route::prefix('contracts')->group(function () {
             // قائمة عقود الشحنة
             Route::get('shipment/{shipment}', [ContractController::class, 'index']);
@@ -309,8 +308,10 @@ Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCus
             Route::get('service/{shipment}/download', [ContractDownloadController::class, 'downloadService']);
             Route::get('goods/{shipment}/download',   [ContractDownloadController::class, 'downloadGoods']);
 
-            // تحميل بوليصة الشحن (المرفوعة من الموظف) بحسب الشحنة
-            Route::get('bol/{shipment}/download',     [ContractDownloadController::class, 'downloadBOLByShipment']);
+            // الموظف: رفع/استبدال عقد عام (other) بعنوان حر
+            Route::post('shipment/{shipment}/upload', [ContractController::class, 'uploadGeneric'])
+                ->middleware('role:admin|employee|shipment manager');
+
 
             // تحميل نسخة موقعة لعقد الخدمة بحسب الشحنة (إن وُجدت)
             Route::get('service/{shipment}/download-signed', [ContractDownloadController::class, 'downloadSignedByShipment']);
@@ -320,8 +321,16 @@ Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCus
 
             // رفع عقد الخدمة الموقّع (عميل)
             Route::post('shipment/{shipment}/service/signed',  [ContractController::class, 'uploadSignedService']);
-        });
+            // الموظف/أدمن: إعادة عقد الخدمة لمرحلة التوقيع
+            Route::get('shipment/{shipment}/service/reset-signature', [ContractController::class, 'resetServiceSignature'])
+                ->middleware('role:admin|employee|shipment manager');
+            Route::delete('{contract}', [ContractController::class, 'destroy'])
+                ->middleware('role:admin|employee|shipment manager');
 
+            // تنزيل عام لأي عقد عبر الـ id
+            Route::get('{contract}/download', [ContractController::class, 'downloadGeneric']);
+        });
+/////////////////////////////////////
         Route::prefix('me')->group(function () {
             Route::post('fcm-token', [UserNotificationController::class, 'storeToken']);
         });

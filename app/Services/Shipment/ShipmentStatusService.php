@@ -18,10 +18,10 @@ class ShipmentStatusService
 
     public function changeStatusToConfirm(Shipment $shipment): Shipment
     {
-        if (!$shipment->is_information_complete) {
+        if (!$shipment->is_information_complete ) {
             throw new CustomException(('shipment.cannot_confirm_shipment'));
         }
-        if ($shipment->is_confirm) {
+        if ($shipment->is_confirm ) {
             throw new CustomException(('shipment.cannot_confirm'));
         }
 
@@ -47,4 +47,6 @@ class ShipmentStatusService
 
         return $shipment->fresh();
     }
+
+
 }

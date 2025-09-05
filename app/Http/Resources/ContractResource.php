@@ -16,14 +16,14 @@ class ContractResource extends JsonResource
             'type_label'  => $this->typeEnum()->label(),
             'title'       => $this->title,
 
-            'status'       => $this->status,
-            'status_label' => $this->statusEnum()->label(),
+            'status'       => $this->statusEnum()->label(),
 
             'unsigned_file_url' => $this->unsigned_file_path, // مسار نسبي داخل public
             'signed_file_url'   => $this->signed_file_path,
             'signed_at'         => optional($this->signed_at)?->toDateTimeString(),
 
-            'visible_to_customer' => (bool) $this->visible_to_customer,
+            'show_signed_to_customer' => (bool) $this->show_signed_to_customer,
+            'show_unsigned_to_customer' => (bool) $this->show_unsigned_to_customer,
 
             'created_at' => optional($this->created_at)?->toDateTimeString(),
         ];

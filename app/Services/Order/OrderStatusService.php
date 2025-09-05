@@ -57,4 +57,10 @@ class OrderStatusService
             ]);
         }
     }
+
+    public function changeToCanConfirm(Order $order): ?Order
+    {
+        $order->update(['can_confirm'=>1]);
+        return $order->fresh();
+    }
 }

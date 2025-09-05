@@ -96,6 +96,8 @@ class OrderService
             throw new CustomException('Not all shipments are confirmed.', 422);
         }
 
+        if(!$order->can_confirm) throw new CustomException('not allowed to confirm.', 422);
+
         $invoice = $order->orderInvoice()->first() ?: $this->invoiceService->createOrderInvoice($order);
 
         $result = $this->paymentService->pay($invoice, strtoupper($currency));

@@ -24,6 +24,7 @@ class ContractDownloadService
         if (is_file($abs)) @unlink($abs);
     }
 
+    /** توليد/تحميل عقد الخدمة (unsigned) حسب الشحنة */
     public function downloadServiceContract(Shipment $shipment)
     {
         $contract = Contract::firstOrCreate(
@@ -31,7 +32,6 @@ class ContractDownloadService
             ['title' => 'Service Contract']
         );
 
-        // أنشئ PDF جديد دائمًا (ونستبدل السابق)
         $pdf    = Pdf::loadView('contracts.service_contract', ['shipment' => $shipment]);
         $dirRel = "contracts/{$shipment->id}";
         $dirAbs = $this->ensurePublicDir($dirRel);
@@ -39,15 +39,14 @@ class ContractDownloadService
         $rel    = "{$dirRel}/{$name}";
         $abs    = "{$dirAbs}/{$name}";
 
-        // احذف القديم إن وجد
         $this->deletePublicFile($contract->unsigned_file_path);
-
         file_put_contents($abs, $pdf->output());
         $contract->update(['unsigned_file_path' => $rel]);
 
         return response()->download($abs, $name);
     }
 
+    /** توليد/تحميل وصف البضاعة (unsigned) حسب الشحنة */
     public function downloadGoodsDescription(Shipment $shipment)
     {
         $contract = Contract::firstOrCreate(
@@ -63,27 +62,26 @@ class ContractDownloadService
         $abs    = "{$dirAbs}/{$name}";
 
         $this->deletePublicFile($contract->unsigned_file_path);
-
         file_put_contents($abs, $pdf->output());
         $contract->update(['unsigned_file_path' => $rel]);
 
         return response()->download($abs, $name);
     }
 
-    public function downloadBillOfLadingByShipment(Shipment $shipment)
+    /** تنزيل أي عقد عام عبر الـ id (يختار unsigned أو signed أيهما موجود) */
+    public function downloadGeneric(Contract $contract)
     {
-        $contract = Contract::query()
-            ->where('shipment_id', $shipment->id)
-            ->where('type', ContractTypeEnum::BillOfLading->value)
-            ->firstOrFail();
+        $path = $contract->unsigned_file_path ?: $contract->signed_file_path;
+        abort_unless($path, 404);
 
-        $abs = public_path($contract->unsigned_file_path);
+        $abs = public_path($path);
         abort_unless(is_file($abs), 404);
 
-        $name = basename($abs) ?: 'bill_of_lading.pdf';
+        $name = basename($abs) ?: Str::slug($contract->title) . '.pdf';
         return response()->download($abs, $name);
     }
 
+    /** تنزيل نسخة العقد الموقّعة (service) حسب الشحنة */
     public function downloadSignedServiceByShipment(Shipment $shipment)
     {
         $contract = Contract::query()
@@ -91,8 +89,9 @@ class ContractDownloadService
             ->where('type', ContractTypeEnum::Service->value)
             ->firstOrFail();
 
+        abort_unless($contract->signed_file_path, 404);
         $abs = public_path($contract->signed_file_path);
-        abort_unless($contract->signed_file_path && is_file($abs), 404);
+        abort_unless(is_file($abs), 404);
 
         $name = basename($abs) ?: 'service_contract_signed.pdf';
         return response()->download($abs, $name);

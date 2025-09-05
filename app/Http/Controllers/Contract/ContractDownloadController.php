@@ -20,11 +20,6 @@ class ContractDownloadController extends Controller
         return $this->service->downloadGoodsDescription($shipment);
     }
 
-    public function downloadBOLByShipment(Shipment $shipment)
-    {
-        return $this->service->downloadBillOfLadingByShipment($shipment);
-    }
-
     public function downloadSignedByShipment(Shipment $shipment)
     {
         return $this->service->downloadSignedServiceByShipment($shipment);

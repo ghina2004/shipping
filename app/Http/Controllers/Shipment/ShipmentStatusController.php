@@ -45,4 +45,5 @@ class ShipmentStatusController extends Controller
 
         return self::Success(new ShipmentResource($shipment), 'Shipment status updated successfully.');
     }
+
 }

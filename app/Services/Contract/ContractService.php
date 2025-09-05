@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 
 class ContractService
 {
+
     private function ensurePublicDir(string $relativeDir): string
     {
         $abs = public_path($relativeDir);
@@ -37,6 +38,7 @@ class ContractService
 
     public function bootstrapOnShipmentConfirm(Shipment $shipment): array
     {
+        // عقد الخدمة
         $service = Contract::query()->firstOrNew([
             'shipment_id' => $shipment->id,
             'type'        => ContractTypeEnum::Service->value,
@@ -45,17 +47,19 @@ class ContractService
 
         $servicePdf = Pdf::loadView('contracts.service_contract', ['shipment' => $shipment])->output();
 
-        $dirRel = 'contracts/service/unsigned/' . $shipment->id;
-        $dirAbs = $this->ensurePublicDir($dirRel);
+        $relDir = 'contracts/service/unsigned/' . $shipment->id;
+        $absDir = $this->ensurePublicDir($relDir);
         $name   = 'service_' . $shipment->id . '_' . time() . '.pdf';
-        $rel    = $dirRel . '/' . $name;
-        $abs    = $dirAbs . '/' . $name;
+        $rel    = $relDir . '/' . $name;
+        $abs    = $absDir . '/' . $name;
 
         $this->deletePublicFile($service->unsigned_file_path);
         file_put_contents($abs, $servicePdf);
 
-        $service->unsigned_file_path  = $rel;
-        $service->status              = ContractStatusEnum::PendingSignature->value;
+        $service->unsigned_file_path        = $rel;
+        $service->status                    = ContractStatusEnum::PendingSignature->value;
+        $service->show_unsigned_to_customer = true;
+        $service->show_signed_to_customer   = false;
         $service->save();
 
         $goods = Contract::query()->firstOrNew([
@@ -66,46 +70,53 @@ class ContractService
 
         $goodsPdf = Pdf::loadView('contracts.goods_description', ['shipment' => $shipment])->output();
 
-        $dirRelG = 'contracts/goods_description/' . $shipment->id;
-        $dirAbsG = $this->ensurePublicDir($dirRelG);
+        $relDirG = 'contracts/goods_description/' . $shipment->id;
+        $absDirG = $this->ensurePublicDir($relDirG);
         $nameG   = 'goods_' . $shipment->id . '_' . time() . '.pdf';
-        $relG    = $dirRelG . '/' . $nameG;
-        $absG    = $dirAbsG . '/' . $nameG;
+        $relG    = $relDirG . '/' . $nameG;
+        $absG    = $absDirG . '/' . $nameG;
 
         $this->deletePublicFile($goods->unsigned_file_path);
         file_put_contents($absG, $goodsPdf);
 
-        $goods->unsigned_file_path  = $relG;
-        $goods->status              = ContractStatusEnum::Final->value;
+        $goods->unsigned_file_path        = $relG;
+        $goods->status                    = ContractStatusEnum::Final->value;
+        $goods->show_unsigned_to_customer = true;
+        $goods->show_signed_to_customer   = false;
         $goods->save();
 
         return [$service->refresh(), $goods->refresh()];
     }
 
-    public function employeeUploadBillOfLading(Shipment $shipment, ?UploadedFile $file, string $title, int $employeeId): Contract
-    {
-        $contract = Contract::query()->firstOrNew([
-            'shipment_id' => $shipment->id,
-            'type'        => ContractTypeEnum::BillOfLading->value,
-        ]);
 
-        $contract->title       = $title ?: 'Bill of Lading';
-        $contract->uploaded_by = $employeeId;
+    public function employeeUploadGenericContract(
+        Shipment $shipment,
+        UploadedFile $file,
+        string $title,
+        int $employeeId,
+        bool $visibleToCustomer = true
+    ): Contract {
+        $type = ContractTypeEnum::Other->value;
 
-        if ($file) {
-            $this->deletePublicFile($contract->unsigned_file_path);
-            $dir   = 'contracts/' . ContractTypeEnum::BillOfLading->value . '/final/' . $shipment->id;
-            $base  = 'bol_' . Str::slug($shipment->number ?? (string)$shipment->id) . '_' . time();
-            $rel   = $this->moveToPublic($file, $dir, $base);
-            $contract->unsigned_file_path = $rel;
-        }
+        $contract = new Contract();
+        $contract->shipment_id               = $shipment->id;
+        $contract->type                      = $type;
+        $contract->title                     = $title;
+        $contract->uploaded_by               = $employeeId;
+        $contract->status                    = ContractStatusEnum::Final->value;
+        $contract->show_unsigned_to_customer = $visibleToCustomer ? 1 : 0;
+        $contract->show_signed_to_customer   = 0;
 
-        $contract->status = ContractStatusEnum::Final->value;
-        $contract->visible_to_customer = true;
+        $dir  = 'contracts/' . $type . '/final/' . $shipment->id;
+        $base = Str::slug($title) . '_' . time();
+        $rel  = $this->moveToPublic($file, $dir, $base);
+
+        $contract->unsigned_file_path = $rel;
         $contract->save();
 
-        return $contract->refresh();
+        return $contract->fresh();
     }
+
 
     public function customerUploadSignedService(Shipment $shipment, UploadedFile $signedPdf): Contract
     {
@@ -114,17 +125,57 @@ class ContractService
             ['title' => 'Service Agreement']
         );
 
+        // حذف الموقّع القديم إن وجد
         $this->deletePublicFile($contract->signed_file_path);
 
         $dir  = 'contracts/' . ContractTypeEnum::Service->value . '/signed/' . $shipment->id;
         $base = 'service_signed_' . Str::slug($shipment->number ?? (string)$shipment->id) . '_' . time();
         $rel  = $this->moveToPublic($signedPdf, $dir, $base);
 
-        $contract->signed_file_path = $rel;
-        $contract->signed_at        = now();
-        $contract->status           = ContractStatusEnum::Signed->value;
+        $contract->signed_file_path          = $rel;
+        $contract->signed_at                 = now();
+        $contract->status                    = ContractStatusEnum::Signed->value;
+        // إظهار الموقّع وإخفاء غير الموقّع للعميل
+        $contract->show_unsigned_to_customer = false;
+        $contract->show_signed_to_customer   = true;
         $contract->save();
 
         return $contract->refresh();
+    }
+
+    /* ===== موظف/أدمن: إعادة عقد الخدمة إلى مرحلة التوقيع ===== */
+
+    public function resetServiceSignature(Shipment $shipment, int $byUserId): Contract
+    {
+        $contract = Contract::query()
+            ->where('shipment_id', $shipment->id)
+            ->where('type', ContractTypeEnum::Service->value)
+            ->firstOrFail();
+
+        // حذف الموقّع
+        $this->deletePublicFile($contract->signed_file_path);
+
+        $contract->update([
+            'signed_file_path'          => null,
+            'signed_at'                 => null,
+            'status'                    => ContractStatusEnum::PendingSignature->value,
+            'show_unsigned_to_customer' => true,
+            'show_signed_to_customer'   => false,
+        ]);
+
+        return $contract->refresh();
+    }
+
+
+    public function deleteUploadedContract(Contract $contract, int $byUserId): bool
+    {
+        if (!empty($contract->unsigned_file_path)) {
+            $this->deletePublicFile($contract->unsigned_file_path);
+        }
+
+        return (bool) $contract->update([
+            'unsigned_file_path'        => null,
+            'show_unsigned_to_customer' => false,
+        ]);
     }
 }

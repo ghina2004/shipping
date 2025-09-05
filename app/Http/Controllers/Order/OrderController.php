@@ -12,6 +12,7 @@ use App\Http\Resources\ShipmentResource;
 use App\Models\Order;
 use App\Services\Order\OrderRequestService;
 use App\Services\Order\OrderService;
+use App\Services\Order\OrderStatusService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 
@@ -19,7 +20,7 @@ class OrderController extends Controller
 {
     use ResponseTrait;
 
-    public function __construct(protected orderService $orderService, protected orderRequestService $orderRequestService)
+    public function __construct(protected orderService $orderService, protected OrderStatusService $orderStatusService,protected orderRequestService $orderRequestService)
     {
     }
 
@@ -121,5 +122,11 @@ class OrderController extends Controller
         $orders = $this->orderService->updateOrderStatus($order,$statusEnum);
 
         return self::Success([], ('success'));
+    }
+
+    public function ChangeToCanConfirm(Order $order): JsonResponse
+    {
+        $this->orderStatusService->changeToCanConfirm($order);
+        return self::Success([], 'Order status changed successfully.');
     }
 }
