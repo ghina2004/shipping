@@ -3,9 +3,11 @@
 namespace App\Services\Notification;
 
 use App\Models\Notification;
+use App\Models\User;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Illuminate\Support\Facades\Log;
+use Kreait\Firebase\Messaging\Notification as FcmNotification;
 
 class NotificationService
 {
@@ -18,20 +20,17 @@ class NotificationService
         $this->messaging = $factory->createMessaging();
     }
 
-    public function send($user, string $title, string $message, string $type )
+    public function send(User $user, string $title, string $message, string $type = 'basic'): bool
     {
-        $type = 'basic';
-        if (!$user->fcm_token) return false;
+        if (blank($user->fcm_token)) {
+            return false;
+        }
 
-        $notification = [
-            'title' => $title,
-            'body'  => $message,
-            'sound' => 'default',
-        ];
+        $notification = FcmNotification::create($title, $message);
 
         $data = [
-            'type' => $type,
-            'id'   => $user->id,
+            'type'    => $type,
+            'id'      => (string)$user->id,
             'message' => $message,
         ];
 
@@ -42,7 +41,6 @@ class NotificationService
         try {
             $this->messaging->send($cloudMessage);
 
-            // save in DB
             Notification::create([
                 'user_id' => $user->id,
                 'title'   => $title,
@@ -50,12 +48,11 @@ class NotificationService
             ]);
 
             return true;
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error('FCM send failed: '.$e->getMessage());
             return false;
         }
     }
-
     public function unreadCount(int $userId): int
     {
         return Notification::query()

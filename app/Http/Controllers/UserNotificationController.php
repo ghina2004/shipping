@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFcmTokenRequest;
+use App\Models\Notification;
+use App\Services\Notification\NotificationService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 class UserNotificationController extends Controller
 {
     use ResponseTrait;
+
+    public function __construct(protected NotificationService $service) {}
 
     public function storeToken(StoreFcmTokenRequest $request)
     {
@@ -35,11 +39,16 @@ class UserNotificationController extends Controller
         return self::Success($notifications, 'All notifications.');
     }
 
-    // عدد الإشعارات الغير مقروءة
     public function unreadCount()
     {
         $count = $this->service->unreadCount(Auth::id());
         return self::Success(['unread_count' => $count], 'Unread notifications count.');
+    }
+
+    public function markAsRead($id)
+    {
+        $notifications = $this->service->markAsRead($id);
+        return self::Success(['mark_as_read' => $notifications], 'Notifications marked as read.');
     }
 
 }

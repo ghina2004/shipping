@@ -20,17 +20,17 @@ class ComplaintService
         ]);
 
 
-        $admins = \App\Models\User::role('admin')->get();
+        $admins = User::role('admin')
+            ->whereNotNull('fcm_token')
+            ->get(['id', 'fcm_token']);
 
         foreach ($admins as $admin) {
-            if ($admin->fcm_token) {
-                app(NotificationService::class)->send(
-                    $admin->toArray(),
-                    'شكوى جديدة',
-                    'تم تسجيل شكوى جديدة بعنوان: ' . $complaint->subject,
-                    'complaint'
-                );
-            }
+            app(NotificationService::class)->send(
+                $admin,
+                'شكوى جديدة',
+                'تم تسجيل شكوى جديدة بعنوان: ' . $complaint->subject,
+                'complaint'
+            );
         }
 
         return $complaint;
@@ -68,11 +68,10 @@ class ComplaintService
 
         $complaint->update($data);
 
-
         $customer = $complaint->customer;
         if ($customer && $customer->fcm_token) {
             app(NotificationService::class)->send(
-                $customer->toArray(),
+                $customer,
                 'تم الرد على الشكوى',
                 'تم الرد على شكواك بعنوان: ' . $complaint->subject,
                 'complaint_reply'

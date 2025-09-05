@@ -321,16 +321,18 @@ Route::prefix('admin/customers')->middleware('role:admin')->controller(ManageCus
             // رفع عقد الخدمة الموقّع (عميل)
             Route::post('shipment/{shipment}/service/signed',  [ContractController::class, 'uploadSignedService']);
         });
-    });
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('me/fcm-token', [UserNotificationController::class, 'storeToken']);
-        Route::post('me/fcm-token/clear', [UserNotificationController::class, 'clearToken']);
-    });
+        Route::prefix('me')->group(function () {
+            Route::post('fcm-token', [UserNotificationController::class, 'storeToken']);
+        });
+        Route::prefix('notifications')->controller(UserNotificationController::class)->group(function () {
 
-    Route::prefix('notifications')->controller(UserNotificationController::class)->group(function () {
-        Route::get('/', 'index');          // كل الإشعارات
-        Route::get('/unread-count', 'unreadCount'); // عدد الغير مقروءة
+            Route::get('/show', 'index');          // كل الإشعارات
+            Route::get('/unread-count', 'unreadCount'); // عدد الغير مقروءة
+            Route::get('/markAsRead/{id}', 'markAsRead'); // عدد الغير مقروءة
+
+        });
+
     });
 
 });
