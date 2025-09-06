@@ -6,6 +6,7 @@ use App\Enums\Invoice\InvoiceType;
 use App\Exceptions\Types\CustomException;
 use App\Models\Shipment;
 use App\Models\ShipmentInvoice;
+use App\Services\Notification\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
 
@@ -13,9 +14,7 @@ class ShipmentInvoiceService
 {
     public function __construct(protected OrderInvoiceService $orderInvoiceService) {}
 
-    /**
-     * @throws CustomException
-     */
+
     public function createInvoice(array $data, Shipment $shipment): ShipmentInvoice
     {
         $this->ensureNoExistingInvoice($shipment->id);
@@ -24,7 +23,20 @@ class ShipmentInvoiceService
         $data['invoice_number'] = $this->generateInvoiceNumber();
         $data['invoice_type'] = InvoiceType::from($data['invoice_type']);
 
-        return ShipmentInvoice::create($data);
+
+        $invoice = ShipmentInvoice::create($data);
+
+
+        $customer = $invoice->userInvoiceFile;
+        if ($customer && $customer->fcm_token) {
+        app(NotificationService::class)->send(
+            $customer,
+            'فاتورة جديدة',
+            'تم إنشاء فاتورة جديدة برقم: ' . $invoice->invoice_number,
+            'invoice'
+        );}
+
+        return $invoice;
     }
 
     public function showInvoice(Shipment $shipment): ShipmentInvoice

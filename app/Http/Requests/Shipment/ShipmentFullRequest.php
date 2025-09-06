@@ -18,7 +18,7 @@ class ShipmentFullRequest extends FormRequest
         return [
             'shipping_date' => ['sometimes', 'date'],
             'service_type' => ['sometimes', Rule::in(['import', 'export'])],
-            'origin_country' => ['sometimes', 'string'],
+            'origin_country' => ['sometimes', 'nullable','string'],
             'destination_country' => ['sometimes', 'string'],
             'shipping_method' => ['sometimes', Rule::in(['Land','sea' ,'air'])],
             'cargo_weight' => ['sometimes', 'integer'],

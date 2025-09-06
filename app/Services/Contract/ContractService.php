@@ -6,6 +6,8 @@ use App\Enums\Contract\ContractStatusEnum;
 use App\Enums\Contract\ContractTypeEnum;
 use App\Models\Contract;
 use App\Models\Shipment;
+use App\Models\User;
+use App\Services\Notification\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -85,6 +87,29 @@ class ContractService
         $goods->show_signed_to_customer   = false;
         $goods->save();
 
+        $customer = $shipment->shipmentCart?->customerCart;
+
+        if ($customer && $customer->fcm_token) {
+            app(NotificationService::class)->send(
+                $customer,
+                'عقد جديد',
+                'تم إنشاء عقود جديدة لشحنتك رقم: ' . $shipment->number,
+                'contract'
+            );
+        }
+
+        $employee = $shipment->shipmentOrder?->employeeOrder;
+
+        if ($employee) {
+            app(NotificationService::class)->send(
+                $employee,
+                'عقد جديد تم إنشاؤه',
+                'تم إنشاء عقود جديدة للطلب رقم: ' . $shipment->shipmentOrder?->order_number .
+                ' والشحنة رقم: ' . $shipment->number,
+                'contract'
+            );
+        }
+
         return [$service->refresh(), $goods->refresh()];
     }
 
@@ -114,6 +139,18 @@ class ContractService
         $contract->unsigned_file_path = $rel;
         $contract->save();
 
+        $customer = $shipment->shipmentCart?->customerCart;
+
+        if ($customer && $customer->fcm_token) {
+            app(NotificationService::class)->send(
+                $customer,
+                'عقد جديد',
+                'تم إنشاء عقود جديدة لشحنتك رقم: ' . $shipment->number,
+                'contract'
+            );
+        }
+
+
         return $contract->fresh();
     }
 
@@ -139,6 +176,17 @@ class ContractService
         $contract->show_unsigned_to_customer = false;
         $contract->show_signed_to_customer   = true;
         $contract->save();
+
+        $employee = $shipment->shipmentOrder?->employeeOrder;
+
+        if ($employee) {
+            app(NotificationService::class)->send(
+                $employee,
+                'تم توقيع عقد الشحنة ',
+                ' الشحنة رقم: ' . $shipment->number
+
+            );
+        }
 
         return $contract->refresh();
     }
